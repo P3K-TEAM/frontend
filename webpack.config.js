@@ -1,10 +1,11 @@
+const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const webpack = require('webpack');
 
 module.exports = {
-	entry: './src/main.js',
+	entry: `/src/main.js`,
 	module: {
 		rules: [
 			{ test: /\.js$/, use: 'babel-loader' },
@@ -13,8 +14,8 @@ module.exports = {
 				test: /\.(sa|sc|c)ss$/,
 				use: [
 					MiniCssExtractPlugin.loader,
-					'vue-style-loader',
 					'css-loader',
+					'postcss-loader',
 					'sass-loader'
 				]
 			},
@@ -36,7 +37,7 @@ module.exports = {
 	},
 	plugins: [
 		new HtmlWebpackPlugin({
-			template: './public/index.html'
+			template: path.resolve(__dirname, '/public/index.html')
 		}),
 		new MiniCssExtractPlugin({
 			filename: 'css/[name]-[hash].css'
