@@ -12,10 +12,10 @@ import '@fortawesome/fontawesome-free/js/regular';
 import '@fortawesome/fontawesome-free/js/brands';
 
 // Root styles
-import './assets/scss/app.scss';
+import '@/assets/scss/app.scss';
 
 //Favicon
-import './assets/img/favicon.ico';
+import '@/assets/img/favicon.ico';
 
 // Page title
 router.afterEach(to => {
