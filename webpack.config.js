@@ -32,12 +32,33 @@ module.exports = {
 						}
 					}
 				]
+			},
+			{
+				test: /\.(jpg|jpeg|gif|png|webp|svg|ico)$/,
+				exclude: [/fonts|webfonts/],
+				use: {
+					loader: 'file-loader',
+					options: {
+						outputPath: './img',
+						name: '[name].[hash].[ext]'
+					}
+				}
+			},
+			{
+				test: /favicon.ico$/,
+				use: {
+					loader: 'file-loader',
+					options: {
+						outputPath: './',
+						name: '[name].[ext]'
+					}
+				}
 			}
 		]
 	},
 	plugins: [
 		new HtmlWebpackPlugin({
-			template: path.resolve(__dirname, '/public/index.html')
+			template: path.resolve(__dirname, './src/index.html')
 		}),
 		new MiniCssExtractPlugin({
 			filename: 'css/[name]-[hash].css'

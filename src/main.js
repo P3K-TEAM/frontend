@@ -10,6 +10,9 @@ import '@fortawesome/fontawesome-free/js/brands';
 // Root styles
 import './assets/scss/app.scss';
 
+//Favicon
+import './assets/img/favicon.ico';
+
 new Vue({
 	el: '#app',
 	render: h => h(App)
