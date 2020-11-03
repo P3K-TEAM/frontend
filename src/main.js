@@ -1,5 +1,8 @@
 import Vue from 'vue';
+import router from './router';
 import App from './App.vue';
+
+Vue.config.productionTip = false;
 
 // Font Awesome Icons
 import '@fortawesome/fontawesome-free/js/fontawesome';
@@ -13,7 +16,14 @@ import './assets/scss/app.scss';
 //Favicon
 import './assets/img/favicon.ico';
 
-new Vue({
-	el: '#app',
-	render: h => h(App)
+// Page title
+router.afterEach(to => {
+	Vue.nextTick(() => {
+		document.title = `${to.name ? `${to.name} | ` : ''}AntiPlag`;
+	});
 });
+
+new Vue({
+	router,
+	render: h => h(App)
+}).$mount('#app');
