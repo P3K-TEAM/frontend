@@ -7,6 +7,9 @@ import '@fortawesome/fontawesome-free/js/solid';
 import '@fortawesome/fontawesome-free/js/regular';
 import '@fortawesome/fontawesome-free/js/brands';
 
+// Root styles
+import './assets/scss/app.scss';
+
 new Vue({
 	el: '#app',
 	render: h => h(App)
