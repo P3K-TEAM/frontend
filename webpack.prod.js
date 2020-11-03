@@ -59,7 +59,8 @@ module.exports = merge(common, {
 					loader: 'file-loader',
 					options: {
 						outputPath: './img',
-						name: '[name].[ext]'
+						name: '[name].[ext]',
+						esModule: false
 					}
 				}
 			}
