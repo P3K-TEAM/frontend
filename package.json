@@ -52,6 +52,7 @@
 		"@fortawesome/fontawesome-free": "^5.15.1",
 		"tailwindcss": "^1.9.6",
 		"vue": "^2.6.12",
-		"vue-router": "^3.4.8"
+		"vue-router": "^3.4.8",
+		"vuex": "^3.5.1"
 	}
 }
