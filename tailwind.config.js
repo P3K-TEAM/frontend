@@ -1,6 +1,11 @@
 module.exports = {
 	theme: {
 		extend: {
+			backgroundColor: {
+				"primary": "#1699F1",
+				"primary-dark": "#003180",
+				"footer": "#03132C"
+			},
 			width: {
 				'96': '24rem',
 				'112': '28rem',
@@ -13,3 +18,4 @@ module.exports = {
 	variants: {},
 	plugins: []
 };
+

@@ -9,7 +9,8 @@ const routes = [
 		path: '/',
 		name: 'Domov',
 		component: Home
-	}
+	},
+	
 ];
 
 const router = new VueRouter({
