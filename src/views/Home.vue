@@ -1,17 +1,22 @@
 <template>
-	<div>
-		<div class="flex py-48 skewed-top-wrapper">
+	<div class="bg-gray-300">
+		<div class="flex py-24 skewed-top-wrapper">
 			<div class="flex mx-auto">
-				<div class="w-1/2 mx-auto">
-					<p>Výsledky kontroly</p>
-					<p>
+				<div class="w-1/2 mr-auto text-white ">
+					<p class="text-3xl pb-4">Výsledky kontroly</p>
+					<p class="text-md ">
 						Gratulujeme. Nižšie nájdete podrobné štatistiky kontroly
 						originality vášej práce.
 					</p>
 				</div>
-				<div class="w-1/4 rounded bg-yellow-400 p-4 rounded mx-auto">
-					<p class="text-sm">Vaša zhoda je</p>
-					<p class="text-center text-lg">{{ zhoda }}</p>
+				<div class="w-1/2 ">
+					<div
+						class="flex bg-blue-own px-4 rounded-lg w-1/2 ml-auto text-center "
+					>
+						<span class=" w-full inline-block text-sm text-white align-middle">Vaša zhoda je </span>
+						<span class="w-full inline-block font-bold text-4xl text-white">{{ zhoda }}</span>
+						<span class="inline-block font-bold text-4xl text-white">%</span>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -35,9 +40,9 @@ export default {
 	},
 	data: function () {
 		return {
-			zhoda: 55,
+			zhoda: 0.55,
 			document: {
-				name: 'Documnet1.pdf',
+				name: 'Document1.pdf',
 				percentage: 5,
 				text:
 					'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla semper odio quis pulvinar mattis. Sed vulputate arcu eget porttitor fringilla. ' +
@@ -55,22 +60,25 @@ export default {
 
 <style scoped>
 .skewed-top-wrapper {
-	/*clip-path: polygon(*/
-	/*	0 0,*/
-	/*	100% 0,*/
-	/*	100% 50%,*/
-	/*	85% 55%,*/
-	/*	68% 60%,*/
-	/*	50% 61%,*/
-	/*	32% 60%,*/
-	/*	15% 55%,*/
-	/*	0 50%*/
-	/*);*/
+	clip-path: polygon(
+		0 0,
+		100% 0,
+		100% 90%,
+		85% 95%,
+		68% 98%,
+		50% 100%,
+		32% 98%,
+		15% 95%,
+		0 90%
+	);
 	background: rgb(0, 25, 64);
 	background: linear-gradient(
 		90deg,
 		rgba(0, 25, 64, 1) 0%,
 		rgba(0, 49, 128, 1) 93%
 	);
+}
+.bg-blue-own {
+	background: #1699f1;
 }
 </style>
