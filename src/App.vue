@@ -4,6 +4,9 @@
 			<router-link to="/">
 				Home
 			</router-link>
+			<router-link to="/result">
+				Result
+			</router-link>
 		</nav>
 		<router-view />
 	</div>
