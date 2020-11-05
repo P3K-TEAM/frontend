@@ -25,13 +25,6 @@
 				</li>
 			</ul>
 		</div>
-		
-		<!--
-		<div class="w-1/3">
-			<i class="far fa-envelope m-4 text-white" style="font-size:24px;" />
-			<i class="fas fa-map-marker-alt m-4 text-white" style="font-size:24px;" />
-		</div>
-		-->
 	</footer>
 </template>
 

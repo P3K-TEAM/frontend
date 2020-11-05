@@ -31,9 +31,9 @@
 						</p>
 					</div>
 				</div>
-				<div class="w-1/2  flex items-center justify-center">
+				<div class="w-1/2 flex items-center justify-center">
 					<div>
-						<img src="../assets/img/image1.png" alt="">
+						<img src="../assets/img/image1.png">
 					</div>
 				</div>
 			</div>
@@ -75,7 +75,7 @@
 		<div class="bg-primary py-10">
 			<div class="container text-white flex mx-auto my-20">
 				<div class="w-1/2 flex items-center justify-center">
-					<img class="h-128" src="../assets/img/image2.png" alt="">
+					<img class="h-128" src="../assets/img/image2.png">
 				</div>
 				<div class="w-1/2 flex items-center justify-center">
 					<div class="w-3/4 text-center">
@@ -95,15 +95,3 @@
 <script>
 export default {};
 </script>
-
-<style>
-	.primary-gradient {
-		
-		background: linear-gradient(
-			90deg,
-			rgba(0, 25, 64, 1) 0%,
-			rgba(0, 49, 128, 1) 93%
-		);
-	}
-	
-</style>
