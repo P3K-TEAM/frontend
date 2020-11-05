@@ -1,6 +1,13 @@
 module.exports = {
 	theme: {
 		extend: {
+			borderWidth: {
+				3: '3px',
+			},
+			colors: {
+				primary: '#1699F1'
+				
+			},
 			width: {
 				'96': '24rem',
 				'112': '28rem',
@@ -10,6 +17,8 @@ module.exports = {
 			}
 		}
 	},
-	variants: {},
+	variants: {
+		borderWidth: ['first']
+	},
 	plugins: []
 };
