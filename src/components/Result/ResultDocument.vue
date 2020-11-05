@@ -1,28 +1,29 @@
 <template>
-	<div class="mx-auto w-2/4 py-24">
-		<div class="pb-4 pl-2 hover:text-accent">
-			<a href="/results" class="text-center text-gray-700">
-				<i class="fas fa-angle-left text-2xl" />
-				<span class="text-bold text-2xl">Všetky súbory</span>
-			</a>
-		</div>
+	<div class="container mx-auto pt-24">
+		<a
+			href="/results"
+			class="inline-block mb-4 hover:text-blue-500 text-gray-700"
+		>
+			<i class="fas fa-angle-left text-2xl" />
+			<span class="text-bold text-2xl">Všetky súbory</span>
+		</a>
 		<div class="shadow-lg">
-			<div class="flex bg-blue-own p-2">
-				<div class="w-1/4 ">
-					<span class="pl-2 text-white">
-						{{ name }}
-					</span>
-				</div>
-				<div class="w-1/4 ml-auto text-right">
-					<span class="text-white"> Zhoda:</span>
-					<span class="text-white font-bold text-xl">
+			<div
+				class="flex justify-between bg-blue-own p-4 text-white text-2xl"
+			>
+				<span class="">
+					{{ name }}
+				</span>
+				<div>
+					<span class=""> Zhoda:</span>
+					<span class="font-bold">
 						{{ percentage }}
 					</span>
-					<span class="pr-2 text-white font-bold text-xl">% </span>
+					<span class="text-white font-bold">% </span>
 				</div>
 			</div>
-			<div class="text-sm p-8 bg-white text-justify">
-				{{ text }}
+			<div class="p-8 bg-white text-justify">
+				<p>{{ text }}</p>
 			</div>
 		</div>
 	</div>

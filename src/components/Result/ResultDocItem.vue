@@ -15,8 +15,8 @@
 export default {
 	props: {
 		percentage: Number,
-		name: String
-		}
+		name: String,
+	},
 };
 </script>
 
