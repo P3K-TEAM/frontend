@@ -26,7 +26,7 @@ export default {
     
     data(){
         return {
-            file: ''
+            file: undefined
         }
     },
     methods: {
@@ -53,16 +53,7 @@ export default {
             }).catch(function(e){
                 console.log("Chyba", e);
             });
-            
         },
     }
-    
 }
 </script>
-
-
-<style lang='scss'>
-
-
-
-</style>

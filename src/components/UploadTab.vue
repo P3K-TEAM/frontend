@@ -5,7 +5,6 @@
 		:class="{ 'border-primary': active }"
 		data-e2e-id="uploadTab"
 		:data-e2e-active="active"
-
 	>
     {{ title }}
 	</div>
@@ -26,7 +25,3 @@ export default {
 	}
 };
 </script>
-
-<style lang="scss">
-
-</style>

@@ -10,7 +10,6 @@
         </div>
         
         <div class="card card-default mx-8 pt-2 sm:p-6">
-            
             <div class="card-header flex" >
                 <UploadTab v-for="tab in tabs"
                         :key="tab"
@@ -39,7 +38,6 @@ import UploadTab from '@/components/UploadTab.vue';
 import UploadFile from '@/components/UploadFile.vue';
 import UploadText from '@/components/UploadText.vue';
 
-
 export default {
     components: {
         UploadTab,
@@ -51,7 +49,6 @@ export default {
             selectedTab: '',
             tabs: ['Nahrať súbory','Vložiť text']
         }
-        
     },
     mounted() {
 		this.selectedTab = this.tabs[0];
