@@ -12,9 +12,9 @@ import Footer from '@/components/Footer.vue';
 
 export default {
 	components: {
-		Navigation, 
-		Footer
-	}
+		Navigation,
+		Footer,
+	},
 };
 </script>
 
@@ -25,7 +25,6 @@ export default {
 }
 
 .primary-gradient {
-	
 	background: linear-gradient(
 		90deg,
 		rgba(0, 25, 64, 1) 0%,
