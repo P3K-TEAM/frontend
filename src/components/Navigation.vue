@@ -14,6 +14,9 @@
 			<router-link to="/upload" class="text-white">
 				Upload file
 			</router-link>
+			<router-link to="/result" class="text-white">
+				Result
+			</router-link>
 		</div>
 	</nav>
 </template>

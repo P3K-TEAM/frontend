@@ -17,13 +17,11 @@ const routes = [
 		name: 'Upload',
 		component: Upload,
 	},
-		component: Home
-	},
 	{
 		path: '/result',
 		name: 'Result',
-		component: Result
-	}
+		component: Result,
+	},
 ];
 
 const router = new VueRouter({
