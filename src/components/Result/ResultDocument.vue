@@ -1,5 +1,5 @@
 <template>
-	<div class="container mx-auto pt-24">
+	<div class="container mx-auto py-24">
 		<a
 			href="/results"
 			class="inline-block mb-4 hover:text-blue-500 text-gray-700"
