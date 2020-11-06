@@ -5,7 +5,7 @@
 	"private": true,
 	"scripts": {
 		"build": "webpack --config webpack.prod.js",
-		"serve": "webpack serve --config webpack.dev.js"
+		"serve": "webpack serve --config webpack.dev.js --history-api-fallback"
 	},
 	"repository": {
 		"type": "git",
