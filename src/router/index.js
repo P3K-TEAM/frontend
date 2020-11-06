@@ -9,18 +9,18 @@ const routes = [
 	{
 		path: '/',
 		name: 'Domov',
-		component: Home
+		component: Home,
 	},
 	{
 		path: '/upload',
 		name: 'Upload',
-		component: Upload
-	}
+		component: Upload,
+	},
 ];
 
 const router = new VueRouter({
 	mode: 'history',
-	routes
+	routes,
 });
 
 export default router;
