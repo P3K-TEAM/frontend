@@ -38,9 +38,9 @@
 </template>
 
 <script>
-import UploadTab from '@/components/UploadTab.vue';
-import UploadFile from '@/components/UploadFile.vue';
-import UploadText from '@/components/UploadText.vue';
+import UploadTab from '@/components/Upload/UploadTab.vue';
+import UploadFile from '@/components/Upload/UploadFile.vue';
+import UploadText from '@/components/Upload/UploadText.vue';
 
 export default {
 	components: {

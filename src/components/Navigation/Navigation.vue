@@ -7,7 +7,7 @@
 			>
 				<img
 					class="h-10 mr-3 rounded-full"
-					src="../assets/img/logo.png"
+					src="../../assets/img/logo.png"
 				/>
 				AntiPlag
 			</router-link>
