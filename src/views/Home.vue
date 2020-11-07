@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<div class="primary-gradient">
+		<div class="bg-primary-gradient">
 			<Navigation />
 			<div class="container mx-auto py-20">
 				<div class="w-2/3 text-white">

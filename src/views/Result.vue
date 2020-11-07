@@ -1,6 +1,6 @@
 <template>
 	<div class="bg-gray-300">
-		<div class="py-24 skewed-top-wrapper primary-gradient text-white">
+		<div class="py-24 skewed-top-wrapper bg-primary-gradient text-white">
 			<Navigation />
 			<div class="container flex justify-between items-center mx-auto">
 				<div class="w-2/3">
@@ -12,7 +12,7 @@
 				</div>
 				<div class="w-1/3">
 					<div
-						class="ml-auto text-center rounded-lg bg-blue-own w-2/3 py-4"
+						class="ml-auto text-center rounded-lg bg-primary w-2/3 py-4"
 					>
 						<span>Vaša zhoda je</span>
 						<div class="font-bold text-5xl leading-none">
@@ -73,9 +73,5 @@ export default {
 		15% 95%,
 		0 90%
 	);
-}
-
-.bg-blue-own {
-	background: #1699f1;
 }
 </style>

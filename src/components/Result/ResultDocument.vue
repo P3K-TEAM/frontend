@@ -9,7 +9,7 @@
 		</a>
 		<div class="shadow-lg">
 			<div
-				class="flex justify-between bg-blue-own p-4 text-white text-2xl"
+				class="flex justify-between bg-primary p-4 text-white text-2xl"
 			>
 				<span class="">
 					{{ name }}
@@ -38,9 +38,3 @@ export default {
 	},
 };
 </script>
-
-<style scoped>
-.bg-blue-own {
-	background: #1699f1;
-}
-</style>

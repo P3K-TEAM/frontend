@@ -1,5 +1,5 @@
 <template>
-	<nav class="primary-gradient">
+	<nav class="bg-primary-gradient">
 		<div class="container mx-auto py-6">
 			<router-link
 				to="/"
@@ -10,12 +10,6 @@
 					src="../../assets/img/logo.png"
 				/>
 				AntiPlag
-			</router-link>
-			<router-link to="/upload" class="text-white">
-				Upload file
-			</router-link>
-			<router-link to="/result" class="text-white">
-				Result
 			</router-link>
 		</div>
 	</nav>
