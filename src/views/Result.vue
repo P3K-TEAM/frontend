@@ -32,50 +32,50 @@
 </template>
 
 <script>
-	import Navigation from '@/components/Navigation/Navigation'
-	import ResultDocument from '../components/Result/ResultDocument';
+import Navigation from '@/components/Navigation/Navigation';
+import ResultDocument from '@/components/Result/ResultDocument';
 
-	export default {
-		components: {
-			Navigation,
-			ResultDocument,
-		},
-		data: function () {
-			return {
-				zhoda: 0.55,
-				document: {
-					name: 'Document1.pdf',
-					percentage: 5,
-					text:
-						'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla semper odio quis pulvinar mattis. Sed vulputate arcu eget porttitor fringilla. ' +
-						'Donec efficitur, odio ut cursus mattis, magna lorem convallis purus, nec varius turpis urna sed velit. Quisque convallis dolor et ex accumsan volutpat.' +
-						' Suspendisse ullamcorper nibh quis sagittis maximus. Maecenas a vehicula felis. Aliquam vel eros molestie, dignissim est et, suscipit leo.' +
-						' Aenean quis leo ut metus sagittis convallis in vel elit. Aenean et metus dolor. Vestibulum et congue quam. In ornare pellentesque odio. ' +
-						'Integer non urna ultrices, sollicitudin dui vitae, gravida orci. Nullam tellus eros, iaculis vitae velit eu, tincidunt ultrices sapien. ' +
-						'Donec non mauris ac massa pulvinar rutrum. Sed maximus velit ut lacus porta blandit. Etiam dolor orci, fermentum a porttitor sed, elementum quis sem.\n' +
-						'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla semper odio quis pulvinar mattis. Sed vulputate arcu eget porttitor fringilla.',
-				},
-			};
-		},
-	};
+export default {
+	components: {
+		Navigation,
+		ResultDocument,
+	},
+	data: function () {
+		return {
+			zhoda: 0.55,
+			document: {
+				name: 'Document1.pdf',
+				percentage: 5,
+				text:
+					'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla semper odio quis pulvinar mattis. Sed vulputate arcu eget porttitor fringilla. ' +
+					'Donec efficitur, odio ut cursus mattis, magna lorem convallis purus, nec varius turpis urna sed velit. Quisque convallis dolor et ex accumsan volutpat.' +
+					' Suspendisse ullamcorper nibh quis sagittis maximus. Maecenas a vehicula felis. Aliquam vel eros molestie, dignissim est et, suscipit leo.' +
+					' Aenean quis leo ut metus sagittis convallis in vel elit. Aenean et metus dolor. Vestibulum et congue quam. In ornare pellentesque odio. ' +
+					'Integer non urna ultrices, sollicitudin dui vitae, gravida orci. Nullam tellus eros, iaculis vitae velit eu, tincidunt ultrices sapien. ' +
+					'Donec non mauris ac massa pulvinar rutrum. Sed maximus velit ut lacus porta blandit. Etiam dolor orci, fermentum a porttitor sed, elementum quis sem.\n' +
+					'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla semper odio quis pulvinar mattis. Sed vulputate arcu eget porttitor fringilla.',
+			},
+		};
+	},
+};
 </script>
 
 <style scoped>
-	.skewed-top-wrapper {
-		clip-path: polygon(
-			0 0,
-			100% 0,
-			100% 90%,
-			85% 95%,
-			68% 98%,
-			50% 100%,
-			32% 98%,
-			15% 95%,
-			0 90%
-		);
-	}
+.skewed-top-wrapper {
+	clip-path: polygon(
+		0 0,
+		100% 0,
+		100% 90%,
+		85% 95%,
+		68% 98%,
+		50% 100%,
+		32% 98%,
+		15% 95%,
+		0 90%
+	);
+}
 
-	.bg-blue-own {
-		background: #1699f1;
-	}
+.bg-blue-own {
+	background: #1699f1;
+}
 </style>
