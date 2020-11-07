@@ -10,16 +10,16 @@
 			<p class="my-1 text-md text-gray-600">alebo</p>
 			<div class="mx-auto my-4">
 				<label
-					class="btn btn-default text-white rounded-md flex flex-col items-center bg-primary px-4 py-2 m-2 shadow-md cursor-pointer transition duration-500 ease select-none hover:bg-gray-600 focus:outline-none focus:shadow-outline"
+					class="flex text-white rounded bg-primary-500 hover:bg-primary-400 px-4 py-2 cursor-pointer transition duration-500 ease select-none focus:outline-none"
 				>
 					Vybrať súbory
 					<input
-						type="file"
 						id="file"
 						ref="file"
-						class="hidden"
-						v-on:change="handleFileUpload"
+						type="file"
 						multiple
+						class="hidden"
+						@change="handleFileUpload"
 					/>
 				</label>
 				<button v-on:click="submitFile">Submit</button>

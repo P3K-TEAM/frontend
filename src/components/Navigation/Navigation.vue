@@ -1,16 +1,17 @@
 <template>
-	<nav class="bg-primary-gradient">
-		<div class="container mx-auto py-6">
-			<router-link
-				to="/"
-				class="text-white text-2xl font-bold flex items-center"
+	<nav class="container mx-auto py-6">
+		<router-link
+			to="/"
+			class="text-white text-2xl flex items-center"
+		>
+			<img
+				src="../../assets/img/logo.png"
+				class="h-10"
+				alt="logo"
 			>
-				<img
-					class="h-10 mr-3 rounded-full"
-					src="../../assets/img/logo.png"
-				/>
+			<span class="ml-5 tracking-wider">
 				AntiPlag
-			</router-link>
-		</div>
+			</span>
+		</router-link>
 	</nav>
 </template>

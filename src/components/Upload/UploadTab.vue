@@ -4,9 +4,7 @@
 	>
 		<div
 			class="text-center border-gray-400 border-t-4 py-3"
-			:class="{ 'border-primary': active }"
-			data-e2e-id="uploadTab"
-			:data-e2e-active="active"
+			:class="{ 'border-primary-500': active }"
 		>
 			{{ title }}
 		</div>

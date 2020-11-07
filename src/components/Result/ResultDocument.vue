@@ -1,15 +1,15 @@
 <template>
 	<div class="container mx-auto py-24">
-		<a
-			href="/results"
-			class="inline-block mb-4 hover:text-blue-500 text-gray-700"
+		<router-link
+			to="/results"
+			class="inline-block mb-4 hover:text-gray-500 text-gray-600"
 		>
 			<i class="fas fa-angle-left text-2xl" />
 			<span class="text-bold text-2xl">Všetky súbory</span>
-		</a>
-		<div class="shadow-lg">
+		</router-link>
+		<div class="shadow rounded-b-lg">
 			<div
-				class="flex justify-between bg-primary p-4 text-white text-2xl"
+				class="flex justify-between bg-primary-500 p-4 text-white text-2xl"
 			>
 				<span class="">
 					{{ name }}
@@ -22,7 +22,7 @@
 					<span class="text-white font-bold">% </span>
 				</div>
 			</div>
-			<div class="p-8 bg-white text-justify">
+			<div class="p-8 bg-white text-justify rounded-b-lg">
 				<p>{{ text }}</p>
 			</div>
 		</div>

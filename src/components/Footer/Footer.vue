@@ -1,6 +1,6 @@
 <template>
-	<footer class="bg-footer">
-		<div class="container mx-auto text-white flex items-center p-10">
+	<footer class="bg-primary-900">
+		<div class="container mx-auto text-gray-500 font-hairline flex items-center p-10">
 			<ul class="w-1/3">
 				<li>Lorem ipsum</li>
 				<li>Dolor Sit Amet</li>

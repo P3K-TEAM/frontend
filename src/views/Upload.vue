@@ -1,11 +1,7 @@
 <template>
-	<div class="primary-gradient">
+	<div class="flex flex-col min-h-screen bg-primary-gradient">
 		<Navigation />
-		<div
-			class="container overflow-hidden sm:rounded-lg mx-auto mt-10 rounded shadow"
-			style="background-color: #f4fcff"
-			data-e2e-id="uploadTab"
-		>
+		<div class="container mx-auto rounded-lg shadow-xl mt-12 bg-white">
 			<div class="px-4 py-5 sm:px-6">
 				<h1 class="text-2xl leading-8 font-bold text-gray-900">
 					Kontrola plagiátorstva
@@ -16,8 +12,8 @@
 				</h3>
 			</div>
 
-			<div class="card card-default mx-8 pt-2 sm:p-6">
-				<div class="card-header flex">
+			<div class="px-16 py-10">
+				<div class="flex">
 					<UploadTab
 						v-for="tab in tabs"
 						:key="tab"
@@ -27,12 +23,9 @@
 					/>
 				</div>
 
-				<div v-if="selectedTab === tabs[0]">
-					<UploadFile></UploadFile>
-				</div>
-				<div v-if="selectedTab === tabs[1]">
-					<UploadText></UploadText>
-				</div>
+				<UploadFile v-if="selectedTab === tabs[0]" />
+				<UploadText v-else />
+
 			</div>
 		</div>
 	</div>
@@ -62,9 +55,3 @@ export default {
 	},
 };
 </script>
-
-<style>
-\.40vh {
-	height: 40vh;
-}
-</style>

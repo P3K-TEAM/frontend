@@ -1,8 +1,8 @@
 <template>
 	<div class="bg-gray-300">
-		<div class="py-24 skewed-top-wrapper bg-primary-gradient text-white">
+		<div class="skewed-top-wrapper bg-primary-gradient text-white">
 			<Navigation />
-			<div class="container flex justify-between items-center mx-auto">
+			<div class="container flex justify-between items-center mx-auto pt-16 pb-32">
 				<div class="w-2/3">
 					<p class="text-4xl pb-4">Výsledky kontroly</p>
 					<p class="text-xl">
@@ -12,7 +12,7 @@
 				</div>
 				<div class="w-1/3">
 					<div
-						class="ml-auto text-center rounded-lg bg-primary w-2/3 py-4"
+						class="ml-auto text-center rounded-lg bg-primary-500 w-2/3 py-4"
 					>
 						<span>Vaša zhoda je</span>
 						<div class="font-bold text-5xl leading-none">
