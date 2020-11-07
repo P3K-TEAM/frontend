@@ -17,18 +17,3 @@ export default {
 	},
 };
 </script>
-
-<style>
-#app {
-	font-size: 18px;
-	font-family: 'Roboto', sans-serif;
-}
-
-.primary-gradient {
-	background: linear-gradient(
-		90deg,
-		rgba(0, 25, 64, 1) 0%,
-		rgba(0, 49, 128, 1) 93%
-	);
-}
-</style>
