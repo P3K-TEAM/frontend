@@ -1,6 +1,7 @@
 <template>
 	<div class="bg-gray-300">
-		<div class="py-24 skewed-top-wrapper text-white">
+		<div class="py-24 skewed-top-wrapper primary-gradient text-white">
+			<Navigation />
 			<div class="container flex justify-between items-center mx-auto">
 				<div class="w-2/3">
 					<p class="text-4xl pb-4">Výsledky kontroly</p>
@@ -31,10 +32,12 @@
 </template>
 
 <script>
+	import Navigation from '@/components/Navigation/Navigation'
 	import ResultDocument from '../components/Result/ResultDocument';
 
 	export default {
 		components: {
+			Navigation,
 			ResultDocument,
 		},
 		data: function () {
@@ -69,12 +72,6 @@
 			32% 98%,
 			15% 95%,
 			0 90%
-		);
-		background: rgb(0, 25, 64);
-		background: linear-gradient(
-			90deg,
-			rgba(0, 25, 64, 1) 0%,
-			rgba(0, 49, 128, 1) 93%
 		);
 	}
 

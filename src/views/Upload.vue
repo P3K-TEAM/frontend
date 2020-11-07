@@ -1,5 +1,6 @@
 <template>
-	<div class="bg-primary">
+	<div class="primary-gradient">
+		<Navigation />
 		<div
 			class="container overflow-hidden sm:rounded-lg mx-auto mt-10 rounded shadow"
 			style="background-color: #f4fcff"
@@ -38,12 +39,14 @@
 </template>
 
 <script>
+import Navigation from '@/components/Navigation/Navigation.vue';
 import UploadTab from '@/components/Upload/UploadTab.vue';
 import UploadFile from '@/components/Upload/UploadFile.vue';
 import UploadText from '@/components/Upload/UploadText.vue';
 
 export default {
 	components: {
+		Navigation,
 		UploadTab,
 		UploadFile,
 		UploadText,

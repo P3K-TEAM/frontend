@@ -1,6 +1,7 @@
 <template>
 	<div>
 		<div class="primary-gradient">
+			<Navigation />
 			<div class="container mx-auto py-20">
 				<div class="w-2/3 text-white">
 					<h1 class="text-6xl leading-tight font-bold w-1/2">
@@ -101,9 +102,18 @@
 				</div>
 			</div>
 		</div>
+		<Footer />
 	</div>
 </template>
 
 <script>
-	export default {};
+import Navigation from '@/components/Navigation/Navigation';
+import Footer from '@/components/Footer/Footer';
+
+export default {
+	components: {
+		Navigation,
+		Footer,
+	},
+};
 </script>
