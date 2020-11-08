@@ -7,5 +7,5 @@
 }
 
 .bg-primary-gradient {
-	background: linear-gradient(135deg, #003180 0%, #001940 93%) no-repeat;
+	@apply bg-gradient-to-br from-primary-700 to-primary-900;
 }

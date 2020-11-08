@@ -1,7 +1,10 @@
 <template>
-	<div class="flex flex-col min-h-screen bg-primary-gradient">
-		<Navigation />
-		<div class="container mx-auto rounded-lg shadow-xl mt-12 bg-white">
+	<div class="flex flex-col min-h-screen bg-primary-500">
+		<div
+			class="w-screen h-screen absolute bg-primary-gradient clip-half-circle"
+		/>
+		<Navigation class="z-10" />
+		<div class="container mx-auto rounded-lg shadow-xl mt-12 bg-white z-10">
 			<div class="px-4 py-5 sm:px-6">
 				<h1 class="text-2xl leading-8 font-bold text-gray-900">
 					Kontrola plagiátorstva
@@ -25,7 +28,6 @@
 
 				<UploadFile v-if="selectedTab === tabs[0]" />
 				<UploadText v-else />
-
 			</div>
 		</div>
 	</div>
@@ -55,3 +57,9 @@ export default {
 	},
 };
 </script>
+
+<style>
+.clip-half-circle {
+	clip-path: ellipse(30% 100% at 22% 50%);
+}
+</style>

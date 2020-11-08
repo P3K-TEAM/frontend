@@ -1,8 +1,10 @@
 <template>
-	<div class="bg-gray-300">
+	<div class="bg-gray-300 min-h-screen">
 		<div class="skewed-top-wrapper bg-primary-gradient text-white">
 			<Navigation />
-			<div class="container flex justify-between items-center mx-auto pt-16 pb-32">
+			<div
+				class="container flex justify-between items-center mx-auto pt-16 pb-32"
+			>
 				<div class="w-2/3">
 					<p class="text-4xl pb-4">Výsledky kontroly</p>
 					<p class="text-xl">
@@ -62,16 +64,6 @@ export default {
 
 <style scoped>
 .skewed-top-wrapper {
-	clip-path: polygon(
-		0 0,
-		100% 0,
-		100% 90%,
-		85% 95%,
-		68% 98%,
-		50% 100%,
-		32% 98%,
-		15% 95%,
-		0 90%
-	);
+	clip-path: ellipse(95% 100% at 50% 0%);
 }
 </style>
