@@ -1,7 +1,7 @@
 <template>
 	<div class="container mx-auto pt-24">
 		<router-link
-			to="/results"
+			to="/result"
 			class="inline-block mb-4 hover:text-gray-500 text-gray-600"
 		>
 			<i class="fas fa-angle-left text-2xl" />

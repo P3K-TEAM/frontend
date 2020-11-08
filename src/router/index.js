@@ -21,6 +21,10 @@ const routes = [
 		path: '/result',
 		name: 'Result',
 		component: Result,
+	},{
+		path: '/result/:id',
+		name: 'ResultItem',
+		component: Result,
 	},
 ];
 
