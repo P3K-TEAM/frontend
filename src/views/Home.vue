@@ -96,7 +96,7 @@
 			</div>
 		</div>
 
-		<div class="bg-primary-500 py-10">
+		<div class="bg-primary-500 py-10 clipped-arrow-down">
 			<div class="container text-white flex mx-auto my-20">
 				<div class="w-1/2 flex items-center justify-center">
 					<img
@@ -134,3 +134,9 @@ export default {
 	},
 };
 </script>
+
+<style>
+.clipped-arrow-down {
+	clip-path: polygon(48% 0, 50% 5%, 52% 0, 100% 0, 100% 100%, 0 100%, 0 0);
+}
+</style>
