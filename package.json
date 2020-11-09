@@ -5,7 +5,8 @@
 	"private": true,
 	"scripts": {
 		"build": "webpack --config webpack.prod.js",
-		"serve": "webpack serve --config webpack.dev.js --history-api-fallback"
+		"serve": "webpack serve --config webpack.dev.js --history-api-fallback",
+		"test:unit": "mocha 'tests/unit/**/*.spec.js'"
 	},
 	"repository": {
 		"type": "git",
@@ -57,6 +58,7 @@
 		"@babel/polyfill": "^7.12.1",
 		"@fortawesome/fontawesome-free": "^5.15.1",
 		"axios": "^0.21.0",
+		"mocha": "^8.2.1",
 		"tailwindcss": "^1.9.6",
 		"vue": "^2.6.12",
 		"vue-router": "^3.4.8",
