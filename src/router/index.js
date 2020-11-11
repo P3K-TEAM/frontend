@@ -4,6 +4,7 @@ import Home from '../views/Home.vue';
 import Upload from '../views/Upload.vue';
 import Result from '../views/Result.vue';
 import ResultInfo from '../views/ResultInfo';
+import ResultInfoS from '../views/ResultInfoS';
 
 Vue.use(VueRouter);
 
@@ -33,6 +34,10 @@ const routes = [
 			{
 				path: 'document/:id',
 				component: ResultInfo,
+			},
+			{
+				path: 'sdocument/:id',
+				component: ResultInfoS,
 			},
 		],
 	},
