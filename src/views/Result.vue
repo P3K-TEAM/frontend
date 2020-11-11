@@ -12,45 +12,46 @@
 						originality vašej práce.
 					</p>
 				</div>
-				<div class="w-1/3">
-					<div
-						class="ml-auto text-center rounded-lg bg-primary-500 w-2/3 py-4"
-					>
-						<span>Vaša zhoda je</span>
-						<div class="font-bold text-5xl leading-none">
-							<span>{{ zhoda }}</span>
-							<span>%</span>
-						</div>
-					</div>
-				</div>
 			</div>
 		</div>
 		<div>
 			<div class="px-6 md:px-0 container mx-auto my-10">
-				<h1 class="text-2xl font-bold mb-4">Dokumenty</h1>
-				<div class="bg-white rounded shadow">
-					<div class="border-b-2 bg-primary-500 overflow-x-auto flex">
-						<ResultDocTab
-							v-for="tab in documents"
-							:key="tab.name"
-							:title="tab.name"
-							:active="tab.name === selectedTab"
-							@click.native="selectedTab = tab.name"
-						/>
+				<div>
+					<div
+						class="flex justify-between py-1 text-gray-700 text-sm font-bold"
+					>
+						<span class="w-1/2 ml-5"> Nazov </span>
+						<span class="w-1/4 text-center">
+							Percentuálna zhoda
+						</span>
+						<span class="w-1/4 text-center"> Počet zhôd </span>
 					</div>
-<!--					<pre>-->
-<!--						{{JSON.stringify(selectedDocument)}}-->
-<!--					</pre>-->
-					<div v-if="selectedDocument && selectedDocument.matched_docs.length ">
-						<ResultDocItem
-							v-for="match in selectedDocument.matched_docs"
-							:key="match.name"
-							:document="match"
-						/>
+					<div v-for="doc in documents" :key="doc.id">
+						<router-link
+							:to="'document/' + doc.id"
+							class="flex justify-between mb-3 p-2 text-black bg-white shadow rounded-lg hover-trigger"
+							append
+						>
+							<span class="w-1/2 ml-5">
+								{{ doc.name }}
+							</span>
+							<span class="w-1/4 text-center">
+								{{ doc.percentage }}%
+							</span>
+							<span class="w-1/4 text-center">
+								{{ doc.matched_docs.length }}
+							</span>
+							<i class="fas fa-angle-down hover-target" />
+						</router-link>
 					</div>
-					<div v-else class="text-green-600 px-4 py-3 text-xl">
-						Gratulujem! V tomto dokumente nemáte žiadnu zhodu.
-					</div>
+				</div>
+				<div
+					class="flex justify-between p-2 text-gray-700 text-sm font-bold"
+				>
+					<span>
+						{{ documents.length }} výsledkov z
+						{{ documents.length }}
+					</span>
 				</div>
 			</div>
 		</div>
@@ -59,33 +60,29 @@
 
 <script>
 import Navigation from '@/components/Navigation/Navigation';
-import ResultDocItem from '../components/Result/ResultDocItem';
-import ResultDocTab from '../components/Result/ResultDocTab';
-
 export default {
 	components: {
 		Navigation,
-		ResultDocItem,
-		ResultDocTab,
 	},
 	data: function () {
 		return {
-			selectedTab: '',
+			id_result: 11,
 			documents: [
 				{
-					name: 'Document1.pdf',
-					percentage: 0.15,
-					matched_docs: [
-						
-					],
-				},
-				{
+					id: 1,
 					name: 'Document2.pdf',
 					percentage: 0.15,
+					text:
+						'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean dapibus consequat ullamcorper. Proin a erat nunc. Aenean at gravida lorem,' +
+						' vel iaculis lorem. Quisque bibendum suscipit velit in tincidunt. Quisque ut ipsum egestas risus pretium dignissim. Aliquam sit amet nibh eget felis ' +
+						'dignissim ultrices. Cras ac ultricies libero. Sed eu tincidunt leo. Vivamus vestibulum dictum nisl ac tempus. Vestibulum ante ipsum primis' +
+						' in faucibus orci luctus et ultrices posuere cubilia curae; Cras posuere consectetur nibh, vel molestie lacus finibus et. Nullam lectus mi,' +
+						' aliquam quis enim ac, elementum vehicula metus.',
 					matched_docs: [
 						{
 							name: '1.pdf',
 							percentage: 0.45,
+
 							matches: [
 								{
 									char_from: 15,
@@ -114,12 +111,20 @@ export default {
 					],
 				},
 				{
-					name: 'Document3.pdf',
+					id: 2,
+					name: 'Document2.pdf',
 					percentage: 0.15,
+					text:
+						'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean dapibus consequat ullamcorper. Proin a erat nunc. Aenean at gravida lorem,' +
+						' vel iaculis lorem. Quisque bibendum suscipit velit in tincidunt. Quisque ut ipsum egestas risus pretium dignissim. Aliquam sit amet nibh eget felis ' +
+						'dignissim ultrices. Cras ac ultricies libero. Sed eu tincidunt leo. Vivamus vestibulum dictum nisl ac tempus. Vestibulum ante ipsum primis' +
+						' in faucibus orci luctus et ultrices posuere cubilia curae; Cras posuere consectetur nibh, vel molestie lacus finibus et. Nullam lectus mi,' +
+						' aliquam quis enim ac, elementum vehicula metus.',
 					matched_docs: [
 						{
 							name: '1.pdf',
 							percentage: 0.45,
+
 							matches: [
 								{
 									char_from: 15,
@@ -149,23 +154,9 @@ export default {
 				},
 			],
 		};
-
-		// zhoda: 0.55,
-		// document: {
-		// 	name: 'Document1.pdf',
-		// 	percentage: 5,
-		// 	text:
-		// 		'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla semper odio quis pulvinar mattis. Sed vulputate arcu eget porttitor fringilla. ' +
-		// 		'Donec efficitur, odio ut cursus mattis, magna lorem convallis purus, nec varius turpis urna sed velit. Quisque convallis dolor et ex accumsan volutpat.' +
-		// 		' Suspendisse ullamcorper nibh quis sagittis maximus. Maecenas a vehicula felis. Aliquam vel eros molestie, dignissim est et, suscipit leo.' +
-		// 		' Aenean quis leo ut metus sagittis convallis in vel elit. Aenean et metus dolor. Vestibulum et congue quam. In ornare pellentesque odio. ' +
-		// 		'Integer non urna ultrices, sollicitudin dui vitae, gravida orci. Nullam tellus eros, iaculis vitae velit eu, tincidunt ultrices sapien. ' +
-		// 		'Donec non mauris ac massa pulvinar rutrum. Sed maximus velit ut lacus porta blandit. Etiam dolor orci, fermentum a porttitor sed, elementum quis sem.\n' +
-		// 		'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla semper odio quis pulvinar mattis. Sed vulputate arcu eget porttitor fringilla.',
-		// },
 	},
 	computed: {
-		selectedDocument:function() {
+		selectedDocument: function () {
 			return this.documents.find((doc) => doc.name === this.selectedTab);
 		},
 	},
@@ -175,5 +166,12 @@ export default {
 <style scoped>
 .skewed-top-wrapper {
 	clip-path: ellipse(95% 100% at 50% 0%);
+}
+.hover-trigger .hover-target {
+	display: none;
+}
+
+.hover-trigger:hover .hover-target {
+	display: block;
 }
 </style>

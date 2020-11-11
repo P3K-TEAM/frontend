@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 import Home from '../views/Home.vue';
 import Upload from '../views/Upload.vue';
 import Result from '../views/Result.vue';
+import ResultInfo from '../views/ResultInfo';
 
 Vue.use(VueRouter);
 
@@ -18,19 +19,21 @@ const routes = [
 		component: Upload,
 	},
 	{
-		path: '/result',
+		path: '/result/:id',
 		name: 'Result',
 		component: Result,
-	},{
-		path: '/result/:id',
-		name: 'ResultItem',
-		component: Result,
-	},
+		children:[
+			{
+				path: 'document/:id',
+				component: ResultInfo
+			}
+		]
+	}
 ];
 
 const router = new VueRouter({
 	mode: 'history',
-	routes,
+	routes
 });
 
 export default router;
