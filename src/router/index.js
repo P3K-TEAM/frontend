@@ -20,20 +20,27 @@ const routes = [
 	},
 	{
 		path: '/result/:id',
-		name: 'Result',
-		component: Result,
-		children:[
+		component: {
+			render(h) {
+				return h('router-view');
+			},
+		},
+		children: [
+			{
+				path: '/',
+				component: Result,
+			},
 			{
 				path: 'document/:id',
-				component: ResultInfo
-			}
-		]
-	}
+				component: ResultInfo,
+			},
+		],
+	},
 ];
 
 const router = new VueRouter({
 	mode: 'history',
-	routes
+	routes,
 });
 
 export default router;
