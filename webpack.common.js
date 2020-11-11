@@ -3,22 +3,25 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
 
 module.exports = {
+	output: {
+		publicPath: '/',
+	},
 	entry: {
 		polyfill: '@babel/polyfill',
-		main: path.resolve(__dirname, 'src/main.js')
+		main: path.resolve(__dirname, 'src/main.js'),
 	},
 	resolve: {
 		extensions: ['.js', '.vue'],
 		alias: {
 			vue$: 'vue/dist/vue.runtime.min.js',
-			'@': path.resolve(__dirname, './src')
-		}
+			'@': path.resolve(__dirname, './src'),
+		},
 	},
 	plugins: [
 		new HtmlWebpackPlugin({
-			template: path.resolve(__dirname, 'src/index.html')
+			template: path.resolve(__dirname, 'src/index.html'),
 		}),
-		new webpack.HotModuleReplacementPlugin()
+		new webpack.HotModuleReplacementPlugin(),
 	],
 	module: {
 		rules: [
@@ -32,21 +35,21 @@ module.exports = {
 						options: {
 							name: '[name].[ext]',
 							outputPath: 'fonts/',
-							publicPath: '../fonts/'
-						}
-					}
-				]
+							publicPath: '../fonts/',
+						},
+					},
+				],
 			},
 			{
 				test: /favicon.ico$/,
 				use: {
 					loader: 'file-loader',
 					options: {
-						outputPath: './',
-						name: '[name].[ext]'
-					}
-				}
-			}
-		]
-	}
+						outputPath: '/',
+						name: '[name].[ext]',
+					},
+				},
+			},
+		],
+	},
 };

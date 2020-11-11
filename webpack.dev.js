@@ -8,19 +8,19 @@ module.exports = merge(common, {
 	mode: 'development',
 	output: {
 		filename: 'js/[name]-[hash].js',
-		path: path.resolve(__dirname, 'dist')
+		path: path.resolve(__dirname),
 	},
 	plugins: [
 		new MiniCssExtractPlugin({
-			filename: 'css/[name]-[hash].css'
+			filename: 'css/[name]-[hash].css',
 		}),
-		new VueLoaderPlugin()
+		new VueLoaderPlugin(),
 	],
 	module: {
 		rules: [
 			{
 				test: /\.js$/,
-				use: 'babel-loader'
+				use: 'babel-loader',
 			},
 			{
 				test: /\.(sa|sc|c)ss$/,
@@ -29,8 +29,8 @@ module.exports = merge(common, {
 					MiniCssExtractPlugin.loader,
 					'css-loader',
 					'postcss-loader',
-					'sass-loader'
-				]
+					'sass-loader',
+				],
 			},
 			{
 				test: /\.(jpg|jpeg|gif|png|webp|svg)$/,
@@ -38,12 +38,12 @@ module.exports = merge(common, {
 				use: {
 					loader: 'file-loader',
 					options: {
-						outputPath: './img',
+						outputPath: 'img',
 						name: '[name].[hash].[ext]',
-						esModule: false
-					}
-				}
-			}
-		]
-	}
+						esModule: false,
+					},
+				},
+			},
+		],
+	},
 });

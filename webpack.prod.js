@@ -13,14 +13,14 @@ module.exports = merge(common, {
 	devtool: 'source-map',
 	output: {
 		filename: 'js/[name].min.js',
-		path: path.resolve(__dirname, 'dist')
+		path: path.resolve(__dirname, 'dist'),
 	},
 	plugins: [
 		new CleanWebpackPlugin(),
 		new MiniCssExtractPlugin({
-			filename: 'css/[name].min.css'
+			filename: 'css/[name].min.css',
 		}),
-		new VueLoaderPlugin()
+		new VueLoaderPlugin(),
 	],
 	optimization: {
 		minimizer: [
@@ -31,16 +31,16 @@ module.exports = merge(common, {
 				minify: {
 					removeAttributeQuotes: true,
 					collapseWhitespace: true,
-					removeComments: true
-				}
-			})
-		]
+					removeComments: true,
+				},
+			}),
+		],
 	},
 	module: {
 		rules: [
 			{
 				test: /\.js$/,
-				use: 'babel-loader'
+				use: 'babel-loader',
 			},
 			{
 				test: /\.(sa|sc|c)ss$/,
@@ -49,8 +49,8 @@ module.exports = merge(common, {
 					MiniCssExtractPlugin.loader,
 					'css-loader',
 					'postcss-loader',
-					'sass-loader'
-				]
+					'sass-loader',
+				],
 			},
 			{
 				test: /\.(jpg|jpeg|gif|png|webp|svg)$/,
@@ -58,12 +58,12 @@ module.exports = merge(common, {
 				use: {
 					loader: 'file-loader',
 					options: {
-						outputPath: './img',
+						outputPath: 'img',
 						name: '[name].[ext]',
-						esModule: false
-					}
-				}
-			}
-		]
-	}
+						esModule: false,
+					},
+				},
+			},
+		],
+	},
 });
