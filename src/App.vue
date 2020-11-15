@@ -2,29 +2,25 @@
 	<div id="app" class="flex flex-col h-full">
 		<router-view class="flex-auto" />
 		<Alert />
-		<Modal />
+		<Backdrop>
+			<Spinner />
+			<Modal />
+		</Backdrop>
 	</div>
 </template>
 
 <script>
-import Alert from '@/components/Alert/Alert';
-import Modal from '@/components/Modal/Modal';
+import Alert from '@/components/Global/Alert/Alert';
+import Backdrop from '@/components/Global/Backdrop/Backdrop';
+import Modal from '@/components/Global/Modal/Modal';
+import Spinner from '@/components/Global/Spinner/Spinner';
 
 export default {
 	components: {
 		Alert,
+		Backdrop,
 		Modal,
-	},
-	mounted() {
-		this.$store.dispatch('ModalStore/setModal', {
-			header: '',
-			text:
-				'Lord, yer not fighting me without a beauty! Small, mysterious dosis',
-			confirmation: {
-				enabled: true,
-				callback: () => {},
-			},
-		});
+		Spinner,
 	},
 };
 </script>

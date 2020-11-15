@@ -132,11 +132,14 @@ module.exports = {
 				);
 			}
 
+			// enable backdrop from root store
+			context.commit('SET_BACKDROP', true, { root: true });
 			// enable modal
 			context.commit('SET_ACTIVE', true);
 		},
 		dismissModal(context) {
 			context.commit('SET_ACTIVE', false);
+			context.commit('SET_BACKDROP', false, { root: true });
 		},
 	},
 };
