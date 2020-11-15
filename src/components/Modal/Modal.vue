@@ -24,7 +24,10 @@
 				</p>
 			</template>
 
-			<footer v-if="confirmation.enabled" class="flex w-full justify-end pt-4">
+			<footer
+				v-if="confirmation.enabled"
+				class="flex w-full justify-end pt-4"
+			>
 				<button
 					type="button"
 					class="bg-primary hover:bg-red-100 border border-red-500 text-red-500 font-bold rounded py-1 px-3"
@@ -56,6 +59,13 @@ export default {
 			'confirmation',
 			'htmlTemplate',
 		]),
+	},
+	mounted() {
+		document.addEventListener('keyup', (e) => {
+			if (e.key === 'Escape' && this.isActive) {
+				this.dismiss();
+			}
+		});
 	},
 	methods: {
 		dismiss() {
