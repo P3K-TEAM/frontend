@@ -8,6 +8,11 @@ module.exports = {
 			defaultType: 'text',
 			type: this.defaultType,
 			text: '',
+			htmlTemplate: {
+				header: '',
+				body: '',
+				footer: '',
+			},
 			confirmation: {
 				enabled: false,
 				callback: () => undefined,
@@ -28,6 +33,9 @@ module.exports = {
 		confirmation(state) {
 			return state.confirmation;
 		},
+		htmlTemplate(state) {
+			return state.htmlTemplate;
+		},
 	},
 	mutations: {
 		SET_ACTIVE(state, active) {
@@ -40,7 +48,13 @@ module.exports = {
 				type = state.defaultType;
 				return;
 			}
-			validateType(type, 'string', type);
+
+			if (!['text', 'html'].includes(type)) {
+				throw new Error(
+					'Unsupported alert type. Type has to be one of type: "text","html".'
+				);
+			}
+
 			state.type = type;
 		},
 
@@ -64,11 +78,43 @@ module.exports = {
 			validateType(text, 'string', 'text');
 			state.text = text;
 		},
+
+		SET_HTML(state, htmlTemplate) {
+			validateType(htmlTemplate, 'object', 'htmlTemplate');
+
+			if (htmlTemplate.header) {
+				validateType(
+					htmlTemplate.header,
+					'string',
+					'htmlTemplate.header'
+				);
+				state.htmlTemplate.header = htmlTemplate.header;
+			}
+
+			if (htmlTemplate.body) {
+				validateType(htmlTemplate.body, 'string', 'htmlTemplate.body');
+				state.htmlTemplate.body = htmlTemplate.body;
+			}
+
+			if (htmlTemplate.footer) {
+				validateType(
+					htmlTemplate.footer,
+					'string',
+					'htmlTemplate.footer'
+				);
+				state.htmlTemplate.footer = htmlTemplate.footer;
+			}
+		},
 	},
 	actions: {
 		setModal(context, payload) {
 			context.commit('SET_TYPE', payload.type);
-			context.commit('SET_TEXT', payload.text);
+
+			if (context.state.type === 'text') {
+				context.commit('SET_TEXT', payload.text);
+			} else {
+				context.commit('SET_HTML', payload.htmlTemplate);
+			}
 
 			//confirmation
 			if (payload.confirmation) {
