@@ -11,11 +11,20 @@
 			>
 				<i class="fas fa-times"></i>
 			</a>
-			<p class="py-4">
-				{{ text }}
-			</p>
 
-			<footer v-if="confirmation.enabled" class="flex w-full justify-end">
+			<template v-if="type === 'html'">
+				<header v-html="htmlTemplate.header" />
+				<section v-html="htmlTemplate.body" />
+				<footer v-html="htmlTemplate.footer" />
+			</template>
+
+			<template v-else>
+				<p>
+					{{ text }}
+				</p>
+			</template>
+
+			<footer v-if="confirmation.enabled" class="flex w-full justify-end pt-4">
 				<button
 					type="button"
 					class="bg-primary hover:bg-red-100 border border-red-500 text-red-500 font-bold rounded py-1 px-3"
@@ -45,6 +54,7 @@ export default {
 			'type',
 			'text',
 			'confirmation',
+			'htmlTemplate',
 		]),
 	},
 	methods: {
