@@ -18,9 +18,9 @@
 			<div class="px-6 md:px-0 container mx-auto my-10">
 				<div>
 					<div
-						class="flex justify-between py-1 text-gray-700 text-sm font-bold"
+						class="flex justify-between py-1 text-gray-600 text-md font-bold"
 					>
-						<span class="w-1/2 ml-5"> Nazov </span>
+						<span class="w-1/2 ml-8"> Nazov </span>
 						<span class="w-1/4 text-center">
 							Percentuálna zhoda
 						</span>
@@ -32,6 +32,7 @@
 							class="flex justify-between mb-3 p-2 text-black bg-white shadow rounded-lg hover-trigger"
 							append
 						>
+							<i :class="filetype_i(doc.name)"></i>
 							<span class="w-1/2 ml-5">
 								{{ doc.name }}
 							</span>
@@ -41,7 +42,9 @@
 							<span class="w-1/4 text-center">
 								{{ doc.matched_docs.length }}
 							</span>
-							<i class="fas fa-angle-down hover-target" />
+							<div class="w-2">
+								<i class="fas fa-angle-right hover-target"></i>
+							</div>
 						</router-link>
 					</div>
 				</div>
@@ -61,6 +64,7 @@
 
 <script>
 import Navigation from '@/components/Navigation/Navigation';
+
 export default {
 	components: {
 		Navigation,
@@ -113,7 +117,7 @@ export default {
 				},
 				{
 					id: 2,
-					name: 'Document2.pdf',
+					name: 'Document2.docx',
 					percentage: 0.15,
 					text:
 						'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean dapibus consequat ullamcorper. Proin a erat nunc. Aenean at gravida lorem,' +
@@ -156,9 +160,24 @@ export default {
 			],
 		};
 	},
-	computed: {
-		selectedDocument: function () {
-			return this.documents.find((doc) => doc.name === this.selectedTab);
+	methods: {
+		filetype_i: function (text) {
+
+
+			var regex = /\.(.[^.]*)$/;
+			var match = text.match(regex);
+			console.log(match[0])
+			console.log(Object(text))
+
+			switch (match[0]) {
+				case '.pdf':
+					return 'fas fa-file-pdf';
+				case '.docx':
+				case '.doc':
+					return 'fas fa-file';
+				default:
+					return 'fas fa-file';
+			}
 		},
 	},
 };
@@ -168,6 +187,7 @@ export default {
 .skewed-top-wrapper {
 	clip-path: ellipse(95% 100% at 50% 0%);
 }
+
 .hover-trigger .hover-target {
 	display: none;
 }
