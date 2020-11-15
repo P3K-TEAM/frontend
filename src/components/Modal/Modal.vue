@@ -60,6 +60,17 @@ export default {
 			'htmlTemplate',
 		]),
 	},
+	watch: {
+		// If modal was enabled, disable scrolling by appending class to the body
+		isActive(newValue) {
+			const className = 'overflow-y-hidden';
+			if (newValue) {
+				document.body.classList.add(className);
+			} else {
+				document.body.classList.remove(className);
+			}
+		},
+	},
 	mounted() {
 		document.addEventListener('keyup', (e) => {
 			if (e.key === 'Escape' && this.isActive) {
