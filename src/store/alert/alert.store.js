@@ -1,3 +1,5 @@
+const validateType = require('../../functions/validate-type.function');
+
 module.exports = {
 	namespaced: true,
 	state() {
@@ -25,12 +27,7 @@ module.exports = {
 	},
 	mutations: {
 		SET_ACTIVE(state, active) {
-			if (typeof active !== 'boolean') {
-				throw new Error(
-					'Unsupported alert active property. Property "active" must be boolean.'
-				);
-			}
-
+			validateType(active, 'boolean', 'active');
 			state.isActive = active;
 		},
 
@@ -45,30 +42,17 @@ module.exports = {
 		},
 
 		SET_MESSAGE(state, message) {
-			if (typeof message !== 'string') {
-				throw new Error(
-					'Unsupported alert message type. Property "message" must be string.'
-				);
-			}
-
-			if (!message?.length) {
-				throw new Error('Property message must not be empty.');
-			}
-
+			validateType(message, 'string', 'message');
 			state.message = message;
 		},
 
 		SET_DURATION(state, duration) {
 			if (!duration) {
-				duration = state.defaultDuration;
+				state.duration = state.defaultDuration;
+				return;
 			}
 
-			if (typeof duration !== 'number') {
-				throw new Error(
-					'Unsupported alert duration type. Property "duration" must be number.'
-				);
-			}
-
+			validateType(duration, 'number', 'duration');
 			state.duration = duration;
 		},
 	},
