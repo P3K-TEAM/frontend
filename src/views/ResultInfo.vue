@@ -55,7 +55,7 @@
 						>
 							<p
 								v-if="stav"
-								v-html="highlight(text, matched_docs)"
+								v-html="highlightedText"
 							></p>
 							<div v-else>
 								<div
@@ -102,7 +102,7 @@ export default {
 			name: 'Document2.pdf',
 			percentage: 0.15,
 			text:
-				'xxxxxxxxxxxxxx1Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean dapibus consequat ullamcorper. Proin a erat nunc. Aenean at gravida lorem,' +
+				'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean dapibus consequat ullamcorper. Proin a erat nunc. Aenean at gravida lorem,' +
 				' vel iaculis lorem. Quisque bibendum suscipit velit in ti1ncidunt. Quisque ut ipsum egestas risus pretium dignissim. Aliquam sit amet nibh eget felis ' +
 				'dignissim ultrices. Cras ac ultricies libero. Sed eu tincidunt leo. Vivamus vestibulum dictum nisl ac tempus. Vestibulum ante ipsum primis' +
 				' in faucibus orci luctus et ultrices posuere cubilia curae; Cras posuere consectetur nibh, vel molestie lacus finibus et. Nullam lectus mi,' +
@@ -142,98 +142,31 @@ export default {
 		};
 	},
 	computed: {
-		selectedDocument: function () {
-			return this.documents.find((doc) => doc.name === this.selectedTab);
-		},
-	},
-	methods: {
-		highlight: function (text, matched_docs) {
-			if (matched_docs.length == 0) return text;
-			var highlights = [];
-			matched_docs.forEach((matched_doc) =>
-				matched_doc.matches.forEach((match) => {
-					if (!highlights.length) {
-						highlights.push({
-							name: [matched_doc.name],
-							cfrom: match.char_from,
-							cto: match.char_to,
-						});
-					} else {
-						var i;
-						var next = 0;
-						for (i = 0; i < highlights.length; i++) {
-							if (
-								highlights[i].cto > match.char_from &&
-								highlights[i].cto < match.char_to &&
-								highlights[i].cfrom < match.char_from
-							) {
-								highlights[i].cto = match.char_to;
-								if(highlights[i].name.indexOf(matched_doc.name)){
-									highlights[i].name.push(matched_doc.name);
-								}
-								next++;
-								break;
-							}
-							if (
-								highlights[i].cfrom < match.char_from &&
-								highlights[i].cfrom < match.char_to &&
-								highlights[i].cto > match.char_to
-							) {
-								if(highlights[i].name.indexOf(matched_doc.name)){
-									highlights[i].name.push(matched_doc.name);
-								}
-								next++;
-								break;
-							}
-							if (
-								highlights[i].cfrom > match.char_from &&
-								highlights[i].cto < match.char_to
-							) {
-								highlights[i].cfrom = match.char_from;
-								highlights[i].cto = match.char_to;
-								if(highlights[i].name.indexOf(matched_doc.name)){
-									highlights[i].name.push(matched_doc.name);
-								}
-								next++;
-								break;
-							}
-							if (
-								highlights[i].cfrom > match.char_from &&
-								highlights[i].cto > match.char_to &&
-								highlights[i].cfrom < match.char_to
-							) {
-								highlights[i].cfrom = match.char_from;
-								if(highlights[i].name.indexOf(matched_doc.name)){
-									highlights[i].name.push(matched_doc.name);
-								}
-								next++;
-								break;
-							}
+		highlightedText: function() {
+			var indices = [];
+			this.matched_docs.forEach(matched_doc =>
+			matched_doc.matches.forEach(match =>
+				{
+					indices.push({name: matched_doc.name, from: match.char_from, to: match.char_to})
+				}
+			));
 
-						}
-						if (
-						next==0){
-							highlights.push({
-								name: [matched_doc.name],
-								cfrom: match.char_from,
-								cto: match.char_to,
-							});}
-						}
-				})
+			// sort intervals by length descending (to start from the longest)
+			indices.sort((a, b) => b.to - b.from - (a.to - a.from));
+
+			// get the substrings
+			const subStringsToReplace = indices.map((h) =>
+				this.text.substring(h.from, h.to + 1)
 			);
 
-			console.log(Object(highlights));
-
-			highlights.forEach(highlight =>{
-				var sec = highlight.cto - highlight.cfrom;
-				var regex = new RegExp('(?<=.{' + highlight.cfrom + '})(.{' + sec + '})');
-				text = text.replace(regex, (match) => {
-					return (
-						'<span class="text-red-500 font-bold">' + match + '</span>'
-					);
-				});
-			})
-			return text
+			return subStringsToReplace.reduce(
+				(string, substring) =>
+					string.replace(
+						new RegExp(substring, "g"),
+						`<span class="text-red-500 font-bold">${substring}</span>`
+					),
+				this.text
+			);
 		},
 	},
 };
@@ -243,4 +176,5 @@ export default {
 .skewed-top-wrapper {
 	clip-path: ellipse(95% 100% at 50% 0%);
 }
+
 </style>
