@@ -77,7 +77,7 @@
 				documents: [
 					{
 						id: 1,
-						name: 'Docum.ent2.pdf',
+						name: 'Document2.pdf',
 						percentage: 0.15,
 						text:
 							'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean dapibus consequat ullamcorper. Proin a erat nunc. Aenean at gravida lorem,' +
@@ -119,7 +119,7 @@
 					},
 					{
 						id: 2,
-						name: 'Docu.ment2.docx',
+						name: 'Document2.docx',
 						percentage: 0.15,
 						text:
 							'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean dapibus consequat ullamcorper. Proin a erat nunc. Aenean at gravida lorem,' +
@@ -168,9 +168,6 @@
 
 				var regex = /\.(.[^.]*)$/;
 				var match = text.match(regex);
-				console.log(match[0]);
-				console.log(Object(text));
-
 				switch (match[0]) {
 					case '.pdf':
 						return 'fas fa-file-pdf text-red-500 text-2xl';

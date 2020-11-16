@@ -1,7 +1,7 @@
 <template>
 	<div class="bg-gray-300 min-h-screen">
 		<div class="skewed-top-wrapper bg-primary-gradient text-white">
-			<Navigation/>
+			<Navigation />
 			<div
 				class="container flex justify-between items-center mx-auto pt-16 pb-32"
 			>
@@ -45,13 +45,18 @@
 								@click="stav = !stav"
 								class="inline-block hover:text-primary-500 hover:bg-white text-white ml-auto border-2 p-1 focus:outline-none rounded-md"
 							>
-								<span class="text-bold text-2xl"> Texty </span>
+								<span class="text-bold text-2xl">
+									Subory / Texty
+								</span>
 							</button>
 						</div>
 						<div
 							class="p-8 bg-white text-justify rounded-b-lg shadow-md"
 						>
-							<p v-if="stav">{{ text }}</p>
+							<p
+								v-if="stav"
+								v-html="highlight(text, matched_docs)"
+							></p>
 							<div v-else>
 								<div
 									class="flex justify-between py-1 text-gray-700 text-sm font-bold border-b-2"
@@ -65,10 +70,14 @@
 								<div
 									v-for="match in matched_docs"
 									:key="match.name"
-									class="flex justify-between my-5 text-black bg-white border-b-2  hover-trigger"
+									class="flex justify-between my-5 text-black bg-white border-b-2 hover-trigger"
 								>
-									<span class="pl-5 w-2/3">{{match.name}}</span>
-									<span class="w-1/3 text-center" >{{match.matches.length}}</span>
+									<span class="pl-5 w-2/3">{{
+										match.name
+									}}</span>
+									<span class="w-1/3 text-center">{{
+										match.matches.length
+									}}</span>
 								</div>
 							</div>
 						</div>
@@ -80,67 +89,158 @@
 </template>
 
 <script>
-	import Navigation from '@/components/Navigation/Navigation';
+import Navigation from '@/components/Navigation/Navigation';
 
-	export default {
-		components: {
-			Navigation
-		},
-		data: function() {
-			return {
-				stav: true,
-				id: 1,
-				name: 'Document2.pdf',
-				percentage: 0.15,
-				text:
-					'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean dapibus consequat ullamcorper. Proin a erat nunc. Aenean at gravida lorem,' +
-					' vel iaculis lorem. Quisque bibendum suscipit velit in tincidunt. Quisque ut ipsum egestas risus pretium dignissim. Aliquam sit amet nibh eget felis ' +
-					'dignissim ultrices. Cras ac ultricies libero. Sed eu tincidunt leo. Vivamus vestibulum dictum nisl ac tempus. Vestibulum ante ipsum primis' +
-					' in faucibus orci luctus et ultrices posuere cubilia curae; Cras posuere consectetur nibh, vel molestie lacus finibus et. Nullam lectus mi,' +
-					' aliquam quis enim ac, elementum vehicula metus.',
-				matched_docs: [
-					{
-						name: '1.pdf',
-						percentage: 0.45,
+export default {
+	components: {
+		Navigation,
+	},
+	data: function () {
+		return {
+			stav: true,
+			id: 1,
+			name: 'Document2.pdf',
+			percentage: 0.15,
+			text:
+				'xxxxxxxxxxxxxx1Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean dapibus consequat ullamcorper. Proin a erat nunc. Aenean at gravida lorem,' +
+				' vel iaculis lorem. Quisque bibendum suscipit velit in ti1ncidunt. Quisque ut ipsum egestas risus pretium dignissim. Aliquam sit amet nibh eget felis ' +
+				'dignissim ultrices. Cras ac ultricies libero. Sed eu tincidunt leo. Vivamus vestibulum dictum nisl ac tempus. Vestibulum ante ipsum primis' +
+				' in faucibus orci luctus et ultrices posuere cubilia curae; Cras posuere consectetur nibh, vel molestie lacus finibus et. Nullam lectus mi,' +
+				' aliquam quis enim ac, elementum vehicula metus.',
 
-						matches: [
-							{
-								char_from: 15,
-								char_to: 19
-							},
-							{
-								char_from: 15,
-								char_to: 19
-							}
-						]
-					},
-					{
-						name: '2.pdf',
-						percentage: 0.45,
-						matches: [
-							{
-								char_from: 15,
-								char_to: 19
-							},
-							{
-								char_from: 15,
-								char_to: 19
-							}
-						]
-					}
-				]
-			};
+			matched_docs: [
+				{
+					name: '1.pdf',
+					percentage: 0.45,
+
+					matches: [
+						{
+							char_from: 10,
+							char_to: 20,
+						},
+						{
+							char_from: 18,
+							char_to: 40,
+						},
+					],
+				},
+				{
+					name: '2.pdf',
+					percentage: 0.45,
+					matches: [
+						{
+							char_from: 120,
+							char_to: 150,
+						},
+						{
+							char_from: 200,
+							char_to: 240,
+						},
+					],
+				},
+			],
+		};
+	},
+	computed: {
+		selectedDocument: function () {
+			return this.documents.find((doc) => doc.name === this.selectedTab);
 		},
-		computed: {
-			selectedDocument: function() {
-				return this.documents.find((doc) => doc.name === this.selectedTab);
-			}
-		}
-	};
+	},
+	methods: {
+		highlight: function (text, matched_docs) {
+			if (matched_docs.length == 0) return text;
+			var highlights = [];
+			matched_docs.forEach((matched_doc) =>
+				matched_doc.matches.forEach((match) => {
+					if (!highlights.length) {
+						highlights.push({
+							name: [matched_doc.name],
+							cfrom: match.char_from,
+							cto: match.char_to,
+						});
+					} else {
+						var i;
+						var next = 0;
+						for (i = 0; i < highlights.length; i++) {
+							if (
+								highlights[i].cto > match.char_from &&
+								highlights[i].cto < match.char_to &&
+								highlights[i].cfrom < match.char_from
+							) {
+								highlights[i].cto = match.char_to;
+								if(highlights[i].name.indexOf(matched_doc.name)){
+									highlights[i].name.push(matched_doc.name);
+								}
+								next++;
+								break;
+							}
+							if (
+								highlights[i].cfrom < match.char_from &&
+								highlights[i].cfrom < match.char_to &&
+								highlights[i].cto > match.char_to
+							) {
+								if(highlights[i].name.indexOf(matched_doc.name)){
+									highlights[i].name.push(matched_doc.name);
+								}
+								next++;
+								break;
+							}
+							if (
+								highlights[i].cfrom > match.char_from &&
+								highlights[i].cto < match.char_to
+							) {
+								highlights[i].cfrom = match.char_from;
+								highlights[i].cto = match.char_to;
+								if(highlights[i].name.indexOf(matched_doc.name)){
+									highlights[i].name.push(matched_doc.name);
+								}
+								next++;
+								break;
+							}
+							if (
+								highlights[i].cfrom > match.char_from &&
+								highlights[i].cto > match.char_to &&
+								highlights[i].cfrom < match.char_to
+							) {
+								highlights[i].cfrom = match.char_from;
+								if(highlights[i].name.indexOf(matched_doc.name)){
+									highlights[i].name.push(matched_doc.name);
+								}
+								next++;
+								break;
+							}
+
+						}
+						if (
+						next==0){
+							highlights.push({
+								name: [matched_doc.name],
+								cfrom: match.char_from,
+								cto: match.char_to,
+							});}
+						}
+				})
+			);
+
+			console.log(Object(highlights));
+
+			highlights.forEach(highlight =>{
+				var sec = highlight.cto - highlight.cfrom;
+				var regex = new RegExp('(?<=.{' + highlight.cfrom + '})(.{' + sec + '})');
+				text = text.replace(regex, (match) => {
+					return (
+						'<span class="text-red-500 font-bold">' + match + '</span>'
+					);
+				});
+			})
+			return text
+		},
+	},
+};
 </script>
 
 <style scoped>
-	.skewed-top-wrapper {
-		clip-path: ellipse(95% 100% at 50% 0%);
-	}
+.skewed-top-wrapper {
+	clip-path: ellipse(95% 100% at 50% 0%);
+}
 </style>
