@@ -9,3 +9,7 @@
 .bg-primary-gradient {
 	@apply bg-gradient-to-br from-primary-700 to-primary-900;
 }
+
+.z-9999 {
+	z-index: 9999;
+}
