@@ -1,7 +1,7 @@
 <template>
 	<div class="bg-gray-300 min-h-screen">
 		<div class="skewed-top-wrapper bg-primary-gradient text-white">
-			<Navigation />
+			<Navigation/>
 			<div
 				class="container flex justify-between items-center mx-auto pt-16 pb-32"
 			>
@@ -31,7 +31,7 @@
 						@click="$router.go(-1)"
 						class="cursor-pointer text-2xl text-gray-700 hover:text-gray-900"
 					>
-						<i class="fas fa-chevron-left" />
+						<i class="fas fa-chevron-left"/>
 						Vsetky súbory
 					</a>
 				</div>
@@ -53,10 +53,7 @@
 						<div
 							class="p-8 bg-white text-justify rounded-b-lg shadow-md"
 						>
-							<p
-								v-if="stav"
-								v-html="highlightedText"
-							></p>
+							<p v-if="stav" v-html="highlightedText"></p>
 							<div v-else>
 								<div
 									class="flex justify-between py-1 text-gray-700 text-sm font-bold border-b-2"
@@ -89,92 +86,98 @@
 </template>
 
 <script>
-import Navigation from '@/components/Navigation/Navigation';
 
-export default {
-	components: {
-		Navigation,
-	},
-	data: function () {
-		return {
-			stav: true,
-			id: 1,
-			name: 'Document2.pdf',
-			percentage: 0.15,
-			text:
-				'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean dapibus consequat ullamcorper. Proin a erat nunc. Aenean at gravida lorem,' +
-				' vel iaculis lorem. Quisque bibendum suscipit velit in ti1ncidunt. Quisque ut ipsum egestas risus pretium dignissim. Aliquam sit amet nibh eget felis ' +
-				'dignissim ultrices. Cras ac ultricies libero. Sed eu tincidunt leo. Vivamus vestibulum dictum nisl ac tempus. Vestibulum ante ipsum primis' +
-				' in faucibus orci luctus et ultrices posuere cubilia curae; Cras posuere consectetur nibh, vel molestie lacus finibus et. Nullam lectus mi,' +
-				' aliquam quis enim ac, elementum vehicula metus.',
+	import Navigation from '@/components/Navigation/Navigation';
 
-			matched_docs: [
-				{
-					name: '1.pdf',
-					percentage: 0.45,
 
-					matches: [
-						{
-							char_from: 10,
-							char_to: 20,
-						},
-						{
-							char_from: 18,
-							char_to: 40,
-						},
-					],
-				},
-				{
-					name: '2.pdf',
-					percentage: 0.45,
-					matches: [
-						{
-							char_from: 120,
-							char_to: 150,
-						},
-						{
-							char_from: 200,
-							char_to: 240,
-						},
-					],
-				},
-			],
-		};
-	},
-	computed: {
-		highlightedText: function() {
-			var indices = [];
-			this.matched_docs.forEach(matched_doc =>
-			matched_doc.matches.forEach(match =>
-				{
-					indices.push({name: matched_doc.name, from: match.char_from, to: match.char_to})
-				}
-			));
-
-			// sort intervals by length descending (to start from the longest)
-			indices.sort((a, b) => b.to - b.from - (a.to - a.from));
-
-			// get the substrings
-			const subStringsToReplace = indices.map((h) =>
-				this.text.substring(h.from, h.to + 1)
-			);
-
-			return subStringsToReplace.reduce(
-				(string, substring) =>
-					string.replace(
-						new RegExp(substring, "g"),
-						`<span class="text-red-500 font-bold">${substring}</span>`
-					),
-				this.text
-			);
+	export default {
+		components: {
+			Navigation
 		},
-	},
-};
+		data: function() {
+			return {
+				stav: true,
+				id: 1,
+				name: 'Document2.pdf',
+				percentage: 0.15,
+				text:
+					'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean dapibus consequat ullamcorper. Proin a erat nunc. Aenean at gravida lorem,' +
+					' vel iaculis lorem. Quisque bibendum suscipit <br/>velit in ti1ncidunt. Quisque ut ipsum egestas risus pretium dignissim. Aliquam sit amet nibh eget felis ' +
+					'dignissim ultrices. Cras ac ultricies libero. Sed eu tincidunt leo. Vivamus vestibulum dictum nisl ac tempus. Vestibulum ante ipsum primis' +
+					' in faucibus orci luctus et ultrices posuere cubilia curae; Cras posuere consectetur nibh, vel molestie lacus finibus et. Nullam lectus mi,' +
+					' aliquam quis enim ac, elementum vehicula metus.',
+
+				matched_docs: [
+					{
+						name: '1.pdf',
+						percentage: 0.45,
+
+						matches: [
+							{
+								char_from: 10,
+								char_to: 20
+							},
+							{
+								char_from: 18,
+								char_to: 40
+							}
+						]
+					},
+					{
+						name: '2.pdf',
+						percentage: 0.45,
+						matches: [
+							{
+								char_from: 120,
+								char_to: 150
+							},
+							{
+								char_from: 200,
+								char_to: 240
+							}
+						]
+					}
+				]
+			};
+		},
+		computed: {
+			highlightedText: function() {
+				var indices = [];
+				this.matched_docs.forEach(matched_doc =>
+					matched_doc.matches.forEach(match => {
+							indices.push({ name: matched_doc.name, from: match.char_from, to: match.char_to });
+						}
+					));
+
+				// sort intervals by length descending (to start from the longest)
+				indices.sort((a, b) => b.to - b.from - (a.to - a.from));
+
+				// get the substrings
+				const subStringsToReplace = indices.map((h) =>
+					this.text.substring(h.from, h.to + 1)
+				);
+
+				return subStringsToReplace.reduce(
+					(string, substring) =>
+						string.replace(
+							new RegExp(substring, 'g'),
+							`<span v-tooltip="'dd'" class="text-red-500 font-bold " >${substring} </span>`
+						),
+					this.text
+						.replace(/&/g, '&amp;')
+						.replace(/</g, '&lt;')
+						.replace(/>/g, '&gt;')
+						.replace(/"/g, '&quot;')
+						.replace(/'/g, '&#039;')
+				);
+
+			}
+		}
+	};
 </script>
 
 <style scoped>
-.skewed-top-wrapper {
-	clip-path: ellipse(95% 100% at 50% 0%);
-}
-
+	.skewed-top-wrapper {
+		clip-path: ellipse(95% 100% at 50% 0%);
+	}
 </style>
