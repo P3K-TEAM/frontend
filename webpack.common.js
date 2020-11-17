@@ -13,7 +13,7 @@ module.exports = {
 	resolve: {
 		extensions: ['.js', '.vue'],
 		alias: {
-			vue$: 'vue/dist/vue.runtime.min.js',
+			vue$: 'vue/dist/vue.esm.js',
 			'@': path.resolve(__dirname, './src'),
 		},
 	},
