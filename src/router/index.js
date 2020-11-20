@@ -2,9 +2,8 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Home from '../views/Home.vue';
 import Upload from '../views/Upload.vue';
-import Result from '../views/result/Result.vue';
-import ResultInfo from '../views/result/ResultInfo';
-import ResultInfoS from '../views/result/ResultInfoS';
+import Result from '../views/Result.vue';
+import Document from '../views/Document';
 
 Vue.use(VueRouter);
 
@@ -32,12 +31,8 @@ const routes = [
 				component: Result,
 			},
 			{
-				path: 'document/:id_doc',
-				component: ResultInfo,
-			},
-			{
-				path: 'sdocument/:id_doc',
-				component: ResultInfoS,
+				path: 'document/:document',
+				component: Document,
 			},
 		],
 	},
