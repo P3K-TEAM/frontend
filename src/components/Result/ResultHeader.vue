@@ -6,7 +6,7 @@
 		>
 			<div :class="{ 'w-2/3': percentage }">
 				<p class="text-4xl pb-4">
-					{{ title || 'Výsledky kontroly' }}
+					{{ title }}
 				</p>
 				<p class="text-xl">
 					{{ description }}
@@ -34,15 +34,15 @@ export default {
 		Navigation,
 	},
 	props: {
-		title: { type: String },
-		description: { type: String },
+		title: { type: String, default: 'Výsledky kontroly' },
+		description: { type: String, required: true },
 		percentage: { type: Number },
 	},
 };
 </script>
 
 <style scoped lang="scss">
-	.skewed-top-wrapper {
-		clip-path: ellipse(95% 100% at 50% 0%);
-	}
+.skewed-top-wrapper {
+	clip-path: ellipse(95% 100% at 50% 0%);
+}
 </style>
