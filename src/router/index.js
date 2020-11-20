@@ -20,7 +20,7 @@ const routes = [
 		component: Upload,
 	},
 	{
-		path: '/result/:id',
+		path: '/result/:result',
 		component: {
 			render(h) {
 				return h('router-view');

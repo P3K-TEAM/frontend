@@ -4,14 +4,15 @@
 		<div
 			class="container flex justify-between items-center mx-auto pt-16 pb-32"
 		>
-			<div class="w-2/3">
-				<p class="text-4xl pb-4">{{ name }}</p>
+			<div :class="{ 'w-2/3': percentage }">
+				<p class="text-4xl pb-4">
+					{{ title || 'Výsledky kontroly' }}
+				</p>
 				<p class="text-xl">
-					Nižšie nájdete podrobné štatistiky kontroly originality
-					vašej práce.
+					{{ description }}
 				</p>
 			</div>
-			<div class="w-1/3">
+			<div v-if="percentage" class="w-1/3">
 				<div
 					class="ml-auto text-center rounded-lg bg-primary-500 w-2/3 py-4"
 				>
@@ -27,13 +28,15 @@
 
 <script>
 import Navigation from '@/components/Navigation/Navigation';
+
 export default {
 	components: {
 		Navigation,
 	},
 	props: {
-		name: String,
-		percentage: Number,
+		title: { type: String },
+		description: { type: String },
+		percentage: { type: Number },
 	},
 };
 </script>
