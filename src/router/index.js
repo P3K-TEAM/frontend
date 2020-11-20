@@ -3,6 +3,7 @@ import VueRouter from 'vue-router';
 import Home from '../views/Home.vue';
 import Upload from '../views/Upload.vue';
 import Result from '../views/Result.vue';
+import Document from '../views/Document';
 
 Vue.use(VueRouter);
 
@@ -18,9 +19,22 @@ const routes = [
 		component: Upload,
 	},
 	{
-		path: '/result',
-		name: 'Result',
-		component: Result,
+		path: '/result/:result',
+		component: {
+			render(h) {
+				return h('router-view');
+			},
+		},
+		children: [
+			{
+				path: '/',
+				component: Result,
+			},
+			{
+				path: 'document/:document',
+				component: Document,
+			},
+		],
 	},
 ];
 
