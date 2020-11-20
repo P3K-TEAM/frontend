@@ -32,8 +32,8 @@
 					<UploadText v-else :disabled="this.files.length > 0"
 						@sendText="handleText"
 						/>				
-				<div class="text-right mt-6" type="button">
-					<button @click="submitFile"
+				<div class="text-right mt-6">
+					<button @click="submitFile" type="button"
 						class="fmt-2 text-white rounded shadow-md bg-primary-500 hover:bg-primary-400 px-8 py-2
 						cursor-pointer select-none focus:outline-none">Nahrať</button>
 				</div>
@@ -77,12 +77,15 @@ export default {
 		},
 		submitFile() {
 			let formData = new FormData();
+			let headers = '';
 
 			if (this.selectedTab == 'Nahrať súbory'){
 				this.files.forEach(file => {
 					formData.append('file', file);
 					formData.append('title', file.name);
 				});
+				headers = { 'Content-Type': 'multipart/form-data'}
+				
 				if (!this.files.length){
 					return this.$store.dispatch('AlertStore/setAlert', {
 						message: 'Nezadali ste súbor, ktorý chcete skontrolovať !',
@@ -98,7 +101,7 @@ export default {
 					content type html-www-form-encoded and plain/text and 
 					should not require the title in case of the latter.
 				*/
-
+				headers = { 'Content-Type': 'text/plain'}
 				if (!this.text.length){
 						return this.$store.dispatch('AlertStore/setAlert', {
 							message: 'Nezadali ste text, ktorý chcete skontrolovať !',
@@ -109,9 +112,7 @@ export default {
 			
 			this.$store.dispatch('setLoading',true);
 			axios.post('http://localhost:8000/file/upload/', formData, {
-				headers: {
-					'Content-Type': 'multipart/form-data',
-				}
+				headers
 			})
 			.then((res) => {
 				this.$store.dispatch('setLoading',false);
