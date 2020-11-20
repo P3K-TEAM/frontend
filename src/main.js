@@ -4,9 +4,6 @@ import store from './store';
 import App from './App.vue';
 import { VTooltip, VPopover, VClosePopover } from 'v-tooltip'
 
-Vue.directive('tooltip', VTooltip);
-Vue.directive('close-popover', VClosePopover);
-Vue.component('v-popover', VPopover);
 Vue.config.productionTip = false;
 
 // Font Awesome Icons
@@ -18,8 +15,13 @@ import '@fortawesome/fontawesome-free/js/brands';
 // Root styles
 import '@/assets/scss/app.scss';
 
-//Favicon
+// Favicon
 import '@/assets/img/favicon.ico';
+
+// v-tooltip
+Vue.directive('tooltip', VTooltip);
+Vue.directive('close-popover', VClosePopover);
+Vue.component('v-popover', VPopover);
 
 // Page title
 router.afterEach(to => {
