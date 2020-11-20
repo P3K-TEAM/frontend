@@ -14,9 +14,7 @@
 					skontrolovať. Nahrajte súbory alebo vložte text práce.
 				</h3>
 			</div>
-
-			<div class="px-20 pb-10 pt-5 space-y-8">
-				<div>
+			<div class="px-20 pb-10 pt-5">
 					<div class="flex">
 						<UploadTab
 							v-for="tab in tabs"
@@ -27,21 +25,19 @@
 						/>
 					</div>
 					<UploadFile ref="uploadfile" v-if="selectedTab === tabs[0]"
-						v-on:sendFiles="handleFiles"
-						v-on:removeFile="removeFiles"
+						@sendFiles="handleFiles"
+						@removeFile="removeFiles"
 						:files="files"
 						/>
 					<UploadText v-else :disabled="this.files.length > 0"
-						v-on:sendText="handleText"
+						@sendText="handleText"
 						/>				
-				</div>
-				<div class="text-right">
-					<button v-on:click="submitFile"
+				<div class="text-right mt-6" type="button">
+					<button @click="submitFile"
 						class="fmt-2 text-white rounded shadow-md bg-primary-500 hover:bg-primary-400 px-8 py-2
 						cursor-pointer select-none focus:outline-none">Nahrať</button>
 				</div>
-			</div>
-			 			
+			</div>			
 		</div>
 	</div>
 </template>
@@ -71,13 +67,10 @@ export default {
 	},
 	methods: {	
 		handleFiles(filesArray){
-			Object.values(filesArray).forEach(file => {
-				this.files.push(file);     
-			});
+			this.files = [...this.files, ...filesArray]
 		},
 		handleText(text){
-			this.text = this.text + text;
-			console.log(this.text)
+			this.text += text;
 		},
 		removeFiles(key){
 			this.files.splice( key, 1 );
@@ -85,25 +78,34 @@ export default {
 		submitFile() {
 			let formData = new FormData();
 
-			this.files.forEach(file => {
-				formData.append('file', file);
-				formData.append('title', file.name);
-			})
-			
-			// TODO (dmensa):
-			/*
-				Send text - the backend should differentiate between 
-				content type html-www-form-encoded and plain/text and 
-				should not require the title in case of the latter.
-			*/
-
-			if (!this.files.length && !this.text.length){
-				return this.$store.dispatch('AlertStore/setAlert', {
-					message: 'Nezadali ste súbor ani text, ktorý chcete skontrolovať !',
-					type: 'error',
-					duration: 4000,
-				});	
+			if (this.selectedTab == 'Nahrať súbory'){
+				this.files.forEach(file => {
+					formData.append('file', file);
+					formData.append('title', file.name);
+				});
+				if (!this.files.length){
+					return this.$store.dispatch('AlertStore/setAlert', {
+						message: 'Nezadali ste súbor, ktorý chcete skontrolovať !',
+						type: 'error',
+					});	
+				}
 			}
+
+			if (this.selectedTab == 'Vložiť text'){
+				// TODO (dmensa):
+				/*
+					Send text - the backend should differentiate between 
+					content type html-www-form-encoded and plain/text and 
+					should not require the title in case of the latter.
+				*/
+
+				if (!this.text.length){
+						return this.$store.dispatch('AlertStore/setAlert', {
+							message: 'Nezadali ste text, ktorý chcete skontrolovať !',
+							type: 'error',
+					});	
+				}
+			}			
 			
 			this.$store.dispatch('setLoading',true);
 			axios.post('http://localhost:8000/file/upload/', formData, {
@@ -118,7 +120,6 @@ export default {
 				this.$store.dispatch('AlertStore/setAlert', {
 					message: e.message,
 					type: 'error',
-					duration: 4000,
 				});
 			});
 		},			

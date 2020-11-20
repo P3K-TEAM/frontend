@@ -39,8 +39,8 @@
 					<p> {{ file.name }} </p>					
 				</div>
 				
-				<button class="p-2 flex justify-center items-center focus:outline-none hover:bg-gray-100 hover:text-gray-600" @click="removeFile( key )">
-					<i class="fas fa-trash text-gray-500 text-2xl hover:text-gray-600"></i>					
+				<button class="p-2 flex justify-center items-center focus:outline-none text-gray-500 hover:bg-gray-100 hover:text-gray-600" @click="removeFile( key )">
+					<i class="fas fa-trash text-2xl"></i>					
 				</button>
 				
 			</div> 
@@ -64,21 +64,15 @@ export default {
 	mounted(){
 		this.dragAndDropCapable = this.determineDragAndDropCapable();              
 		
-		// If drag and drop capable, then we continue to bind events to our elements.
 		if ( this.dragAndDropCapable ){
 			
-			// Listen to all of the drag events and bind an event listener to each for the fileform.
 			['drag', 'dragstart', 'dragend', 'dragover', 'dragenter', 'dragleave', 'drop'].forEach( function( evt ) {
-			
-			// For each event add an event listener that prevents the default action (opening the file in the browser) 
-			// and stop the propagation of the event (so no other elements open the file in the browser)		
-			this.$refs.fileform.addEventListener(evt, function(e){
-				e.preventDefault();
-				e.stopPropagation();
-			}.bind(this), false);
+				this.$refs.fileform.addEventListener(evt, function(e){
+					e.preventDefault();
+					e.stopPropagation();
+				}.bind(this), false);
 			}.bind(this));
 
-			// Add an event listener for drop to the form
 			this.$refs.fileform.addEventListener('drop', function(e){
 				this.$emit('sendFiles',e.dataTransfer.files)							
 			}.bind(this));	
