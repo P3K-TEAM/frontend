@@ -43,13 +43,3 @@ export default {
 	},
 };
 </script>
-
-<style scoped>
-.hover-trigger .hover-target {
-	display: none;
-}
-
-.hover-trigger:hover .hover-target {
-	display: block;
-}
-</style>

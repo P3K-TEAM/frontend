@@ -41,4 +41,8 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped lang="scss">
+	.skewed-top-wrapper {
+		clip-path: ellipse(95% 100% at 50% 0%);
+	}
+</style>
