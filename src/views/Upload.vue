@@ -4,31 +4,40 @@
 			class="w-screen h-screen absolute bg-primary-gradient clip-half-circle"
 		/>
 		<Navigation class="z-10" />
-		<div class="container mx-auto rounded-lg shadow-xl mt-12 bg-white z-10">
-			<div class="px-4 py-5 sm:px-6">
-				<h1 class="text-2xl leading-8 font-bold text-gray-900">
+		<div class="container mx-auto rounded-lg shadow-xl my-12 bg-white z-10">
+			<div class="px-8 pt-10 pb-2">
+				<h1 class="text-3xl leading-10 font-bold text-gray-900">
 					Kontrola plagiátorstva
 				</h1>
-				<h3 class="text-md mt-2 leading-6 text-gray-800">
+				<h3 class="text-xl mt-2 leading-8 text-gray-800">
 					Pridajte jednu alebo viac prác, ktoré si prajete
 					skontrolovať. Nahrajte súbory alebo vložte text práce.
 				</h3>
 			</div>
-
-			<div class="px-16 py-10">
-				<div class="flex">
-					<UploadTab
-						v-for="tab in tabs"
-						:key="tab"
-						:title="tab"
-						:active="tab === selectedTab"
-						@click.native="selectedTab = tab"
-					/>
+			<div class="px-20 pb-10 pt-5">
+					<div class="flex">
+						<UploadTab
+							v-for="tab in tabs"
+							:key="tab"
+							:title="tab"
+							:active="tab === selectedTab"
+							@click.native="selectedTab = tab"
+						/>
+					</div>
+					<UploadFile ref="uploadfile" v-if="selectedTab === tabs[0]"
+						@sendFiles="handleFiles"
+						@removeFile="removeFiles"
+						:files="files"
+						/>
+					<UploadText v-else :disabled="this.files.length > 0"
+						@sendText="handleText"
+						/>				
+				<div class="text-right mt-6">
+					<button @click="submitFile" type="button"
+						class="fmt-2 text-white rounded shadow-md bg-primary-500 hover:bg-primary-400 px-8 py-2
+						cursor-pointer select-none focus:outline-none">Nahrať</button>
 				</div>
-
-				<UploadFile v-if="selectedTab === tabs[0]" />
-				<UploadText v-else />
-			</div>
+			</div>			
 		</div>
 	</div>
 </template>
@@ -39,18 +48,82 @@ import UploadTab from '@/components/Upload/UploadTab.vue';
 import UploadFile from '@/components/Upload/UploadFile.vue';
 import UploadText from '@/components/Upload/UploadText.vue';
 
+import axios from 'axios';
+
 export default {
 	components: {
 		Navigation,
 		UploadTab,
 		UploadFile,
-		UploadText,
+		UploadText,	
 	},
 	data: function () {
 		return {
 			selectedTab: '',
 			tabs: ['Nahrať súbory', 'Vložiť text'],
+			files: [],
+			text: '',
 		};
+	},
+	methods: {	
+		handleFiles(filesArray){
+			this.files = [...this.files, ...filesArray]
+		},
+		handleText(text){
+			this.text += text;
+		},
+		removeFiles(key){
+			this.files.splice( key, 1 );
+		},
+		submitFile() {
+			let formData = new FormData();
+			let headers = '';
+
+			if (this.selectedTab == 'Nahrať súbory'){
+				this.files.forEach(file => {
+					formData.append('file', file);
+					formData.append('title', file.name);
+				});
+				headers = { 'Content-Type': 'multipart/form-data'}
+				
+				if (!this.files.length){
+					return this.$store.dispatch('AlertStore/setAlert', {
+						message: 'Nezadali ste súbor, ktorý chcete skontrolovať !',
+						type: 'error',
+					});	
+				}
+			}
+
+			if (this.selectedTab == 'Vložiť text'){
+				// TODO (dmensa):
+				/*
+					Send text - the backend should differentiate between 
+					content type html-www-form-encoded and plain/text and 
+					should not require the title in case of the latter.
+				*/
+				headers = { 'Content-Type': 'text/plain'}
+				if (!this.text.length){
+						return this.$store.dispatch('AlertStore/setAlert', {
+							message: 'Nezadali ste text, ktorý chcete skontrolovať !',
+							type: 'error',
+					});	
+				}
+			}			
+			
+			this.$store.dispatch('setLoading',true);
+			axios.post('http://localhost:8000/file/upload/', formData, {
+				headers
+			})
+			.then((res) => {
+				this.$store.dispatch('setLoading',false);
+			})
+			.catch((e) => {
+				this.$store.dispatch('AlertStore/setAlert', {
+					message: e.message,
+					type: 'error',
+				});
+			});
+		},			
 	},
 	mounted() {
 		this.selectedTab = this.tabs[0];
@@ -58,8 +131,10 @@ export default {
 };
 </script>
 
+
 <style>
 .clip-half-circle {
 	clip-path: ellipse(30% 100% at 22% 50%);
 }
+
 </style>
