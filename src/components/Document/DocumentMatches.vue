@@ -11,11 +11,20 @@
 			v-for="match in matches"
 			:key="match.name"
 			class="flex justify-between py-5 text-black bg-white border-b-2 border-gray-400"
+			data-test-id="documentMatchesItem"
 		>
-			<span class="pl-5 w-2/3">
+			<span
+				class="pl-5 w-2/3"
+				data-test-id="documentMatchesItemName"
+			>
 				{{ match.name }}
 			</span>
-			<span class="w-1/3 text-center"> {{ match.percentage }} % </span>
+			<span
+				class="w-1/3 text-center"
+				data-test-id="documentMatchesItemPercentage"
+			>
+				{{ match.percentage }} %
+			</span>
 		</div>
 	</div>
 </template>
@@ -23,7 +32,10 @@
 <script>
 export default {
 	props: {
-		matches: { type: Array },
+		matches: {
+			type: Array,
+			required: true,
+		},
 	},
 };
 </script>
