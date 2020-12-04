@@ -124,11 +124,11 @@ module.exports = {
 				);
 				context.commit(
 					'SET_CONFIRMATION_TEXT',
-					payload.confirmation?.text
+					payload.confirmation.text
 				);
 				context.commit(
 					'SET_CONFIRMATION_CALLBACK',
-					payload.confirmation?.callback
+					payload.confirmation.callback
 				);
 			}
 
