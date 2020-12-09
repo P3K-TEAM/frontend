@@ -27,7 +27,7 @@ Vue.component('v-popover', VPopover);
 // Page title
 router.afterEach((to) => {
 	Vue.nextTick(() => {
-		document.title = `${to.name ? `${to.name} | ` : ''}AntiPlag`;
+		document.title = `${to.meta && to.meta.title ? `${to.meta.title} | ` : ''}AntiPlag`;
 	});
 });
 
