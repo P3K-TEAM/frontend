@@ -9,13 +9,15 @@
 						? 'Text môžete zadať len ak nemáte vložený súbor'
 						: 'Sem skopírujte text Vašej práce...'
 				"
-				@change="handleTextChange"
+				@input="handleTextChange"
 			></textarea>
 		</form>
 	</div>
 </template>
 
 <script>
+import { debounce } from 'lodash';
+
 export default {
 	props: {
 		disabled: {
@@ -24,9 +26,9 @@ export default {
 		},
 	},
 	methods: {
-		handleTextChange(event) {
-			this.$emit('text-change', event.data);
-		},
+		handleTextChange: debounce(function (event) {
+			this.$emit('text-change', event.target.value);
+		}, 500),
 	},
 };
 </script>
