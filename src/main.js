@@ -2,7 +2,8 @@ import Vue from 'vue';
 import router from './router';
 import store from './store';
 import App from './App.vue';
-import { VTooltip, VPopover, VClosePopover } from 'v-tooltip'
+import { VTooltip, VPopover, VClosePopover } from 'v-tooltip';
+import axios from 'axios';
 
 Vue.config.productionTip = false;
 
@@ -24,14 +25,18 @@ Vue.directive('close-popover', VClosePopover);
 Vue.component('v-popover', VPopover);
 
 // Page title
-router.afterEach(to => {
+router.afterEach((to) => {
 	Vue.nextTick(() => {
 		document.title = `${to.name ? `${to.name} | ` : ''}AntiPlag`;
 	});
 });
 
+Vue.prototype.$axios = axios.create({
+	baseURL: 'http://localhost:8000',
+});
+
 new Vue({
 	router,
 	store,
-	render: h => h(App)
+	render: (h) => h(App),
 }).$mount('#app');
