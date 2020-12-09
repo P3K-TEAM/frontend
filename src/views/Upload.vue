@@ -119,8 +119,11 @@ export default {
 				.post('upload/', isFileUpload ? formData : this.text, {
 					headers,
 				})
-				.then(() => {
-					this.$store.dispatch('setLoading', false);
+				.then((response) => {
+					this.$router.push({
+						name: 'result',
+						params: { result: response.data.id },
+					});
 				})
 				.catch((e) => {
 					this.$store.dispatch('AlertStore/setAlert', {
