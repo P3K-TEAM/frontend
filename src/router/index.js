@@ -10,13 +10,14 @@ Vue.use(VueRouter);
 const routes = [
 	{
 		path: '/',
-		name: 'Domov',
+		name: 'home',
 		component: Home,
 	},
 	{
 		path: '/upload',
-		name: 'Upload',
+		name: 'upload',
 		component: Upload,
+		meta: { title: 'Nahrať dokument' },
 	},
 	{
 		path: '/result/:result',
@@ -29,10 +30,13 @@ const routes = [
 			{
 				path: '/',
 				component: Result,
+				name: 'result',
+				meta: { title: 'Výsledky kontroly' },
 			},
 			{
 				path: 'document/:document',
 				component: Document,
+				meta: { title: 'Dokument' },
 			},
 		],
 	},
