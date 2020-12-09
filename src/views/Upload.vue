@@ -93,7 +93,7 @@ export default {
 			if (isFileUpload) {
 				headers = { 'Content-Type': 'multipart/form-data' };
 
-				this.files.forEach((file) => formData.append('file', file));
+				this.files.forEach((file) => formData.append('files', file));
 
 				if (!this.files.length) {
 					return this.$store.dispatch('AlertStore/setAlert', {
