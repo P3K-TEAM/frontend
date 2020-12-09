@@ -15,29 +15,36 @@
 				</h3>
 			</div>
 			<div class="px-20 pb-10 pt-5">
-					<div class="flex">
-						<UploadTab
-							v-for="tab in tabs"
-							:key="tab"
-							:title="tab"
-							:active="tab === selectedTab"
-							@click.native="selectedTab = tab"
-						/>
-					</div>
-					<UploadFile ref="uploadfile" v-if="selectedTab === tabs[0]"
-						@sendFiles="handleFiles"
-						@removeFile="removeFiles"
-						:files="files"
-						/>
-					<UploadText v-else :disabled="this.files.length > 0"
-						@sendText="handleText"
-						/>				
-				<div class="text-right mt-6">
-					<button @click="submitFile" type="button"
-						class="fmt-2 text-white rounded shadow-md bg-primary-500 hover:bg-primary-400 px-8 py-2
-						cursor-pointer select-none focus:outline-none">Nahrať</button>
+				<div class="flex">
+					<UploadTab
+						v-for="tab in tabs"
+						:key="tab"
+						:title="tab"
+						:active="tab === selectedTab"
+						@click.native="selectedTab = tab"
+					/>
 				</div>
-			</div>			
+				<UploadFile
+					v-if="selectedTab === tabs[0]"
+					:files="files"
+					@update-files="updateFileList"
+					@remove-file="removeFile"
+				/>
+				<UploadText
+					v-else
+					:disabled="files.length > 0"
+					@text-change="updateText"
+				/>
+				<div class="text-right mt-6">
+					<button
+						type="button"
+						class="fmt-2 text-white rounded shadow-md bg-primary-500 hover:bg-primary-400 px-8 py-2 cursor-pointer select-none focus:outline-none"
+						@click="submitForm"
+					>
+						Nahrať
+					</button>
+				</div>
+			</div>
 		</div>
 	</div>
 </template>
@@ -55,7 +62,7 @@ export default {
 		Navigation,
 		UploadTab,
 		UploadFile,
-		UploadText,	
+		UploadText,
 	},
 	data: function () {
 		return {
@@ -65,76 +72,77 @@ export default {
 			text: '',
 		};
 	},
-	methods: {	
-		handleFiles(filesArray){
-			this.files = [...this.files, ...filesArray]
+	mounted() {
+		this.selectedTab = this.tabs[0];
+	},
+	methods: {
+		updateFileList(fileArray) {
+			this.files = [...this.files, ...fileArray];
 		},
-		handleText(text){
-			this.text += text;
+		updateText(text) {
+			this.text = text;
 		},
-		removeFiles(key){
-			this.files.splice( key, 1 );
+		removeFile(key) {
+			this.files.splice(key, 1);
 		},
-		submitFile() {
+		submitForm() {
 			let formData = new FormData();
 			let headers = '';
 
-			if (this.selectedTab == 'Nahrať súbory'){
-				this.files.forEach(file => {
+			if (this.selectedTab == 'Nahrať súbory') {
+				this.files.forEach((file) => {
 					formData.append('file', file);
 					formData.append('title', file.name);
 				});
-				headers = { 'Content-Type': 'multipart/form-data'}
-				
-				if (!this.files.length){
+				headers = { 'Content-Type': 'multipart/form-data' };
+
+				if (!this.files.length) {
 					return this.$store.dispatch('AlertStore/setAlert', {
-						message: 'Nezadali ste súbor, ktorý chcete skontrolovať !',
+						message:
+							'Nezadali ste súbor, ktorý chcete skontrolovať !',
 						type: 'error',
-					});	
+					});
 				}
 			}
 
-			if (this.selectedTab == 'Vložiť text'){
+			if (this.selectedTab == 'Vložiť text') {
 				// TODO (dmensa):
 				/*
 					Send text - the backend should differentiate between 
 					content type html-www-form-encoded and plain/text and 
 					should not require the title in case of the latter.
 				*/
-				headers = { 'Content-Type': 'text/plain'}
-				if (!this.text.length){
-						return this.$store.dispatch('AlertStore/setAlert', {
-							message: 'Nezadali ste text, ktorý chcete skontrolovať !',
-							type: 'error',
-					});	
+				headers = { 'Content-Type': 'text/plain' };
+				if (!this.text.length) {
+					return this.$store.dispatch('AlertStore/setAlert', {
+						message:
+							'Nezadali ste text, ktorý chcete skontrolovať !',
+						type: 'error',
+					});
 				}
-			}			
-			
-			this.$store.dispatch('setLoading',true);
-			axios.post('http://localhost:8000/file/upload/', formData, {
-				headers
-			})
-			.then((res) => {
-				this.$store.dispatch('setLoading',false);
-			})
-			.catch((e) => {
-				this.$store.dispatch('AlertStore/setAlert', {
-					message: e.message,
-					type: 'error',
+			}
+
+			this.$store.dispatch('setLoading', true);
+			axios
+				.post('http://localhost:8000/file/upload/', formData, {
+					headers,
+				})
+				.then((res) => {
+					this.$store.dispatch('setLoading', false);
+				})
+				.catch((e) => {
+					this.$store.dispatch('AlertStore/setAlert', {
+						message: e.message,
+						type: 'error',
+					});
 				});
-			});
-		},			
-	},
-	mounted() {
-		this.selectedTab = this.tabs[0];
+		},
 	},
 };
 </script>
-
 
 <style>
 .clip-half-circle {
 	clip-path: ellipse(30% 100% at 22% 50%);
 }
-
 </style>

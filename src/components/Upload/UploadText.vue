@@ -1,17 +1,19 @@
 <template>
-	<div
-		class="px-6 py-6 border-2 40vh border-gray-300 bg-white"
-	>
-		<form ref="form">
-			<textarea :disabled="disabled"
-				@change="handleText"
+	<div class="px-6 py-6 border-2 40vh border-gray-300 bg-white">
+		<form>
+			<textarea
 				class="w-full h-64 md:text-md focus:outline-none bg-white"
-				:placeholder="disabled ? 'Text môžete zadať len ak nemáte vložený súbor' : 'Sem skopírujte text Vašej práce...' "	
-			></textarea>	
+				:disabled="disabled"
+				:placeholder="
+					disabled
+						? 'Text môžete zadať len ak nemáte vložený súbor'
+						: 'Sem skopírujte text Vašej práce...'
+				"
+				@change="handleTextChange"
+			></textarea>
 		</form>
 	</div>
 </template>
-
 
 <script>
 export default {
@@ -19,12 +21,12 @@ export default {
 		disabled: {
 			type: Boolean,
 			default: false,
-		}
+		},
 	},
 	methods: {
-		handleText(event){
-			this.$emit('sendText', event.data);
-		}		
-	}	
-}
+		handleTextChange(event) {
+			this.$emit('text-change', event.data);
+		},
+	},
+};
 </script>
