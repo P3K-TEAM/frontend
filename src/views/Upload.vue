@@ -86,15 +86,14 @@ export default {
 			this.files.splice(key, 1);
 		},
 		submitForm() {
-			let formData = new FormData();
+			const formData = new FormData();
 			let headers = '';
+			const isFileUpload = this.selectedTab === this.tabs[0];
 
-			if (this.selectedTab == 'Nahrať súbory') {
-				this.files.forEach((file) => {
-					formData.append('file', file);
-					formData.append('title', file.name);
-				});
+			if (isFileUpload) {
 				headers = { 'Content-Type': 'multipart/form-data' };
+
+				this.files.forEach((file) => formData.append('file', file));
 
 				if (!this.files.length) {
 					return this.$store.dispatch('AlertStore/setAlert', {
@@ -103,16 +102,9 @@ export default {
 						type: 'error',
 					});
 				}
-			}
-
-			if (this.selectedTab == 'Vložiť text') {
-				// TODO (dmensa):
-				/*
-					Send text - the backend should differentiate between 
-					content type html-www-form-encoded and plain/text and 
-					should not require the title in case of the latter.
-				*/
+			} else {
 				headers = { 'Content-Type': 'text/plain' };
+
 				if (!this.text.length) {
 					return this.$store.dispatch('AlertStore/setAlert', {
 						message:
@@ -123,11 +115,11 @@ export default {
 			}
 
 			this.$store.dispatch('setLoading', true);
-			axios
-				.post('http://localhost:8000/file/upload/', formData, {
+			this.$axios
+				.post('upload/', isFileUpload ? formData : this.text, {
 					headers,
 				})
-				.then((res) => {
+				.then(() => {
 					this.$store.dispatch('setLoading', false);
 				})
 				.catch((e) => {
