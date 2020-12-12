@@ -116,7 +116,7 @@ export default {
 
 			this.$store.dispatch('setLoading', true);
 			this.$axios
-				.post('upload/', isFileUpload ? formData : this.text, {
+				.post('api/submissions/', isFileUpload ? formData : this.text, {
 					headers,
 				})
 				.then((response) => {
