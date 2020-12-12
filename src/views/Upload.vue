@@ -55,8 +55,6 @@ import UploadTab from '@/components/Upload/UploadTab.vue';
 import UploadFile from '@/components/Upload/UploadFile.vue';
 import UploadText from '@/components/Upload/UploadText.vue';
 
-import axios from 'axios';
-
 export default {
 	components: {
 		Navigation,
@@ -120,7 +118,7 @@ export default {
 					headers,
 				})
 				.then((response) => {
-					this.$router.push({
+					return this.$router.push({
 						name: 'result',
 						params: { result: response.data.id },
 					});
