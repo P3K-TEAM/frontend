@@ -59,7 +59,11 @@ export default {
 			// if single document, redirect to the detail
 			if (this.documents && this.documents.length === 1) {
 				return this.$router.push({
-					path: `/result/${this.id}/document/${this.documents[0].id}`,
+					name: 'document',
+					params: {
+						result: this.id,
+						document: this.documents[0].id,
+					},
 				});
 			}
 
