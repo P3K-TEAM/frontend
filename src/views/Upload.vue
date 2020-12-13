@@ -55,8 +55,6 @@ import UploadTab from '@/components/Upload/UploadTab.vue';
 import UploadFile from '@/components/Upload/UploadFile.vue';
 import UploadText from '@/components/Upload/UploadText.vue';
 
-import axios from 'axios';
-
 export default {
 	components: {
 		Navigation,
@@ -116,11 +114,11 @@ export default {
 
 			this.$store.dispatch('setLoading', true);
 			this.$axios
-				.post('upload/', isFileUpload ? formData : this.text, {
+				.post('api/submissions/', isFileUpload ? formData : this.text, {
 					headers,
 				})
 				.then((response) => {
-					this.$router.push({
+					return this.$router.push({
 						name: 'result',
 						params: { result: response.data.id },
 					});
