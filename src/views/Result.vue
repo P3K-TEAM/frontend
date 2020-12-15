@@ -73,7 +73,7 @@ export default {
 	methods: {
 		fetchResult(id) {
 			return this.$axios
-				.get(`api/submissions/${id}`)
+				.get(`/api/submissions/${id}`)
 				.then((response) => response.data)
 				.catch((e) => {
 					this.$store.dispatch('AlertStore/setAlert', {

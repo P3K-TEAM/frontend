@@ -96,7 +96,7 @@ export default {
 	methods: {
 		fetch(id) {
 			return this.$axios
-				.get(`api/documents/${id}`)
+				.get(`/api/documents/${id}`)
 				.then((response) => response.data)
 				.catch((e) => {
 					this.$store.dispatch('AlertStore/setAlert', {
