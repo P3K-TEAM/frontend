@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/no-v-html -->
 <template>
 	<div v-if="isActive" class="bg-white p-6 rounded relative">
 		<a
@@ -5,7 +6,7 @@
 			class="text-gray-600 text-base absolute right-0 top-0 flex justify-center items-center h-8 w-8"
 			@click.prevent="dismiss"
 		>
-			<i class="fas fa-times"></i>
+			<i class="fas fa-times" />
 		</a>
 
 		<template v-if="type === 'html'">

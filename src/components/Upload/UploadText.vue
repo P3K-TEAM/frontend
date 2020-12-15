@@ -10,7 +10,7 @@
 						: 'Sem skopírujte text Vašej práce...'
 				"
 				@input="handleTextChange"
-			></textarea>
+			/>
 		</form>
 	</div>
 </template>

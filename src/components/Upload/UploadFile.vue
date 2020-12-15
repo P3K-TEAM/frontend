@@ -26,7 +26,7 @@
 									multiple
 									class="hidden"
 									@change="handleFileUpload"
-								/>
+								>
 							</label>
 						</div>
 					</div>
@@ -58,15 +58,16 @@
 
 <script>
 export default {
+	props: {
+		files: {
+			type: Array,
+			required: true,
+		},
+	},
 	data() {
 		return {
 			dragAndDropCapable: false,
 		};
-	},
-	props: {
-		files: {
-			type: Array,
-		},
 	},
 	mounted() {
 		this.dragAndDropCapable = this.determineDragAndDropCapable();

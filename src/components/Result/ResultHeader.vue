@@ -36,7 +36,7 @@ export default {
 	props: {
 		title: { type: String, default: 'Výsledky kontroly' },
 		description: { type: String, required: true },
-		percentage: { type: Number },
+		percentage: { type: Number, default: 0 },
 	},
 };
 </script>
