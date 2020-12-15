@@ -16,9 +16,6 @@ import '@fortawesome/fontawesome-free/js/brands';
 // Root styles
 import '@/assets/scss/app.scss';
 
-// Favicon
-import '@/assets/img/favicon.ico';
-
 // v-tooltip
 Vue.directive('tooltip', VTooltip);
 Vue.directive('close-popover', VClosePopover);

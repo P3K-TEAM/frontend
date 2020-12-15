@@ -16,7 +16,7 @@ module.exports = {
 			.end();
 
 		config.plugin('html').tap((args) => {
-			args[0].title = 'AntiPlag - Frontend';
+			args[0].title = 'AntiPlag';
 			args[0].template = 'src/index.html';
 			args[0].favicon = 'src/assets/img/favicon.ico';
 			return args;
