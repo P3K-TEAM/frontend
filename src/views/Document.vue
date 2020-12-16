@@ -25,7 +25,7 @@
 				<div
 					class="flex items-center justify-between p-4 h-16 bg-primary-500 text-white text-2xl rounded-t-lg"
 				>
-					<span v-if="!isMultiple" class="text-3xl">
+					<span v-if="isMultiple" class="text-3xl">
 						{{ document.name }}
 					</span>
 					<button
@@ -86,24 +86,28 @@ export default {
 		this.id = this.$route.params.document;
 
 		// fetch data from BE
-		return this.fetch(this.id).then((response) => {
-			this.isMultiple = response.is_multiple;
-			this.submissionId = response.submission_id;
-			this.document = response.document;
-			this.$store.dispatch('setLoading', false);
-		});
+		return this.fetch(this.id)
+			.then((response) => {
+				this.isMultiple = response.is_multiple;
+				this.submissionId = response.submission_id;
+				this.document = response.document;
+			})
+			.catch((e) => {
+				this.$store.dispatch('AlertStore/setAlert', {
+					message: e.message,
+					type: 'error',
+					duration: 10000,
+				});
+			})
+			.finally(() => {
+				this.$store.dispatch('setLoading', false);
+			});
 	},
 	methods: {
 		fetch(id) {
 			return this.$axios
 				.get(`/api/documents/${id}`)
-				.then((response) => response.data)
-				.catch((e) => {
-					this.$store.dispatch('AlertStore/setAlert', {
-						message: e.message,
-						type: 'error',
-					});
-				});
+				.then((response) => response.data);
 		},
 		highlightedText: function () {
 			const indices = this.document.matched_docs
