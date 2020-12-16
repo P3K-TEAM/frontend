@@ -1,5 +1,5 @@
 <template>
-	<div class="bg-gray-300 min-h-screen">
+	<div class="bg-gray-300">
 		<ResultHeader
 			:percentage="document ? document.result.percentage : undefined"
 			:title="
@@ -7,7 +7,7 @@
 			"
 			description="Nižšie nájdete podrobné štatistiky kontroly originality vašej práce"
 		/>
-		<div v-if="document" class="px-6 md:px-0 container mx-auto mt-20">
+		<div v-if="document" class="px-6 md:px-0 container mx-auto my-20">
 			<a
 				v-if="isMultiple"
 				class="flex items-center p-2 mb-2 cursor-pointer text-2xl text-gray-600 hover:text-gray-700"
