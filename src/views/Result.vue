@@ -36,41 +36,63 @@ export default {
 	created: function () {
 		this.SubmissionStatus = SubmissionStatus;
 	},
-	mounted: function () {
+	mounted() {
 		// initial spinner
 		this.$store.dispatch('setLoading', true);
 		// get id from route
 		this.id = this.$route.params.result;
-		// fetch data from BE
-		this.fetchResult(this.id).then((result) => {
+		return this.retry(
+			() => this.fetchResult(this.id),
+			(result) => result.status === this.SubmissionStatus.PROCESSED
+		).then((result) => {
 			this.status = result.status;
 			this.documents = result.documents;
-
 			// If no documents are present even though the submission is processed
-			if (
-				this.status === this.SubmissionStatus.PROCESSED &&
-				!this.documents
-			)
+			if (!this.documents) {
 				this.$store.dispatch('AlertStore/setAlert', {
 					message: 'No documents found. Please contact administrator',
 					type: 'error',
 				});
-
+			}
 			// if single document, redirect to the detail
 			if (this.documents && this.documents.length === 1) {
 				return this.$router.push({
 					path: `/result/${this.id}/document/${this.documents[0].id}`,
 				});
 			}
-
 			this.$store.dispatch('setLoading', false);
 		});
 	},
 	methods: {
+		// generic function for retrying demand
+		retry(fn, conditionFn, waitingInterval = 3500, maxRetries = 10) {
+			const tryToGetResult = (retry) => {
+				return fn().then((result) => {
+					if (conditionFn(result)) {
+						return result;
+					}
+					if (retry <= maxRetries) {
+						// sleep the specified time
+						return this.sleep(waitingInterval).then(() =>
+							tryToGetResult(retry + 1)
+						);
+					} else {
+						throw new Error('Retrying failed!!!');
+					}
+				});
+			};
+			// start retrying function
+			return tryToGetResult(1);
+		},
+		sleep(ms) {
+			return new Promise((resolve) => setTimeout(resolve, ms));
+		},
 		fetchResult(id) {
 			return this.$axios
 				.get(`api/submissions/${id}`)
-				.then((response) => response.data)
+				.then((response) => {
+					return response.data;
+				})
 				.catch((e) => {
 					this.$store.dispatch('AlertStore/setAlert', {
 						message: e.message,
