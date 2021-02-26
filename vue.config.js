@@ -8,13 +8,6 @@ module.exports = {
 		port: 8080,
 	},
 	chainWebpack: (config) => {
-		config.module
-			.rule('ico')
-			.test(/\.ico$/)
-			.use('url-loader')
-			.loader('url-loader')
-			.end();
-
 		config.plugin('html').tap((args) => {
 			args[0].title = 'AntiPlag';
 			args[0].template = 'src/index.html';
