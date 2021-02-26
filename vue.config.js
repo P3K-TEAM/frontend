@@ -2,19 +2,13 @@ module.exports = {
 	publicPath: '/',
 	outputDir: 'dist',
 	filenameHashing: process.env.NODE_ENV !== 'production',
+	productionSourceMap: false,
 	lintOnSave: true,
 	runtimeCompiler: true,
 	devServer: {
 		port: 8080,
 	},
 	chainWebpack: (config) => {
-		config.module
-			.rule('ico')
-			.test(/\.ico$/)
-			.use('url-loader')
-			.loader('url-loader')
-			.end();
-
 		config.plugin('html').tap((args) => {
 			args[0].title = 'AntiPlag';
 			args[0].template = 'src/index.html';
