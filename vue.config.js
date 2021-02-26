@@ -2,6 +2,7 @@ module.exports = {
 	publicPath: '/',
 	outputDir: 'dist',
 	filenameHashing: process.env.NODE_ENV !== 'production',
+	productionSourceMap: false,
 	lintOnSave: true,
 	runtimeCompiler: true,
 	devServer: {
