@@ -1,20 +1,20 @@
 <template>
 	<router-link
 		:to="'document/' + document.id"
-		class="flex items-center mb-3 px-2 py-3 text-black bg-white hover:bg-gray-200 shadow rounded-lg group"
+		class="flex items-center mb-1 md:mb-3 md:mx-6 px-2 py-1 md:py-3 text-xs md:text-lg text-black bg-white hover:bg-gray-200 shadow rounded-sm md:rounded-lg group"
 		append
 	>
-		<div class="w-6/12">
-			<i class="w-8 text-center mx-2" :class="getIcon(document.name)" />
+		<div class="w-5/12 md:w-6/12 truncate pr-2">
+			<i class="w-4 md:w-8 text-center mx-2" :class="getIcon(document.name)" />
 			<span>
 				{{ document.name }}
 			</span>
 		</div>
-		<span class="w-3/12 text-center"> {{ document.percentage }}% </span>
-		<span class="w-2/12 text-center">
+		<span class="w-4/12 md:w-3/12 truncate text-center"> {{ document.percentage }}% </span>
+		<span class="w-3/12 md:w-2/12 truncate text-center">
 			{{ document.matches }}
 		</span>
-		<div class="flex justify-end w-1/12 mr-4">
+		<div class="hidden md:flex justify-end md:w-1/12 mr-4">
 			<i
 				class="fas fa-angle-right invisible group-hover:visible text-2xl text-gray-500"
 			/>
@@ -32,10 +32,10 @@ export default {
 			const match = text.match(regex);
 			switch (match[0]) {
 				case '.pdf':
-					return 'fas fa-file-pdf text-red-500 text-2xl';
+					return 'fas fa-file-pdf text-red-500 text-base md:text-2xl';
 				case '.docx':
 				case '.doc':
-					return 'fas fa-file text-blue-500 text-2xl';
+					return 'fas fa-file text-blue-500 text-base md:text-2xl';
 				default:
 					return 'fas fa-file text-2x ';
 			}

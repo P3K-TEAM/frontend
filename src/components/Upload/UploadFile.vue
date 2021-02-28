@@ -1,23 +1,25 @@
 <template>
-	<div class="space-y-6">
+	<div class="space-y-2 md:space-y-6">
 		<div class="border-3 border-gray-400 border-dashed 40vh">
 			<div class="flex flex-col justify-center bg-white">
 				<form ref="fileForm">
 					<div
-						class="flex flex-col justify-center items-center space-y-2 py-8"
+						class="flex flex-col justify-center items-center md:space-y-2 py-8"
 					>
+						<span>
 						<i
-							class="fa fa-cloud-upload-alt text-gray-400 text-6xl"
+							class="hidden md:flex fa fa-cloud-upload-alt text-gray-400 text-6xl"
 						/>
+						</span>
 						<h2
-							class="text-xl font-semibold leading-6 text-gray-800"
+							class="hidden md:flex text-xl font-semibold leading-6 text-center text-gray-800"
 						>
 							Pretiahnite súbory sem
 						</h2>
-						<span class="text-md text-gray-600"> alebo </span>
+						<span class="hidden md:flex text-base text-gray-600"> alebo </span>
 						<div>
 							<label
-								class="flex text-white rounded shadow-md bg-primary-500 hover:bg-primary-400 px-6 py-2 cursor-pointer select-none focus:outline-none"
+								class="flex text-white text-center text-lg md:text-base py-2 px-4 md:px-6 rounded shadow-md bg-primary-500 hover:bg-primary-400 cursor-pointer select-none focus:outline-none"
 							>
 								Vybrať súbory
 								<input
@@ -34,7 +36,7 @@
 			</div>
 		</div>
 
-		<div v-show="!!files.length" class="overflow-auto h-40 bg-white">
+		<div v-show="!!files.length" class="md:overflow-auto md:h-40 bg-white">
 			<div
 				v-for="(file, key) in files"
 				:key="key"

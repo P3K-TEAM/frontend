@@ -2,7 +2,7 @@
 	<div class="px-6 py-6 border-2 40vh border-gray-300 bg-white">
 		<form>
 			<textarea
-				class="w-full h-64 md:text-md focus:outline-none bg-white"
+				class="w-full md:h-64 md:text-md focus:outline-none bg-white"
 				:disabled="disabled"
 				:placeholder="
 					disabled

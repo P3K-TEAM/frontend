@@ -3,57 +3,58 @@
 		<div class="flex flex-col min-h-screen bg-primary-gradient">
 			<Navigation />
 			<div
-				class="flex flex-1 h-full items-center container mx-auto h-full"
+				class="flex flex-1 h-full items-center container mx-auto w-full"
 			>
-				<div class="w-2/3 text-white">
+				<div class="mt-4 md:mt-0 px-8 md:px-6 flex flex-col items-center md:items-start w-full md:w-2/3 text-white text-center md:text-left">
 					<h1
-						class="text-8xl leading-tight font-bold tracking-widest"
+						class="text-5xl md:text-8xl leading-normal md:leading-tight font-bold w-full text-left tracking-widest"
 					>
 						Nebuďte<br>ako kapitán!
 					</h1>
-					<p class="my-12 text-xl font-hairline text-justify">
+					<p class="my-10 md:my-12 text-2xl md:text-xl leading-relaxed md:leading-normal font-hairline text-justify">
 						Po odovzdaní práce už niet cesty späť. Buď ste plagiátor
 						alebo nie. Náš systém vám to ale môže povedať skôr aby
 						ste to dokázali včas zmeniť. Povie Vám na koľko percent
 						máte zhodu v dokumente.
 					</p>
 
-					<div class="flex">
+					<div class="flex items-center w-full md:w-auto mt-2">
 						<router-link
 							to="/upload"
-							class="flex flex-none items-center justify-center px-8 py-3 rounded-lg focus:outline-none bg-primary-500 hover:bg-primary-400"
+							class="flex md:flex-none w-full md:w-auto items-center justify-center text-3xl md:text-2xl 
+							 px-5 md:px-8 py-3 rounded-lg focus:outline-none bg-primary-500 hover:bg-primary-400"
 						>
 							Skontrolovať moju prácu
-							<i class="fas fa-angle-right ml-3" />
+							<i class="hidden md:flex fas fa-angle-right ml-3" />
 						</router-link>
 					</div>
 				</div>
 			</div>
 			<div
 				ref="caret"
-				class="flex justify-center text-white text-4xl pb-10 cursor-pointer"
+				class="flex justify-center text-white text-4xl pb-6 md:pb-10 pt-6 md:pt-4 cursor-pointer"
 				@click="$refs.caret.scrollIntoView()"
 			>
 				<i class="fas fa-angle-down" />
 			</div>
 		</div>
 		<div class="bg-white">
-			<div class="container flex mx-auto py-32">
-				<div class="w-1/2 flex items-center justify-center">
-					<div class="w-3/5 text-center">
+			<div class="container flex flex-col items-center px-10 md:px-0 md:flex-row mx-auto py-8 md:py-32">
+				<div class="w-full md:w-1/2 flex items-center justify-center leading-relaxed sm:leading-normal">
+					<div class="w-full md:w-3/5 text-center">
 						<h2 class="font-bold text-4xl">
 							Vložte celé súbory alebo skopírujte text
 						</h2>
-						<p class="mt-5 text-xl">
+						<p class="mt-5 text-lg sm:text-xl">
 							Lorem ipsum dolor sit amet, consectetur adipiscing
 							elit. Nulla semper odio quis pulvinar mattis. Sed
 							vulputate arcu.
 						</p>
 					</div>
 				</div>
-				<div class="flex w-1/2 items-center justify-center">
+				<div class="flex w-full md:w-1/2 mt-5 md:mt-0 items-center justify-center">
 					<img
-						class="w-2/3 h-auto"
+						class="w-full md:w-2/3 h-auto"
 						src="../assets/img/image1.png"
 						alt="App Preview - Upload"
 					>
@@ -61,40 +62,40 @@
 			</div>
 
 			<div
-				class="container justify-between mx-auto mb-32 flex text-white"
+				class="container flex flex-col items-center md:items-stretch md:flex-row justify-between px-10 md:px-6 mx-auto mb-8 md:mb-32 text-white"
 			>
 				<div
-					class="w-1/3 mr-4 text-center bg-primary-700 rounded-xl shadow-xl p-10"
+					class="w-full md:w-1/3 mx-0 md:mr-4 my-4 md:my-0 text-center bg-primary-700 rounded-xl shadow-xl p-3 md:p-6 lg:p-10"
 				>
 					<div class="mx-auto">
-						<h3 class="font-bold text-6xl mb-4 leading-none">
+						<h3 class="font-bold text-4xl md:text-6xl mb-2 md:mb-4 leading-none">
 							5 minút
 						</h3>
-						<p class="text-xl">
+						<p class="text-lg md:text-xl">
 							priemerný čas doručenia výsledku
 						</p>
 					</div>
 				</div>
 				<div
-					class="w-1/3 mx-4 text-center bg-primary-500 rounded-xl shadow-xl p-10"
+					class="w-full md:w-1/3 mx-0 md:mx-4 my-4 md:my-0 text-center bg-primary-500 rounded-xl shadow-xl p-3 md:p-6 lg:p-10"
 				>
 					<div class="mx-auto">
-						<h3 class="font-bold text-6xl mb-4 leading-none">
+						<h3 class="font-bold text-4xl md:text-6xl mb-2 md:mb-4 leading-none">
 							3857
 						</h3>
-						<p class="text-xl">
+						<p class="text-lg md:text-xl">
 							analyzovaných prác v korpuse
 						</p>
 					</div>
 				</div>
 				<div
-					class="w-1/3 ml-4 text-center bg-primary-700 rounded-xl shadow-xl p-10"
+					class="w-full md:w-1/3 mx-0 md:ml-4 my-4 md:my-0 text-center bg-primary-700 rounded-xl shadow-xl p-3 md:p-6 lg:p-10"
 				>
 					<div class="mx-auto">
-						<h3 class="font-bold text-6xl mb-4 leading-none">
+						<h3 class="font-bold text-4xl md:text-6xl mb-2 md:mb-4 leading-none">
 							16217
 						</h3>
-						<p class="text-xl">
+						<p class="text-lg md:text-xl">
 							iná štatistika
 						</p>
 					</div>
@@ -102,21 +103,21 @@
 			</div>
 		</div>
 
-		<div class="bg-primary-500 py-10 clipped-arrow-down">
-			<div class="container text-white flex mx-auto my-20">
-				<div class="w-1/2 flex items-center justify-center">
+		<div class="bg-primary-500 py-6 clipped-arrow-down">
+			<div class="container flex flex-col items-center px-10 md:px-0 md:flex-row text-white mx-auto py-8 md:py-20">
+				<div class="flex w-full md:w-1/2 mb-5 md:mb-0 items-center justify-center ">
 					<img
-						class="w-2/3 h-auto"
+						class="w-full md:w-2/3 h-auto"
 						src="../assets/img/image2.png"
 						alt="App Preview - Result"
 					>
 				</div>
-				<div class="w-1/2 flex items-center justify-center">
-					<div class="w-8/12 text-center">
+				<div class="w-full md:w-1/2 flex items-center justify-center leading-relaxed sm:leading-normal">
+					<div class="w-full md:w-8/12 text-center">
 						<h2 class="font-bold text-4xl">
 							Detailná štatistika zdrojov
 						</h2>
-						<p class="mt-5 text-xl">
+						<p class="mt-5 text-lg sm:text-xl">
 							Lorem ipsum dolor sit amet, consectetur adipiscing
 							elit. Nulla semper odio quis pulvinar mattis. Sed
 							vulputate arcu.
