@@ -33,7 +33,7 @@ describe('DocumentMatches', () => {
 
 	const selectors = {
 		matchItems: testId('documentMatchesItem'),
-		name: testId('documentMatchesItemPercentage'),
+		name: testId('documentMatchesItemName'),
 		percentage: testId('documentMatchesItemPercentage'),
 	};
 
@@ -53,7 +53,7 @@ describe('DocumentMatches', () => {
 			expect($name.text()).to.eq(matches[i].name);
 
 			const $percentage = item.find(selectors.percentage);
-			expect($percentage.text()).to.eq(matches[i].percentage);
+			expect($percentage.text()).to.eq(`${matches[i].percentage} %`);
 		});
 	});
 

@@ -35,6 +35,7 @@ const routes = [
 			},
 			{
 				path: 'document/:document',
+				name: 'document',
 				component: Document,
 				meta: { title: 'Dokument' },
 			},

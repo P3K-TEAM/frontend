@@ -8,7 +8,7 @@
 				<span class="w-3/12 text-center"> Percentuálna zhoda </span>
 
 				<span class="w-2/12 text-center"> Počet zhôd </span>
-				<span class="w-1/12"></span>
+				<span class="w-1/12" />
 			</div>
 			<ResultTableItem
 				v-for="doc in documents"

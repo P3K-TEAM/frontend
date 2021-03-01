@@ -9,7 +9,7 @@
 					<h1
 						class="text-8xl leading-tight font-bold tracking-widest"
 					>
-						Nebuďte<br />ako kapitán!
+						Nebuďte<br>ako kapitán!
 					</h1>
 					<p class="my-12 text-xl font-hairline text-justify">
 						Po odovzdaní práce už niet cesty späť. Buď ste plagiátor
@@ -56,7 +56,7 @@
 						class="w-2/3 h-auto"
 						src="../assets/img/image1.png"
 						alt="App Preview - Upload"
-					/>
+					>
 				</div>
 			</div>
 
@@ -70,7 +70,9 @@
 						<h3 class="font-bold text-6xl mb-4 leading-none">
 							5 minút
 						</h3>
-						<p class="text-xl">priemerný čas doručenia výsledku</p>
+						<p class="text-xl">
+							priemerný čas doručenia výsledku
+						</p>
 					</div>
 				</div>
 				<div
@@ -80,7 +82,9 @@
 						<h3 class="font-bold text-6xl mb-4 leading-none">
 							3857
 						</h3>
-						<p class="text-xl">analyzovaných prác v korpuse</p>
+						<p class="text-xl">
+							analyzovaných prác v korpuse
+						</p>
 					</div>
 				</div>
 				<div
@@ -90,7 +94,9 @@
 						<h3 class="font-bold text-6xl mb-4 leading-none">
 							16217
 						</h3>
-						<p class="text-xl">iná štatistika</p>
+						<p class="text-xl">
+							iná štatistika
+						</p>
 					</div>
 				</div>
 			</div>
@@ -103,7 +109,7 @@
 						class="w-2/3 h-auto"
 						src="../assets/img/image2.png"
 						alt="App Preview - Result"
-					/>
+					>
 				</div>
 				<div class="w-1/2 flex items-center justify-center">
 					<div class="w-8/12 text-center">
