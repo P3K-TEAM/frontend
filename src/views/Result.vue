@@ -17,6 +17,7 @@
 
 <script>
 import SubmissionStatus from '@/constants/submission';
+import retry from '@/functions/retry.function';
 
 import ResultTable from '../components/Result/ResultTable';
 import ResultHeader from '../components/Result/ResultHeader';
@@ -41,17 +42,18 @@ export default {
 		this.$store.dispatch('setLoading', true);
 		// get id from route
 		this.id = this.$route.params.result;
+
 		// fetch data from BE
-		this.fetchResult(this.id)
+		return retry(
+			() => this.fetchResult(this.id),
+			(result) => result.status === this.SubmissionStatus.PROCESSED
+		)
 			.then((result) => {
 				this.status = result.status;
 				this.documents = result.documents;
 
 				// If no documents are present even though the submission is processed
-				if (
-					this.status === this.SubmissionStatus.PROCESSED &&
-					!this.documents
-				)
+				if (!this.documents)
 					this.$store.dispatch('AlertStore/setAlert', {
 						message:
 							'No documents found. Please contact administrator',
