@@ -17,6 +17,7 @@
 
 <script>
 import SubmissionStatus from '@/constants/submission';
+import retry from '@/functions/retry.function';
 
 import ResultTable from '../components/Result/ResultTable';
 import ResultHeader from '../components/Result/ResultHeader';
@@ -43,7 +44,7 @@ export default {
 		this.id = this.$route.params.result;
 
 		// fetch data from BE
-		return this.retry(
+		return retry(
 			() => this.fetchResult(this.id),
 			(result) => result.status === this.SubmissionStatus.PROCESSED
 		)
@@ -82,29 +83,6 @@ export default {
 			});
 	},
 	methods: {
-		// generic function for retrying demand
-		retry(fn, conditionFn, waitingInterval = 3500, maxRetries = 10) {
-			const tryToGetResult = (retry) => {
-				return fn().then((result) => {
-					if (conditionFn(result)) {
-						return result;
-					}
-					if (retry <= maxRetries) {
-						// sleep the specified time
-						return this.sleep(waitingInterval).then(() =>
-							tryToGetResult(retry + 1)
-						);
-					} else {
-						throw new Error('Retrying failed!!!');
-					}
-				});
-			};
-			// start retrying function
-			return tryToGetResult(1);
-		},
-		sleep(ms) {
-			return new Promise((resolve) => setTimeout(resolve, ms));
-		},
 		fetchResult(id) {
 			return this.$axios
 				.get(`/api/submissions/${id}`)
