@@ -1,7 +1,7 @@
 <template>
 	<div class="bg-gray-300 min-h-screen">
 		<ResultHeader
-			:description="'Gratulujeme. Nižšie nájdete podrobné štatistiky kontroly originality vašich prác.'"
+			description="Gratulujeme. Nižšie nájdete podrobné štatistiky kontroly originality vašich prác."
 		/>
 		<ResultTable
 			v-if="documents && documents.length"

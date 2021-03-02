@@ -42,7 +42,7 @@ export default new Vuex.Store({
 		},
 		CLEAR_INFO(state) {
 			state.infoStatus = false;
-			state.infoMessage = "";
+			state.infoMessage = '';
 		},
 	},
 	getters: {
@@ -60,17 +60,17 @@ export default new Vuex.Store({
 		},
 	},
 	actions: {
-		setLoading(context, payLoad) {
-			const status = typeof payLoad === 'boolean' ? payLoad : payLoad.active;
+		setLoading(context, payload) {
+			const status =
+				typeof payload === 'boolean' ? payload : payload.active;
 
 			context.commit('SET_BACKDROP', status);
 			context.commit('SET_LOADING', status);
 
-			if (payLoad.infoStatus && payLoad.infoMessage) {
-				context.commit('SET_INFO', payLoad.infoStatus);
-				context.commit('SET_INFO_MESSAGE', payLoad.infoMessage);
-			}
-			else {
+			if (payload.infoStatus && payload.infoMessage) {
+				context.commit('SET_INFO', payload.infoStatus);
+				context.commit('SET_INFO_MESSAGE', payload.infoMessage);
+			} else {
 				context.commit('CLEAR_INFO');
 			}
 		},
