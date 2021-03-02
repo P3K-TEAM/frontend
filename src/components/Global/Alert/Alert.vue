@@ -10,7 +10,7 @@
 					class="flex justify-center items-center close-icon"
 					@click.prevent="dismiss"
 				>
-					<i class="fas fa-times"></i>
+					<i class="fas fa-times" />
 				</a>
 				<div
 					class="p-4 border-t-4"

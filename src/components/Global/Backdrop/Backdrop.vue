@@ -3,7 +3,7 @@
 		v-if="isBackdropActive"
 		class="flex flex-col justify-center items-center h-full w-full fixed z-9999 modal-backdrop"
 	>
-		<slot></slot>
+		<slot />
 	</div>
 </template>
 

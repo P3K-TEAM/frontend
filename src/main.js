@@ -16,9 +16,6 @@ import '@fortawesome/fontawesome-free/js/brands';
 // Root styles
 import '@/assets/scss/app.scss';
 
-// Favicon
-import '@/assets/img/favicon.ico';
-
 // v-tooltip
 Vue.directive('tooltip', VTooltip);
 Vue.directive('close-popover', VClosePopover);
@@ -32,7 +29,7 @@ router.afterEach((to) => {
 });
 
 Vue.prototype.$axios = axios.create({
-	baseURL: 'http://localhost:8000',
+	baseURL: process.env.VUE_APP_API_URL,
 });
 
 new Vue({

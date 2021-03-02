@@ -4,7 +4,7 @@
 		<div
 			class="container flex justify-between items-center mx-auto pt-16 pb-32"
 		>
-			<div :class="{ 'w-2/3': percentage }">
+			<div :class="{ 'w-2/3': percentage !== undefined }">
 				<p class="text-4xl pb-4">
 					{{ title }}
 				</p>
@@ -12,7 +12,7 @@
 					{{ description }}
 				</p>
 			</div>
-			<div v-if="percentage" class="w-1/3">
+			<div v-if="percentage !== undefined" class="w-1/3">
 				<div
 					class="ml-auto text-center rounded-lg bg-primary-500 w-2/3 py-4"
 				>
@@ -36,7 +36,7 @@ export default {
 	props: {
 		title: { type: String, default: 'Výsledky kontroly' },
 		description: { type: String, required: true },
-		percentage: { type: Number },
+		percentage: { type: Number, default: undefined },
 	},
 };
 </script>
