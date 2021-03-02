@@ -1,12 +1,7 @@
 <template>
 	<div class="bg-gray-300 min-h-screen">
 		<ResultHeader
-			:title="isProcessed ? 'Prebieha kontrola originality' : undefined"
-			:description="
-				isProcessed
-					? 'Gratulujeme. Nižšie nájdete podrobné štatistiky kontroly originality vašich prác.'
-					: `Vaše práce sme vzali na spracovanie. Výsledky kontroly originality budú dostupné o chvíľu. Prosím navštívte túto stránku neskôr.`
-			"
+			:description="'Gratulujeme. Nižšie nájdete podrobné štatistiky kontroly originality vašich prác.'"
 		/>
 		<ResultTable
 			v-if="documents && documents.length"
@@ -29,7 +24,6 @@ export default {
 	data: function () {
 		return {
 			id: undefined,
-			isProcessed: status === SubmissionStatus.PROCESSED,
 			documents: [],
 		};
 	},
@@ -38,7 +32,11 @@ export default {
 	},
 	mounted() {
 		// initial spinner
-		this.$store.dispatch('setLoading', true);
+		this.$store.dispatch('setLoading', {
+			active: true,
+			infoStatus: true,
+			infoMessage: 'Vaše texty sme zobrali na spracovanie',
+		});
 		// get id from route
 		this.id = this.$route.params.result;
 		return this.retry(

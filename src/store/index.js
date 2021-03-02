@@ -19,6 +19,8 @@ export default new Vuex.Store({
 		return {
 			backdrop: false,
 			loading: false,
+			infoStatus: false,
+			infoMessage: undefined,
 		};
 	},
 	mutations: {
@@ -30,6 +32,18 @@ export default new Vuex.Store({
 			validateType(status, 'boolean', 'backdrop.status');
 			state.backdrop = status;
 		},
+		SET_INFO(state, status) {
+			validateType(status, 'boolean', 'infoStatus');
+			state.infoStatus = status;
+		},
+		SET_INFO_MESSAGE(state, infoMessage) {
+			validateType(infoMessage, 'string', 'infoMessage');
+			state.infoMessage = infoMessage;
+		},
+		CLEAR_INFO(state) {
+			state.infoStatus = false;
+			state.infoMessage = "";
+		},
 	},
 	getters: {
 		isLoading(state) {
@@ -38,11 +52,27 @@ export default new Vuex.Store({
 		isBackdropActive(state) {
 			return state.backdrop;
 		},
+		isMessageActive(info) {
+			return info.infoStatus;
+		},
+		infoMessage(info) {
+			return info.infoMessage;
+		},
 	},
 	actions: {
-		setLoading(context, status) {
+		setLoading(context, payLoad) {
+			const status = typeof payLoad === 'boolean' ? payLoad : payLoad.active;
+
 			context.commit('SET_BACKDROP', status);
 			context.commit('SET_LOADING', status);
+
+			if (payLoad.infoStatus && payLoad.infoMessage) {
+				context.commit('SET_INFO', payLoad.infoStatus);
+				context.commit('SET_INFO_MESSAGE', payLoad.infoMessage);
+			}
+			else {
+				context.commit('CLEAR_INFO');
+			}
 		},
 	},
 });
