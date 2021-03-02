@@ -4,49 +4,47 @@
 			class="w-screen h-screen absolute bg-primary-gradient clip-half-circle"
 		/>
 		<Navigation class="z-10" />
-		<div class="flex items-center md:container md:mx-auto w-full">
-			<div class="mx-0 h-screen md:h-auto md:mx-auto md:rounded-lg shadow-xl mt-4 md:my-12 bg-white z-10">
-				<div class="px-6 md:px-8 pt-4 md:pt-10 pb-1 md:pb-2">
-					<h1 class="text-3xl leading-normal md:leading-10 font-bold text-gray-900">
-						Kontrola plagiátorstva
-					</h1>
-					<h3 class="text-xl mt-2 leading-9 md:leading-8 text-gray-800">
-						Pridajte jednu alebo viac prác, ktoré si prajete
-						skontrolovať. Nahrajte súbory alebo vložte text práce.
-					</h3>
-				</div>
-				<div class="px-0 md:px-20 pb-4 md:pb-10 pt-3 md:pt-5">
-					<div class="flex">
-						<UploadTab
-							v-for="tab in tabs"
-							:key="tab"
-							:title="tab"
-							:active="tab === selectedTab"
-							@click.native="selectedTab = tab"
-						/>
-					</div>
-					<UploadFile
-						v-if="selectedTab === tabs[0]"
-						:files="files"
-						@update-files="updateFileList"
-						@remove-file="removeFile"
+		<div class="h-full flex flex-col items-start md:container md:mx-auto w-full mx-0 md:h-auto md:rounded-lg shadow-xl mt-0 md:my-12 bg-white z-10">
+			<div class="px-4 md:px-8 pt-3 md:pt-10 pb-1 md:pb-2">
+				<h1 class="text-xl md:text-3xl leading-normal md:leading-10 font-bold text-gray-900">
+					Kontrola plagiátorstva
+				</h1>
+				<h3 class="text-base md:text-xl mt-1 leading-6 md:leading-8 text-gray-800">
+					Pridajte jednu alebo viac prác, ktoré si prajete
+					skontrolovať. Nahrajte súbory alebo vložte text práce.
+				</h3>
+			</div>
+			<div class="w-full h-full md:h-auto px-0 md:px-20 pb-4 md:pb-8 pt-3 md:pt-5">
+				<div class="flex">
+					<UploadTab
+						v-for="tab in tabs"
+						:key="tab"
+						:title="tab"
+						:active="tab === selectedTab"
+						@click.native="selectedTab = tab"
 					/>
-					<UploadText
-						v-else
-						:disabled="files.length > 0"
-						@text-change="updateText"
-					/>
-					<div class="text-center w-full px-2 md:text-right mt-4 md:mt-6 ">
-						<button
-							type="button"
-							class="fmt-2 w-full md:w-auto px-5 md:px-8 py-2 text-center text-lg md:text-base text-white bg-primary-500 hover:bg-primary-400 
-							rounded shadow-md cursor-pointer select-none focus:outline-none"
-							@click="submitForm"
-						>
-							Nahrať
-						</button>
-					</div>
 				</div>
+				<UploadFile
+					v-if="selectedTab === tabs[0]"
+					:files="files"
+					@update-files="updateFileList"
+					@remove-file="removeFile"
+				/>
+				<UploadText
+					v-else
+					:disabled="files.length > 0"
+					@text-change="updateText"
+				/>
+			</div>
+			<div class="flex flex-row justify-end items-end text-center w-full px-2 md:px-20 md:text-right pb-2 md:pb-10 mt-10 md:mt-10 ">
+				<button
+					type="button"
+					class="fmt-2 w-full md:w-auto px-5 md:px-8 py-2 text-center text-base text-white bg-primary-500 hover:bg-primary-400 
+					rounded shadow-md cursor-pointer select-none focus:outline-none"
+					@click="submitForm"
+				>
+					Nahrať
+				</button>
 			</div>
 		</div>
 	</div>

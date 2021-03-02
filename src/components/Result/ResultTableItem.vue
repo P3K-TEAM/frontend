@@ -1,11 +1,11 @@
 <template>
 	<router-link
 		:to="'document/' + document.id"
-		class="flex items-center mb-1 md:mb-3 md:mx-6 px-2 py-1 md:py-3 text-xs md:text-lg text-black bg-white hover:bg-gray-200 shadow rounded-sm md:rounded-lg group"
+		class="flex items-center mb-1 md:mb-3 md:mx-6 px-1 py-5 md:py-3 text-lg md:text-lg text-black bg-white hover:bg-gray-200 shadow rounded-sm md:rounded-lg group"
 		append
 	>
 		<div class="w-5/12 md:w-6/12 truncate pr-2">
-			<i class="w-4 md:w-8 text-center mx-2" :class="getIcon(document.name)" />
+			<i class="w-4 md:w-8 mx-1 md:mx-2" :class="getIcon(document.name)" />
 			<span>
 				{{ document.name }}
 			</span>
@@ -32,10 +32,10 @@ export default {
 			const match = text.match(regex);
 			switch (match[0]) {
 				case '.pdf':
-					return 'fas fa-file-pdf text-red-500 text-base md:text-2xl';
+					return 'fas fa-file-pdf text-red-500 text-lg md:text-2xl';
 				case '.docx':
 				case '.doc':
-					return 'fas fa-file text-blue-500 text-base md:text-2xl';
+					return 'fas fa-file text-blue-500 text-lg md:text-2xl';
 				default:
 					return 'fas fa-file text-2x ';
 			}

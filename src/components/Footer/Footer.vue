@@ -1,7 +1,7 @@
 <template>
 	<footer class="bg-primary-900">
 		<div class="container flex flex-col items-center sm:items-stretch sm:flex-row justify-between mx-auto text-gray-500 
-		leading-relaxed md:leading-normal font-hairline p-4 sm:p-10">
+		leading-relaxed md:leading-normal font-hairline p-6 sm:p-10">
 			<ul class="w-full sm:w-1/3 text-center mb-4 sm:mb-0">
 				<li>Lorem ipsum</li>
 				<li>Dolor Sit Amet</li>

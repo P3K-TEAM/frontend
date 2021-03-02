@@ -7,7 +7,7 @@
 			"
 			description="Nižšie nájdete podrobné štatistiky kontroly originality vašej práce"
 		/>
-		<div v-if="document" class="px-0 mx-1 md:px-6 md:container md:mx-auto mt-4 md:my-20">
+		<div v-if="document" class="px-0 mx-2 md:px-6 md:container md:mx-auto mt-4 md:my-20">
 			<a
 				v-if="isMultiple"
 				class="flex items-center px-3 py-2 md:p-2 mb-0 md:mb-2 cursor-pointer text-lg md:text-2xl text-gray-600 hover:text-gray-700"
@@ -23,7 +23,7 @@
 			</a>
 			<div class="shadow rounded-md md:rounded-lg ">
 				<div
-					class="flex items-center justify-between px-3 py-1 md:p-4 md:h-16 bg-primary-500 text-white text-2xl rounded-t-md md:rounded-t-lg"
+					class="flex items-center justify-between px-4 py-1 md:p-4 md:h-16 bg-primary-500 text-white text-2xl rounded-t-md md:rounded-t-lg"
 				>
 					<span v-if="isMultiple" class="w-1/2 text-base md:text-3xl truncate pr-2">
 						{{ document.name }}
@@ -38,7 +38,11 @@
 					</button>
 				</div>
 				<div class="px-0 py-1 md:p-8 bg-white text-justify rounded-b-md md:rounded-b-lg shadow-md">
-					<component :is="compiledHighlight" v-if="!showFiles" class="px-3 md:px-0" />
+					<component 
+						:is="compiledHighlight" 
+						v-if="!showFiles" 
+						class="py-1 px-4 md:px-0" 
+					/>
 					<DocumentMatches
 						v-else
 						:matches="document.result.matched_docs"
@@ -64,7 +68,7 @@ export default {
 		return {
 			showDocumentText: false, // TODO: Remove after it's supported on BE
 			showFiles: !this.showDocumentText,
-			document: undefined,			
+			document: undefined,
 			submissionId: undefined,
 			isMultiple: true,
 		};
