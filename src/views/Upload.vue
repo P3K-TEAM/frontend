@@ -76,7 +76,7 @@ export default {
 	methods: {
 		updateFileList(fileArray) {
 			for (var i = 0; i < fileArray.length; i++) {
- 			   	if (fileArray[i].size > 20*1024*1024){
+				if (fileArray[i].size > 20*1024*1024){
 					this.$store.dispatch('AlertStore/setAlert', {
 						message:
 							'Súbory väčšie ako 20MB nie sú podporované!',
