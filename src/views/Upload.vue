@@ -75,7 +75,7 @@ export default {
 	},
 	methods: {
 		updateFileList(fileArray) {
-			Object.entries(fileArray).forEach(([index, file]) => {
+			Object.entries(fileArray).forEach(([, file]) => {
 				if (file.size > 20 * 1024 * 1024) {
 					this.$store.dispatch('AlertStore/setAlert', {
 						message: 'Súbory väčšie ako 20MB nie sú podporované!',
@@ -90,7 +90,7 @@ export default {
 								'Nie je možné kontrolovať naraz viac ako 50 súborov!',
 							type: 'error',
 						});
-						exit();
+						exit;
 					}
 				}
 			});
