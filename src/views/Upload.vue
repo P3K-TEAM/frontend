@@ -75,26 +75,25 @@ export default {
 	},
 	methods: {
 		updateFileList(fileArray) {
-			for (var i = 0; i < fileArray.length; i++) {
-				if (fileArray[i].size > 20*1024*1024){
+			Object.entries(fileArray).forEach(([index, file]) => {
+				if (file.size > 20 * 1024 * 1024) {
 					this.$store.dispatch('AlertStore/setAlert', {
-						message:
-							'Súbory väčšie ako 20MB nie sú podporované!',
+						message: 'Súbory väčšie ako 20MB nie sú podporované!',
 						type: 'error',
 					});
-					
-			} else {
-				if (this.files.length <= 50) {
-				this.files = [...this.files, fileArray[i]];
 				} else {
-					this.$store.dispatch('AlertStore/setAlert', {
-						message:
-							'Nie je možné kontrolovať naraz viac ako 50 súborov!',
-						type: 'error',
-					});
+					if (this.files.length <= 50) {
+						this.files.push(file);
+					} else {
+						this.$store.dispatch('AlertStore/setAlert', {
+							message:
+								'Nie je možné kontrolovať naraz viac ako 50 súborov!',
+							type: 'error',
+						});
+						exit();
+					}
 				}
-			}
-			}
+			});
 		},
 		updateText(text) {
 			this.text = text;
@@ -133,9 +132,13 @@ export default {
 
 			this.$store.dispatch('setLoading', true);
 			this.$axios
-				.post('/api/submissions/', isFileUpload ? formData : this.text, {
-					headers,
-				})
+				.post(
+					'/api/submissions/',
+					isFileUpload ? formData : this.text,
+					{
+						headers,
+					}
+				)
 				.then((response) => {
 					return this.$router.push({
 						name: 'result',
