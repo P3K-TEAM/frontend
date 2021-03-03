@@ -75,8 +75,33 @@ export default {
 		this.selectedTab = this.tabs[0];
 	},
 	methods: {
-		updateFileList(fileArray) {
-			this.files = [...this.files, ...fileArray];
+		updateFileList(fileList) {
+			// Setting: Max number of files per request
+			const fileLimit = 50;
+			// Setting: Max size of a file in MB
+			const fileSizeLimit = 20;
+
+			const filteredFileArray = Array.from(fileList).filter(
+				(file) => file.size <= fileSizeLimit * 1024 * 1024
+			);
+			const requestContainsLargeFile =
+				fileList.length !== filteredFileArray.length;
+
+			if (requestContainsLargeFile) {
+				this.$store.dispatch('AlertStore/setAlert', {
+					message: `Súbory väčšie ako ${fileSizeLimit} MB nie sú podporované!`,
+					type: 'error',
+				});
+			}
+
+			this.files = [...this.files, ...filteredFileArray];
+			if (this.files.length > fileLimit) {
+				this.$store.dispatch('AlertStore/setAlert', {
+					message: `Nie je možné kontrolovať naraz viac ako ${fileLimit} súborov!`,
+					type: 'error',
+				});
+				this.files = this.files.slice(0, fileLimit);
+			}
 		},
 		updateText(text) {
 			this.text = text;
@@ -115,9 +140,13 @@ export default {
 
 			this.$store.dispatch('setLoading', true);
 			this.$axios
-				.post('/api/submissions/', isFileUpload ? formData : this.text, {
-					headers,
-				})
+				.post(
+					'/api/submissions/',
+					isFileUpload ? formData : this.text,
+					{
+						headers,
+					}
+				)
 				.then((response) => {
 					return this.$router.push({
 						name: 'result',
