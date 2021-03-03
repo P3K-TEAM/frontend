@@ -13,9 +13,7 @@
 			/>
 		</svg>
 		<div v-if="isMessageActive">
-			<p
-				class="bg-white border-4 rounded border-primary-500 p-2 m-4 text-center"
-			>
+			<p class="m-4 text-xl text-white text-center">
 				{{ infoMessage }}
 			</p>
 		</div>
