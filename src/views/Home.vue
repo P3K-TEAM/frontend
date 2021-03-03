@@ -5,7 +5,7 @@
 			<div
 				class="flex flex-1 items-center container mx-auto w-full"
 			>
-				<div class="mt-2 md:mt-0 px-8 md:px-6 flex flex-col items-center md:items-start w-full md:w-2/3 text-white text-center md:text-left">
+				<div class="mt-2 md:mt-0 px-8 md:px-0 flex flex-col items-center md:items-start w-full md:w-2/3 text-white text-center md:text-left">
 					<h1
 						class="text-4xl md:text-8xl leading-snug md:leading-tight font-bold w-full text-left tracking-widest"
 					>
@@ -21,7 +21,7 @@
 					<div class="flex items-center w-full md:w-auto mt-2">
 						<router-link
 							to="/upload"
-							class="flex md:flex-none w-full md:w-auto items-center justify-center text-xl md:text-2xl 
+							class="flex md:flex-none w-full md:w-auto items-center justify-center text-xl 
 							px-4 md:px-8 py-3 rounded-lg focus:outline-none bg-primary-500 hover:bg-primary-400"
 						>
 							Skontrolovať moju prácu
@@ -62,7 +62,7 @@
 			</div>
 
 			<div
-				class="container flex flex-col items-center md:items-stretch md:flex-row justify-between px-10 md:px-6 mx-auto mb-8 md:mb-32 text-white"
+				class="container flex flex-col items-center md:items-stretch md:flex-row justify-between px-10 md:px-0 mx-auto mb-8 md:mb-32 text-white"
 			>
 				<div
 					class="w-full md:w-1/3 mx-0 md:mr-4 my-4 md:my-0 text-center bg-primary-700 rounded-xl shadow-xl p-3 md:p-6 lg:p-10"
@@ -103,7 +103,7 @@
 			</div>
 		</div>
 
-		<div class="bg-primary-500 py-6 clipped-arrow-down">
+		<div class="bg-primary-500 py-6 md:py-10 clipped-arrow-down">
 			<div class="container flex flex-col items-center px-10 md:px-0 md:flex-row text-white mx-auto py-8 md:py-20">
 				<div class="flex w-full md:w-1/2 mb-5 md:mb-0 items-center justify-center ">
 					<img

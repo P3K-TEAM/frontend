@@ -7,10 +7,10 @@
 			"
 			description="Nižšie nájdete podrobné štatistiky kontroly originality vašej práce"
 		/>
-		<div v-if="document" class="px-0 mx-2 md:px-6 md:container md:mx-auto mt-4 md:my-20">
+		<div v-if="document" class="mx-2 md:container md:mx-auto mt-4 md:my-20">
 			<a
 				v-if="isMultiple"
-				class="flex items-center px-3 py-2 md:p-2 mb-0 md:mb-2 cursor-pointer text-lg md:text-2xl text-gray-600 hover:text-gray-700"
+				class="flex items-center p-2 mb-0 md:mb-2 cursor-pointer text-lg md:text-2xl text-gray-600 hover:text-gray-700"
 				@click="
 					$router.push({
 						name: 'result',

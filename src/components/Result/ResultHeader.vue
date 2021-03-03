@@ -4,7 +4,7 @@
 		<div
 			class="md:container flex flex-col md:flex-row justify-between items-center mx-auto pt-0 md:pt-16 pb-6 md:pb-32"
 		>
-			<div class="flex flex-col px-8 md:px-6 w-full" :class="{ 'md:w-2/3': percentage !== undefined }">
+			<div class="flex flex-col px-8 md:px-0 w-full" :class="{ 'md:w-2/3': percentage !== undefined }">
 				<p class="font-semibold md:font-normal text-center md:text-left text-2xl md:text-4xl break-words pb-2 md:pb-4"
 					:class="{'truncate': percentage !== undefined}"					
 				> 
@@ -15,9 +15,9 @@
 				</p>
 			</div>
 			
-			<div v-if="percentage !== undefined" class="w-full md:w-1/3 flex flex-col items-center px-8 md:px-0 mx-0 md:mx-6">
+			<div v-if="percentage !== undefined" class="w-full md:w-1/3 flex flex-col items-center px-8 md:px-0">
 				<div
-					class="w-full md:w-5/6 px-4 py-1 md:py-4 md:ml-auto text-center text-xl rounded-lg bg-primary-500"
+					class="w-full md:w-4/6 px-4 py-1 md:py-4 md:ml-auto text-center text-xl rounded-lg bg-primary-500"
 				>
 					<span class="">Vaša zhoda je</span>
 					<div class="font-semibold md:font-bold text-3xl md:text-5xl leading-none">
@@ -47,8 +47,11 @@ export default {
 <style scoped lang="scss">
 .skewed-top-wrapper {
 	clip-path: ellipse(95% 100% at 50% 0%);
-	@media (max-width: 768px) {	
-		clip-path: ellipse(180% 100% at 50% 0%);
+
+	@media (max-width: 768px) {
+		& {	
+			clip-path: ellipse(180% 100% at 50% 0%);
+		}
 	}
 }
 

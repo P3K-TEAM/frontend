@@ -9,7 +9,7 @@
 				<h1 class="text-xl md:text-3xl leading-normal md:leading-10 font-bold text-gray-900">
 					Kontrola plagiátorstva
 				</h1>
-				<h3 class="text-base md:text-xl mt-1 leading-6 md:leading-8 text-gray-800">
+				<h3 class="text-base md:text-xl mt-1 md:mt-2 leading-6 md:leading-8 text-gray-800">
 					Pridajte jednu alebo viac prác, ktoré si prajete
 					skontrolovať. Nahrajte súbory alebo vložte text práce.
 				</h3>

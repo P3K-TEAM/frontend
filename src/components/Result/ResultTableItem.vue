@@ -1,7 +1,7 @@
 <template>
 	<router-link
 		:to="'document/' + document.id"
-		class="flex items-center mb-1 md:mb-3 md:mx-6 px-1 py-5 md:py-3 text-lg md:text-lg text-black bg-white hover:bg-gray-200 shadow rounded-sm md:rounded-lg group"
+		class="flex items-center mb-1 md:mb-3 md:mx-0 px-1 py-5 md:py-3 text-lg md:text-lg text-black bg-white hover:bg-gray-200 shadow rounded-md md:rounded-lg group"
 		append
 	>
 		<div class="w-5/12 md:w-6/12 truncate pr-2">

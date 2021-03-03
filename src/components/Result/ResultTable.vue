@@ -2,7 +2,7 @@
 	<div class="md:container mx-1 md:mx-auto my-2 md:my-10">
 		<div>
 			<div
-				class="flex justify-start mb-1 md:mb-2 md:mx-6 px-1 text-sm md:text-lg text-gray-500 text-md uppercase"
+				class="flex justify-start mb-1 md:mb-2 md:mx-0 px-1 text-sm md:text-lg text-gray-500 text-md uppercase"
 			>
 				<span class="w-5/12 md:w-6/12 pl-1 md:pl-4 "> Súbor </span>
 				<span class="w-4/12 md:w-3/12 text-center"> Percentuálna zhoda </span>

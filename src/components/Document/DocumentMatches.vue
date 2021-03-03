@@ -25,7 +25,7 @@
 				</span>
 			</div>
 		</div>
-		<p v-else class="text-gray-600 font-medium md:font-normal text-base md:text-lg px-3 md:px-0">
+		<p v-else class="text-gray-600 font-normal text-sm md:text-lg py-2 md:py-0 px-4 md:px-0">
 			Gratulujeme! Vaša práca sa nezhoduje so žiadnymi súbormi!
 		</p>
 	</div>
