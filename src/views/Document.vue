@@ -7,10 +7,10 @@
 			"
 			description="Nižšie nájdete podrobné štatistiky kontroly originality vašej práce"
 		/>
-		<div v-if="document" class="px-6 md:px-0 container mx-auto my-20">
+		<div v-if="document" class="mx-2 md:container md:mx-auto mt-4 md:my-20">
 			<a
 				v-if="isMultiple"
-				class="flex items-center p-2 mb-2 cursor-pointer text-2xl text-gray-600 hover:text-gray-700"
+				class="flex items-center p-2 mb-0 md:mb-2 cursor-pointer text-lg md:text-2xl text-gray-600 hover:text-gray-700"
 				@click="
 					$router.push({
 						name: 'result',
@@ -18,27 +18,31 @@
 					})
 				"
 			>
-				<i class="fas fa-chevron-left text-lg mr-2" />
+				<i class="fas fa-chevron-left text-sm md:text-lg mr-2" />
 				Všetky súbory
 			</a>
-			<div class="shadow rounded-b-lg">
+			<div class="shadow rounded-md md:rounded-lg ">
 				<div
-					class="flex items-center justify-between p-4 h-16 bg-primary-500 text-white text-2xl rounded-t-lg"
+					class="flex items-center justify-between px-4 py-1 md:p-4 md:h-16 bg-primary-500 text-white text-2xl rounded-t-md md:rounded-t-lg"
 				>
-					<span v-if="isMultiple" class="text-3xl">
+					<span v-if="isMultiple" class="w-1/2 text-base md:text-3xl truncate pr-2">
 						{{ document.name }}
 					</span>
 					<button
 						v-if="showDocumentText"
 						type="button"
-						class="inline-block ml-auto py-1 px-2 hover:text-white hover:bg-primary-400 focus:outline-none rounded-md"
+						class="flex items-center ml-auto py-1 md:py-1 px-1 md:px-2 hover:text-white hover:bg-primary-400 focus:outline-none rounded-md"
 						@click="showFiles = !showFiles"
 					>
-						<span class="text-bold text-2xl"> Súbory / Texty </span>
+						<span class="font-semibold text-base md:text-2xl"> Súbory / Texty </span>
 					</button>
 				</div>
-				<div class="p-8 bg-white text-justify rounded-b-lg shadow-md">
-					<component :is="compiledHighlight" v-if="!showFiles" />
+				<div class="px-0 py-1 md:p-8 bg-white text-justify rounded-b-md md:rounded-b-lg shadow-md">
+					<component 
+						:is="compiledHighlight" 
+						v-if="!showFiles" 
+						class="py-1 px-4 md:px-0" 
+					/>
 					<DocumentMatches
 						v-else
 						:matches="document.result.matched_docs"
@@ -133,7 +137,7 @@ export default {
 						`<span v-tooltip.top="'Zhoda so súborom: ${substring.doc}'" class="text-red-500 font-bold">${substring.text}</span>`
 					),
 				escape(this.document.text)
-			);
+			);			
 		},
 	},
 };

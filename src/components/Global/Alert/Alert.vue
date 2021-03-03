@@ -4,7 +4,7 @@
 			v-if="isActive"
 			class="flex justify-center w-full fixed mt-8 z-9999"
 		>
-			<div class="bg-white rounded shadow-2xl max-w-sm relative">
+			<div class="bg-white rounded shadow-2xl mx-6 md:mx-0 max-w-sm relative">
 				<a
 					href="#"
 					class="flex justify-center items-center close-icon"

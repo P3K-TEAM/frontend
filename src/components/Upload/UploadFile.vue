@@ -1,23 +1,25 @@
 <template>
-	<div class="space-y-6">
-		<div class="border-3 border-gray-400 border-dashed 40vh">
-			<div class="flex flex-col justify-center bg-white">
+	<div class="h-full flex flex-col space-y-2 md:space-y-6">
+		<div class="h-full flex flex-col items-center border-3 border-gray-400 border-dashed 40vh">
+			<div class="h-full flex flex-col items-center justify-center bg-white">
 				<form ref="fileForm">
 					<div
-						class="flex flex-col justify-center items-center space-y-2 py-8"
+						class="flex flex-col justify-center items-center md:space-y-2 py-8"
 					>
+						<span>
 						<i
-							class="fa fa-cloud-upload-alt text-gray-400 text-6xl"
+							class="hidden md:flex fa fa-cloud-upload-alt text-gray-400 text-6xl"
 						/>
+						</span>
 						<h2
-							class="text-xl font-semibold leading-6 text-gray-800"
+							class="hidden md:flex text-xl font-semibold leading-6 text-center text-gray-800"
 						>
 							Pretiahnite súbory sem
 						</h2>
-						<span class="text-md text-gray-600"> alebo </span>
+						<span class="hidden md:flex items-center text-base text-gray-600"> alebo </span>
 						<div>
 							<label
-								class="flex text-white rounded shadow-md bg-primary-500 hover:bg-primary-400 px-6 py-2 cursor-pointer select-none focus:outline-none"
+								class="flex text-white text-center text-base py-2 px-3 md:px-6 rounded shadow-md bg-primary-500 hover:bg-primary-400 cursor-pointer select-none focus:outline-none"
 							>
 								Vybrať súbory
 								<input
@@ -34,22 +36,22 @@
 			</div>
 		</div>
 
-		<div v-show="!!files.length" class="overflow-auto h-40 bg-white">
+		<div v-show="!!files.length" class="md:overflow-auto md:h-40 bg-white">
 			<div
 				v-for="(file, key) in files"
 				:key="key"
-				class="flex justify-between items-center px-4 py-1 border-b-3 border-gray-400"
+				class="flex justify-between items-center px-3 md:px-4 py-1 border-b-3 border-gray-400"
 			>
-				<div class="flex items-center space-x-4">
-					<i class="fas fa-file text-gray-500 text-3xl" />
-					<p>{{ file.name }}</p>
+				<div class="flex items-center space-x-2 md:space-x-4">
+					<i class="fas fa-file text-gray-500  text-lg md:text-3xl" />
+					<p class="text-sm md:text-lg">{{ file.name }}</p>
 				</div>
 
 				<button
 					class="p-2 flex justify-center items-center focus:outline-none text-gray-500 hover:bg-gray-100 hover:text-gray-600"
 					@click="removeFile(key)"
 				>
-					<i class="fas fa-trash text-2xl" />
+					<i class="fas fa-trash text-lg md:text-2xl" />
 				</button>
 			</div>
 		</div>
