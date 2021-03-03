@@ -1,22 +1,30 @@
 <template>
 	<div class="h-full flex flex-col space-y-2 md:space-y-6">
-		<div class="h-full flex flex-col items-center border-3 border-gray-400 border-dashed 40vh">
-			<div class="h-full flex flex-col items-center justify-center bg-white">
+		<div
+			class="h-full flex flex-col items-center border-3 border-gray-400 border-dashed 40vh"
+		>
+			<div
+				class="h-full flex flex-col items-center justify-center bg-white"
+			>
 				<form ref="fileForm">
 					<div
 						class="flex flex-col justify-center items-center md:space-y-2 py-8"
 					>
 						<span>
-						<i
-							class="hidden md:flex fa fa-cloud-upload-alt text-gray-400 text-6xl"
-						/>
+							<i
+								class="hidden md:flex fa fa-cloud-upload-alt text-gray-400 text-6xl"
+							/>
 						</span>
 						<h2
 							class="hidden md:flex text-xl font-semibold leading-6 text-center text-gray-800"
 						>
 							Pretiahnite súbory sem
 						</h2>
-						<span class="hidden md:flex items-center text-base text-gray-600"> alebo </span>
+						<span
+							class="hidden md:flex items-center text-base text-gray-600"
+						>
+							alebo
+						</span>
 						<div>
 							<label
 								class="flex text-white text-center text-base py-2 px-3 md:px-6 rounded shadow-md bg-primary-500 hover:bg-primary-400 cursor-pointer select-none focus:outline-none"
@@ -43,8 +51,10 @@
 				class="flex justify-between items-center px-3 md:px-4 py-1 border-b-3 border-gray-400"
 			>
 				<div class="flex items-center space-x-2 md:space-x-4">
-					<i class="fas fa-file text-gray-500  text-lg md:text-3xl" />
-					<p class="text-sm md:text-lg">{{ file.name }}</p>
+					<i class="fas fa-file text-gray-500 text-lg md:text-3xl" />
+					<p class="text-sm md:text-lg">
+						{{ file.name }}
+					</p>
 				</div>
 
 				<button
