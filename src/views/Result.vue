@@ -36,7 +36,7 @@ export default {
 		this.$store.dispatch('setLoading', {
 			active: true,
 			infoStatus: true,
-			infoMessage: 'Vaše texty sme zobrali na spracovanie',
+			infoMessage: 'Vaše texty sme zobrali na spracovanie. Výsledky budú automaticky zobrazené na tejto stránke',
 		});
 		// get id from route
 		this.id = this.$route.params.result;
