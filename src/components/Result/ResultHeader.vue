@@ -24,13 +24,17 @@
 				class="w-full md:w-1/3 flex flex-col items-center px-8 md:px-0"
 			>
 				<div
-					class="w-full md:w-4/6 px-4 py-1 md:py-4 md:ml-auto text-center text-xl rounded-lg bg-primary-500"
+					class="w-full md:w-11/12 lg:w-5/6 py-1 md:py-4 md:ml-auto text-center text-xl rounded-lg bg-primary-500"
 				>
-					<span class="">Vaša zhoda je</span>
+					<span class="px-4">Vaša zhoda je</span>
 					<div
-						class="font-semibold md:font-bold text-3xl md:text-5xl leading-none"
+						class="px-1 font-semibold md:font-bold text-3xl md:text-5xl leading-none"
 					>
-						<span>{{ percentage }}%</span>
+						<span
+							>{{
+								Number(percentage) | roundToTwoDecimals
+							}}%</span
+						>
 					</div>
 				</div>
 			</div>

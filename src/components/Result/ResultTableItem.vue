@@ -1,16 +1,21 @@
 <template>
 	<router-link
 		:to="'document/' + document.id"
-		class="flex items-center mb-1 md:mb-3 md:mx-0 px-1 py-5 md:py-3 text-lg md:text-lg text-black bg-white hover:bg-gray-200 shadow rounded-md md:rounded-lg group"
+		class="flex items-center mb-1 md:mb-3 md:mx-0 px-2 py-5 md:py-3 text-lg md:text-lg text-black bg-white hover:bg-gray-200 shadow rounded-md md:rounded-lg group"
 		append
 	>
 		<div class="w-5/12 md:w-6/12 truncate pr-2">
-			<i class="w-4 md:w-8 mx-1 md:mx-2" :class="getIcon(document.name)" />
+			<i
+				class="w-4 md:w-8 mx-1 md:mx-2"
+				:class="getIcon(document.name)"
+			/>
 			<span>
 				{{ document.name }}
 			</span>
 		</div>
-		<span class="w-4/12 md:w-3/12 truncate text-center"> {{ document.percentage }}% </span>
+		<span class="w-4/12 md:w-3/12 truncate text-center">
+			{{ Number(document.percentage) | roundToTwoDecimals }} %
+		</span>
 		<span class="w-3/12 md:w-2/12 truncate text-center">
 			{{ document.matches }}
 		</span>
