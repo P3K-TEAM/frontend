@@ -9,8 +9,8 @@
 				<span class="w-1/3 text-center mr-2 md:mr-0 md:text-lg"> Zhoda so súborom </span>
 			</div>
 			<div
-				v-for="match in matches"
-				:key="match.name"
+				v-for="(match, index) in matches"
+				:key="index"
 				class="flex justify-between py-3 md:py-5 text-base md:text-lg text-black bg-white border-b-2 border-gray-400"
 				data-test-id="documentMatchesItem"
 			>

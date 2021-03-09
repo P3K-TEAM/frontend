@@ -4,6 +4,7 @@ import Home from '../views/Home.vue';
 import Upload from '../views/Upload.vue';
 import Result from '../views/Result.vue';
 import Document from '../views/Document';
+import Diff from '../views/Diff';
 
 Vue.use(VueRouter);
 
@@ -17,6 +18,12 @@ const routes = [
 		path: '/upload',
 		name: 'upload',
 		component: Upload,
+		meta: { title: 'Nahrať dokument' },
+	},
+	{
+		path: '/diff',
+		name: 'diff',
+		component: Diff,
 		meta: { title: 'Nahrať dokument' },
 	},
 	{

@@ -14,8 +14,13 @@
 				>
 					{{ title }}
 				</p>
-				<p class="hidden md:flex text-xl">
+				<p v-if="description !== ''" class="hidden md:flex text-xl">
 					{{ description }}
+				</p>
+				<p v-if="documents.length === 2" class="hidden md:flex text-xl">
+					{{ documents[0] }}
+					<span class="font-medium px-2"> a </span>
+					{{ documents[1] }}
 				</p>
 			</div>
 
@@ -47,8 +52,9 @@ export default {
 	},
 	props: {
 		title: { type: String, default: 'Výsledky kontroly' },
-		description: { type: String, required: true },
+		description: { type: String, default: '' },
 		percentage: { type: Number, default: undefined },
+		documents: { type: Array, default: () => [] },
 	},
 };
 </script>
