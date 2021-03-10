@@ -30,11 +30,7 @@
 					<div
 						class="px-1 font-semibold md:font-bold text-3xl md:text-5xl leading-none"
 					>
-						<span
-							>{{
-								percentage | toNumber | roundToTwoDecimals
-							}} %</span
-						>
+						<span>{{ percentage | toNumber | roundToTwoDecimals	}} %</span>
 					</div>
 				</div>
 			</div>
