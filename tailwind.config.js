@@ -44,8 +44,10 @@ module.exports = {
 		},
 	},
 	variants: {
-		borderWidth: ['responsive', 'first', 'last'],
 		visibility: ['group-hover'],
+		extend: {
+			borderWidth: ['first', 'last'],
+		}
 	},
 	plugins: [],
 };
