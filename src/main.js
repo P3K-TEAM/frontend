@@ -33,8 +33,7 @@ Vue.prototype.$axios = axios.create({
 	baseURL: process.env.VUE_APP_API_URL,
 });
 
-new Vue({
-	filter,
+new Vue({	
 	router,
 	store,
 	render: (h) => h(App),

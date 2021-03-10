@@ -32,8 +32,8 @@
 					>
 						<span
 							>{{
-								Number(percentage) | roundToTwoDecimals
-							}}%</span
+								percentage | toNumber | roundToTwoDecimals
+							}} %</span
 						>
 					</div>
 				</div>

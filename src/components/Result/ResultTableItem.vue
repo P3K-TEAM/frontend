@@ -14,7 +14,7 @@
 			</span>
 		</div>
 		<span class="w-4/12 md:w-3/12 truncate text-center">
-			{{ Number(document.percentage) | roundToTwoDecimals }} %
+			{{ document.percentage | toNumber | roundToTwoDecimals }} %
 		</span>
 		<span class="w-3/12 md:w-2/12 truncate text-center">
 			{{ document.matches }}

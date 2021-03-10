@@ -24,7 +24,7 @@
 					class="w-1/3 text-center mr-2 md:mr-0 truncate"
 					data-test-id="documentMatchesItemPercentage"
 				>
-					{{ Number(match.percentage) | roundToTwoDecimals }} %
+					{{ match.percentage | toNumber | roundToTwoDecimals }}%
 				</span>
 			</div>
 		</div>
