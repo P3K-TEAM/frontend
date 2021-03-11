@@ -4,6 +4,7 @@ import store from './store';
 import App from './App.vue';
 import { VTooltip, VPopover, VClosePopover } from 'v-tooltip';
 import axios from 'axios';
+import filter from './filters/filter'
 
 Vue.config.productionTip = false;
 
@@ -32,7 +33,7 @@ Vue.prototype.$axios = axios.create({
 	baseURL: process.env.VUE_APP_API_URL,
 });
 
-new Vue({
+new Vue({	
 	router,
 	store,
 	render: (h) => h(App),
