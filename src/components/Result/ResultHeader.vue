@@ -17,7 +17,7 @@
 				<p v-if="description !== ''" class="hidden md:flex text-xl">
 					{{ description }}
 				</p>
-				<p v-if="documents.length === 2" class="hidden md:flex text-xl">
+				<p v-if="documents.length === 2" class="hidden md:flex text-xl md:invisible ">
 					{{ documents[0] }}
 					<span class="font-medium px-2"> a </span>
 					{{ documents[1] }}
