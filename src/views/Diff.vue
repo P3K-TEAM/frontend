@@ -16,9 +16,10 @@
 					</p>
 				</div>
 				<div
+					v-html=done1
 					class="px-4 py-1 pt-1 md:pt-2 md:p-4 bg-white text-justify rounded-b-md md:rounded-b-lg shadow-md"
 				>
-					{{ documents.text1.obsah }}
+
 				</div>
 			</div>
 
@@ -33,7 +34,7 @@
 					</p>
 				</div>
 				<div
-					v-html="highlightedText()"
+					v-html=done2
 					class="px-4 py-1 pt-1 md:pt-2 md:p-4 bg-white text-justify rounded-b-md md:rounded-b-lg shadow-md"
 				></div>
 			</div>
@@ -53,6 +54,8 @@ export default {
 	data: function () {
 		return {
 			id: undefined,
+			done1: "",
+			done2: "",
 			documents: {
 				text1: {
 					name: 'moj_dokument.docx',
@@ -69,44 +72,66 @@ export default {
 						'Mauris sed eros enim. Sed viverra semper nunc, et ornare tellus ullamcorper eu. Nullam quam nisl, posuere ac ipsum quis, vehicula sollicitudin dolor. Pellentesque hendrerit purus sed lacus euismod porta. Mauris aliquam consectetur sem nec imperdiet. Nam urna leo, rutrum at rutrum eget, euismod sed dui. Morbi sit amet libero eget urna rhoncus pellentesque eget condimentum eros. Aenean vehicula est quis dolor sodales scelerisque. Morbi imperdiet urna eget volutpat ornare. Phasellus feugiat leo eget lectus egestas gravida. Morbi hendrerit imperdiet enim at porttitor. Sed fermentum ac risus lacinia egestas. Donec malesuada velit nec quam commodo, in laoreet mauris tempor.',
 				},
 				matches: [
-					{ fromA: 5, toA: 25, fromB: 15, toB: 25 },
-					{ fromA: 85, toA: 150, fromB: 50, toB: 75 },
-					{ fromA: 30, toA: 79, fromB: 50, toB: 75 },
+					{ fromA: 5, toA: 150, fromB: 15, toB: 150 },
+					{ fromA: 290, toA: 400, fromB: 800, toB: 1000 },
+					{ fromA: 550, toA: 900, fromB: 220, toB: 600 },
 				],
 			},
 		};
 	},
-	computed: {
-		compiledHighlight() {
-			return {
-				render: (h) => {
-					return h(Vue.compile(`<p>${this.highlightedText()}</p>`));
-				},
-			};
-		},
+	beforeMount(){
+		this.highlightedText()
 	},
 	methods: {
 		highlightedText: function () {
 			const indices = this.documents.matches
 				.map((matches) => ({
-					from: matches.fromA,
-					to: matches.toA,
+					fromA: matches.fromA,
+					toA: matches.toA,
+					fromB: matches.fromB,
+					toB: matches.toB,
+					color: this.generator()
 				}))
 				.flat();
 
-			indices.sort((a, b) => b.to - b.from - (a.to - a.from));
+			const indicesA = indices.slice(0);
+			const indicesB = indices.slice(0);
 
-			const subStringToReplace = indices.map((h) => ({
-				text: this.documents.text1.obsah.substring(h.from, h.to + 1),
+			console.log("Indices A:",indicesA);
+			console.log("Indices B:",indicesB);
+
+			indicesA.sort((a, b) => b.toA - b.fromA - (a.toA - a.fromA));
+			indicesB.sort((a, b) => b.toB - b.fromB - (a.toB - a.fromB));
+
+
+
+			const subStringToReplaceA = indicesA.map((h) => ({
+				text: this.documents.text1.obsah.substring(h.fromA, h.toA + 1),
+				color: h.color
 			}));
-			console.log();
-			console.log(subStringToReplace);
 
-			return subStringToReplace.reduce(
+			const subStringToReplaceB = indicesB.map((h) => ({
+				text: this.documents.text2.obsah.substring(h.fromB, h.toB + 1),
+				color: h.color
+			}));
+
+			console.log("AAA",subStringToReplaceA);
+			console.log("BBB",subStringToReplaceB);
+
+			this.done2 = subStringToReplaceB.reduce(
 				(string, substring) =>
 					string.replace(
 						new RegExp(substring.text, 'g'),
-						`<span  style="color:${this.generator()};" class=" font-bold">${substring.text}</span>`
+						`<span  style="color:${substring.color};" class=" font-bold">${substring.text}</span>`
+					),
+				escape(this.documents.text2.obsah)
+			);
+
+			this.done1 = subStringToReplaceA.reduce(
+				(string, substring) =>
+					string.replace(
+						new RegExp(substring.text, 'g'),
+						`<span  style="color:${substring.color};" class="font-bold">${substring.text}</span>`
 					),
 				escape(this.documents.text1.obsah)
 			);
