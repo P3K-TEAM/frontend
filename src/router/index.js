@@ -21,12 +21,6 @@ const routes = [
 		meta: { title: 'Nahrať dokument' },
 	},
 	{
-		path: '/diff',
-		name: 'diff',
-		component: Diff,
-		meta: { title: 'Nahrať dokument' },
-	},
-	{
 		path: '/result/:result',
 		component: {
 			render(h) {
@@ -45,6 +39,12 @@ const routes = [
 				name: 'document',
 				component: Document,
 				meta: { title: 'Dokument' },
+			},
+			{
+				path: 'diff/:diff',
+				name: 'diff',
+				component: Diff,
+				meta: { title: 'Podobnosť dokumentov' },
 			},
 		],
 	},
