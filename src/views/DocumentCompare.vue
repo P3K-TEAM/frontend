@@ -1,10 +1,17 @@
 <template>
 	<div class="bg-gray-300">
-		<ResultHeader
-			title="Podobnosť dokumentov:"
-			:documents="[documents.textA.name, documents.textB.name]"
-		/>
-		<div class="md:flex py-4 md:py-4">
+		<ResultHeader v-if="documents" title="Podobnosť dokumentov:">
+			<p
+				v-if="documents"
+				slot="description"
+				class="hidden md:flex text-xl md:invisible"
+			>
+				{{ documents.textA.name }}
+				<span class="font-medium px-2"> a </span>
+				{{ documents.textB.name }}
+			</p>
+		</ResultHeader>
+		<div v-if="documents" class="md:flex py-4 md:py-4">
 			<div
 				class="md:flex1 rounded-md md:rounded-lg mx-4 md:mt-0 md:mr-2 md:ml-4 md:w-1/2 lg:ml-12"
 			>
@@ -53,7 +60,7 @@ export default {
 			id: undefined,
 			doneA: '',
 			doneB: '',
-			documents: {},
+			documents: undefined,
 		};
 	},
 	mounted: function () {
@@ -64,7 +71,9 @@ export default {
 
 		retry(
 			() => this.fetchResult(this.id),
-			(result) => result.length !== 0
+			(result) => result.textA && result.textB && result.matches,
+			1000,
+			2
 		)
 			.then((result) => {
 				this.documents = result;
@@ -83,6 +92,14 @@ export default {
 							'Documents for diff found, but no matches found. Please contact administrator',
 						type: 'error',
 					});
+
+				if (
+					this.documents &&
+					this.documents.textA &&
+					this.documents.textB &&
+					this.documents.matches
+				)
+					this.highlightText();
 			})
 			.catch((e) => {
 				this.$store.dispatch('AlertStore/setAlert', {
@@ -92,7 +109,6 @@ export default {
 				});
 			})
 			.finally(() => {
-				this.highlightText();
 				this.$store.dispatch('setLoading', false);
 			});
 	},
@@ -106,14 +122,14 @@ export default {
 			return Promise.resolve({
 				textA: {
 					name: 'moj_dokument.docx',
-					obsah:
+					content:
 						'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec imperdiet nibh vel dolor fringilla tincidunt. Etiam neque eros, feugiat iaculis nisl id, gravida molestie ipsum. Ut tempor, lacus non tincidunt tincidunt, nunc risus vehicula nibh, in pulvinar libero dolor imperdiet elit. Aliquam ac ipsum ut libero molestie bibendum. Donec consequat urna ut augue consectetur rutrum. Maecenas aliquam diam feugiat ipsum iaculis accumsan. Aliquam dictum arcu eu libero pharetra, id blandit lorem finibus. Quisque vitae orci egestas, commodo purus vel, dapibus urna. Nunc in justo dui. Aliquam vel placerat sapien. Sed id fringilla massa, id placerat ipsum. Aliquam placerat, nulla vitae condimentum condimentum, nibh nisl convallis purus, non congue enim sem eu orci. Nunc ultricies imperdiet augue ac pharetra.\n' +
 						'\n' +
 						'Mauris sed eros enim. Sed viverra semper nunc, et ornare tellus ullamcorper eu. Nullam quam nisl, posuere ac ipsum quis, vehicula sollicitudin dolor. Pellentesque hendrerit purus sed lacus euismod porta. Mauris aliquam consectetur sem nec imperdiet. Nam urna leo, rutrum at rutrum eget, euismod sed dui. Morbi sit amet libero eget urna rhoncus pellentesque eget condimentum eros. Aenean vehicula est quis dolor sodales scelerisque. Morbi imperdiet urna eget volutpat ornare. Phasellus feugiat leo eget lectus egestas gravida. Morbi hendrerit imperdiet enim at porttitor. Sed fermentum ac risus lacinia egestas. Donec malesuada velit nec quam commodo, in laoreet mauris tempor.',
 				},
 				textB: {
 					name: 'cudzi_dokument.docx',
-					obsah:
+					content:
 						'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec imperdiet nibh vel dolor fringilla tincidunt. Etiam neque eros, feugiat iaculis nisl id, gravida molestie ipsum. Ut tempor, lacus non tincidunt tincidunt, nunc risus vehicula nibh, in pulvinar libero dolor imperdiet elit. Aliquam ac ipsum ut libero molestie bibendum. Donec consequat urna ut augue consectetur rutrum. Maecenas aliquam diam feugiat ipsum iaculis accumsan. Aliquam dictum arcu eu libero pharetra, id blandit lorem finibus. Quisque vitae orci egestas, commodo purus vel, dapibus urna. Nunc in justo dui. Aliquam vel placerat sapien. Sed id fringilla massa, id placerat ipsum. Aliquam placerat, nulla vitae condimentum condimentum, nibh nisl convallis purus, non congue enim sem eu orci. Nunc ultricies imperdiet augue ac pharetra.\n' +
 						'\n' +
 						'Mauris sed eros enim. Sed viverra semper nunc, et ornare tellus ullamcorper eu. Nullam quam nisl, posuere ac ipsum quis, vehicula sollicitudin dolor. Pellentesque hendrerit purus sed lacus euismod porta. Mauris aliquam consectetur sem nec imperdiet. Nam urna leo, rutrum at rutrum eget, euismod sed dui. Morbi sit amet libero eget urna rhoncus pellentesque eget condimentum eros. Aenean vehicula est quis dolor sodales scelerisque. Morbi imperdiet urna eget volutpat ornare. Phasellus feugiat leo eget lectus egestas gravida. Morbi hendrerit imperdiet enim at porttitor. Sed fermentum ac risus lacinia egestas. Donec malesuada velit nec quam commodo, in laoreet mauris tempor.',
@@ -126,7 +142,7 @@ export default {
 			});
 		},
 		highlightText: function () {
-			const  _ = require('lodash');
+			const _ = require('lodash');
 
 			const indices = this.documents.matches
 				.map((matches) => ({
@@ -145,23 +161,29 @@ export default {
 			indicesB.sort((a, b) => b.toB - b.fromB - (a.toB - a.fromB));
 
 			const subStringToReplaceA = indicesA.map((interval) => ({
-				text: this.documents.textA.obsah.substring(interval.fromA, interval.toA + 1),
+				text: this.documents.textA.content.substring(
+					interval.fromA,
+					interval.toA + 1
+				),
 				color: interval.color,
 			}));
 
 			const subStringToReplaceB = indicesB.map((interval) => ({
-				text: this.documents.textB.obsah.substring(interval.fromB, interval.toB + 1),
+				text: this.documents.textB.content.substring(
+					interval.fromB,
+					interval.toB + 1
+				),
 				color: interval.color,
 			}));
 
 			this.doneA = this.merge_text(
 				subStringToReplaceA,
-				this.documents.textA.obsah
+				this.documents.textA.content
 			);
 
 			this.doneB = this.merge_text(
 				subStringToReplaceB,
-				this.documents.textB.obsah
+				this.documents.textB.content
 			);
 		},
 		hex_color_generator: function () {

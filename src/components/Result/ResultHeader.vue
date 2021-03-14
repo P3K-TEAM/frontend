@@ -14,14 +14,10 @@
 				>
 					{{ title }}
 				</p>
-				<p v-if="description !== ''" class="hidden md:flex text-xl">
+				<p v-if="description" class="hidden md:flex text-xl">
 					{{ description }}
 				</p>
-				<p v-if="documents.length === 2" class="hidden md:flex text-xl md:invisible ">
-					{{ documents[0] }}
-					<span class="font-medium px-2"> a </span>
-					{{ documents[1] }}
-				</p>
+				<slot name="description"></slot>
 			</div>
 
 			<div
@@ -35,7 +31,9 @@
 					<div
 						class="px-1 font-semibold md:font-bold text-3xl md:text-5xl leading-none"
 					>
-						<span>{{ percentage | toNumber | roundToTwoDecimals	}} %</span>
+						<span>
+							{{ percentage | toNumber | roundToTwoDecimals }}%
+						</span>
 					</div>
 				</div>
 			</div>
@@ -54,7 +52,6 @@ export default {
 		title: { type: String, default: 'Výsledky kontroly' },
 		description: { type: String, default: '' },
 		percentage: { type: Number, default: undefined },
-		documents: { type: Array, default: () => [] },
 	},
 };
 </script>
