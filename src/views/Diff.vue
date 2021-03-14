@@ -24,7 +24,7 @@
 				class="md:flex1 rounded-md md:rounded-md mt-4 mx-4 md:mt-0 d:mr-4 md:ml-2 md:w-1/2 lg:mr-12"
 			>
 				<div
-					class="flex items-center justify-between px-2 py-1 md:p-2 md:h-12 bg-primary-500 text-white text-lg rounded-t-md md:rounded-t-lg"
+					class="flex items-center justify--between px-2 py-1 md:p-2 md:h-12 bg-primary-500 text-white text-lg rounded-t-md md:rounded-t-lg"
 				>
 					<p class="mx-auto">
 						{{ documents.textB.name }}
@@ -126,6 +126,8 @@ export default {
 			});
 		},
 		highlightedText: function () {
+			const  _ = require('lodash');
+
 			const indices = this.documents.matches
 				.map((matches) => ({
 					fromA: matches.fromA,
@@ -136,8 +138,8 @@ export default {
 				}))
 				.flat();
 
-			const indicesA = indices.slice(0);
-			const indicesB = indices.slice(0);
+			const indicesA = _.cloneDeep(indices);
+			const indicesB = _.cloneDeep(indices);
 
 			indicesA.sort((a, b) => b.toA - b.fromA - (a.toA - a.fromA));
 			indicesB.sort((a, b) => b.toB - b.fromB - (a.toB - a.fromB));
