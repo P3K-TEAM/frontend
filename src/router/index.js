@@ -4,7 +4,7 @@ import Home from '../views/Home.vue';
 import Upload from '../views/Upload.vue';
 import Result from '../views/Result.vue';
 import Document from '../views/Document';
-import Diff from '../views/Diff';
+import DocumentCompare from '../views/DocumentCompare';
 
 Vue.use(VueRouter);
 
@@ -41,9 +41,9 @@ const routes = [
 				meta: { title: 'Dokument' },
 			},
 			{
-				path: 'diff/:diff',
-				name: 'diff',
-				component: Diff,
+				path: 'compare/:compare',
+				name: 'compare',
+				component: DocumentCompare,
 				meta: { title: 'Podobnosť dokumentov' },
 			},
 		],

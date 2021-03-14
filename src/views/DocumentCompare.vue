@@ -60,7 +60,7 @@ export default {
 		// initial spinner
 		this.$store.dispatch('setLoading', true);
 
-		this.id = this.$route.params.diff;
+		this.id = this.$route.params.compare;
 
 		retry(
 			() => this.fetchResult(this.id),
@@ -92,7 +92,7 @@ export default {
 				});
 			})
 			.finally(() => {
-				this.highlightedText();
+				this.highlightText();
 				this.$store.dispatch('setLoading', false);
 			});
 	},
@@ -125,7 +125,7 @@ export default {
 				],
 			});
 		},
-		highlightedText: function () {
+		highlightText: function () {
 			const  _ = require('lodash');
 
 			const indices = this.documents.matches
@@ -144,14 +144,14 @@ export default {
 			indicesA.sort((a, b) => b.toA - b.fromA - (a.toA - a.fromA));
 			indicesB.sort((a, b) => b.toB - b.fromB - (a.toB - a.fromB));
 
-			const subStringToReplaceA = indicesA.map((h) => ({
-				text: this.documents.textA.obsah.substring(h.fromA, h.toA + 1),
-				color: h.color,
+			const subStringToReplaceA = indicesA.map((interval) => ({
+				text: this.documents.textA.obsah.substring(interval.fromA, interval.toA + 1),
+				color: interval.color,
 			}));
 
-			const subStringToReplaceB = indicesB.map((h) => ({
-				text: this.documents.textB.obsah.substring(h.fromB, h.toB + 1),
-				color: h.color,
+			const subStringToReplaceB = indicesB.map((interval) => ({
+				text: this.documents.textB.obsah.substring(interval.fromB, interval.toB + 1),
+				color: interval.color,
 			}));
 
 			this.doneA = this.merge_text(
