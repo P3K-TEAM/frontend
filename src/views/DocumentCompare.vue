@@ -77,21 +77,11 @@ export default {
 					throw new TypeError(
 						'No documents for diff found. Please contact administrator'
 					);
-				// this.$store.dispatch('AlertStore/setAlert', {
-				// 	message:
-				// 		'No documents for diff found. Please contact administrator',
-				// 	type: 'error',
-				// });
 
 				if (this.documents && this.documents.matches.length === 0)
 					throw new TypeError(
 						'Documents for diff found, but no matches found. Please contact administrator'
 					);
-				// this.$store.dispatch('AlertStore/setAlert', {
-				// 	message:
-				// 		'Documents for diff found, but no matches found. Please contact administrator',
-				// 	type: 'error',
-				// });
 
 				this.highlightedTexts = this.highlightText(this.documents);
 			})

@@ -36,15 +36,25 @@ const routes = [
 			},
 			{
 				path: 'document/:document',
-				name: 'document',
-				component: Document,
-				meta: { title: 'Dokument' },
-			},
-			{
-				path: 'compare/:compare',
-				name: 'compare',
-				component: DocumentCompare,
-				meta: { title: 'Podobnosť dokumentov' },
+				component: {
+					render(h) {
+						return h('router-view');
+					},
+				},
+				children: [
+					{
+						path: '/',
+						name: 'document',
+						component: Document,
+						meta: { title: 'Dokument' },
+					},
+					{
+						path: 'compare/:compare',
+						name: 'compare',
+						component: DocumentCompare,
+						meta: { title: 'Podobnosť dokumentov' },
+					},
+				],
 			},
 		],
 	},
