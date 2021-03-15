@@ -37,13 +37,19 @@
 				/>
 			</div>
 
-			<div class="flex flex-row justify-end items-end text-center w-full px-2 md:px-20 md:text-right pb-2 md:pb-10 mt-10 md:mt-10 ">
-						
+			<div class="flex flex-row justify-end items-end text-center w-full px-2 md:px-20 md:text-right pb-2 md:pb-10 mt-10 md:mt-10 ">		
 				<div class="flex flex-row">	
-					<input type="checkbox" id="checkbox" v-model="checked" class="m-2"/>
-					
+					<input 
+						v-model="checked" 
+						type="checkbox" 
+						class="m-2"
+					>
 					<div v-if="checked == true" class="flex-row pr-5">
-						<input class="border border-dark" v-model="message" placeholder="mail@mail.sk">
+						<input 
+							v-model="message" 
+							class="border border-dark" 
+							placeholder="mail@mail.sk"
+						>
 					</div>
 					<div v-else class="flex-row pr-5">
 						<label>Pridať mailovú adresu</label>
@@ -58,7 +64,6 @@
 				>
 					Nahrať
 				</button>
-
 			</div>
 		</div>
 	</div>
