@@ -36,7 +36,20 @@
 					@text-change="updateText"
 				/>
 			</div>
+
 			<div class="flex flex-row justify-end items-end text-center w-full px-2 md:px-20 md:text-right pb-2 md:pb-10 mt-10 md:mt-10 ">
+						
+				<div class="flex flex-row">	
+					<input type="checkbox" id="checkbox" v-model="checked" class="m-2"/>
+					
+					<div v-if="checked == true" class="flex-row pr-5">
+						<input class="border border-dark" v-model="message" placeholder="mail@mail.sk">
+					</div>
+					<div v-else class="flex-row pr-5">
+						<label>Pridať mailovú adresu</label>
+					</div>
+				</div>
+
 				<button
 					type="button"
 					class="fmt-2 w-full md:w-auto px-5 md:px-8 py-2 text-center text-base text-white bg-primary-500 hover:bg-primary-400 
@@ -45,6 +58,7 @@
 				>
 					Nahrať
 				</button>
+
 			</div>
 		</div>
 	</div>
@@ -69,6 +83,7 @@ export default {
 			tabs: ['Nahrať súbory', 'Vložiť text'],
 			files: [],
 			text: '',
+			checked: false,
 		};
 	},
 	mounted() {
