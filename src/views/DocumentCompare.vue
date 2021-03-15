@@ -1,11 +1,7 @@
 <template>
 	<div class="bg-gray-300">
 		<ResultHeader v-if="documents" title="Podobnosť dokumentov:">
-			<p
-				v-if="documents"
-				slot="description"
-				class="hidden md:flex text-xl md:invisible"
-			>
+			<p slot="description" class="hidden md:flex text-xl md:invisible">
 				{{ documents.textA.name }}
 				<span class="font-medium px-2"> a </span>
 				{{ documents.textB.name }}
@@ -23,7 +19,7 @@
 					</p>
 				</div>
 				<div
-					v-html="doneA"
+					v-html="highlightedTexts.A"
 					class="px-4 py-1 pt-1 md:pt-2 md:p-4 bg-white text-justify rounded-b-md md:rounded-b-lg shadow-md"
 				/>
 			</div>
@@ -38,7 +34,7 @@
 					</p>
 				</div>
 				<div
-					v-html="doneB"
+					v-html="highlightedTexts.B"
 					class="px-4 py-1 pt-1 md:pt-2 md:p-4 bg-white text-justify rounded-b-md md:rounded-b-lg shadow-md"
 				/>
 			</div>
@@ -48,7 +44,7 @@
 
 <script>
 import ResultHeader from '../components/Result/ResultHeader';
-import { escape } from 'lodash';
+import { escape, cloneDeep } from 'lodash';
 import retry from '@/functions/retry.function';
 
 export default {
@@ -58,8 +54,8 @@ export default {
 	data: function () {
 		return {
 			id: undefined,
-			doneA: '',
-			doneB: '',
+			documentId: undefined,
+			highlightedTexts: undefined,
 			documents: undefined,
 		};
 	},
@@ -68,38 +64,36 @@ export default {
 		this.$store.dispatch('setLoading', true);
 
 		this.id = this.$route.params.compare;
+		this.documentId = this.$route.params.document;
 
 		retry(
-			() => this.fetchResult(this.id),
-			(result) => result.textA && result.textB && result.matches,
-			1000,
-			2
+			() => this.fetchResult(this.documentId, this.id),
+			(result) => result.textA && result.textB && result.matches
 		)
 			.then((result) => {
 				this.documents = result;
 
-				// If no documents are present even though the submission is processed
 				if (!this.documents.textA || !this.documents.textB)
-					this.$store.dispatch('AlertStore/setAlert', {
-						message:
-							'No documents for diff found. Please contact administrator',
-						type: 'error',
-					});
+					throw new TypeError(
+						'No documents for diff found. Please contact administrator'
+					);
+				// this.$store.dispatch('AlertStore/setAlert', {
+				// 	message:
+				// 		'No documents for diff found. Please contact administrator',
+				// 	type: 'error',
+				// });
 
 				if (this.documents && this.documents.matches.length === 0)
-					this.$store.dispatch('AlertStore/setAlert', {
-						message:
-							'Documents for diff found, but no matches found. Please contact administrator',
-						type: 'error',
-					});
+					throw new TypeError(
+						'Documents for diff found, but no matches found. Please contact administrator'
+					);
+				// this.$store.dispatch('AlertStore/setAlert', {
+				// 	message:
+				// 		'Documents for diff found, but no matches found. Please contact administrator',
+				// 	type: 'error',
+				// });
 
-				if (
-					this.documents &&
-					this.documents.textA &&
-					this.documents.textB &&
-					this.documents.matches
-				)
-					this.highlightText();
+				this.highlightedTexts = this.highlightText(this.documents);
 			})
 			.catch((e) => {
 				this.$store.dispatch('AlertStore/setAlert', {
@@ -116,7 +110,7 @@ export default {
 		fetchResult() {
 			//Connect to BE
 			// return this.$axios
-			// 	.get(`/api/submissions/${id}`)
+			// 	.get(`/api/documents/${documentId}/diff/id`)
 			// 	.then((response) => response.data);
 
 			return Promise.resolve({
@@ -141,10 +135,8 @@ export default {
 				],
 			});
 		},
-		highlightText: function () {
-			const _ = require('lodash');
-
-			const indices = this.documents.matches
+		highlightText: function (documents) {
+			const indices = documents.matches
 				.map((matches) => ({
 					fromA: matches.fromA,
 					toA: matches.toA,
@@ -154,14 +146,14 @@ export default {
 				}))
 				.flat();
 
-			const indicesA = _.cloneDeep(indices);
-			const indicesB = _.cloneDeep(indices);
+			const indicesA = cloneDeep(indices);
+			const indicesB = cloneDeep(indices);
 
 			indicesA.sort((a, b) => b.toA - b.fromA - (a.toA - a.fromA));
 			indicesB.sort((a, b) => b.toB - b.fromB - (a.toB - a.fromB));
 
 			const subStringToReplaceA = indicesA.map((interval) => ({
-				text: this.documents.textA.content.substring(
+				text: documents.textA.content.substring(
 					interval.fromA,
 					interval.toA + 1
 				),
@@ -169,22 +161,23 @@ export default {
 			}));
 
 			const subStringToReplaceB = indicesB.map((interval) => ({
-				text: this.documents.textB.content.substring(
+				text: documents.textB.content.substring(
 					interval.fromB,
 					interval.toB + 1
 				),
 				color: interval.color,
 			}));
 
-			this.doneA = this.merge_text(
-				subStringToReplaceA,
-				this.documents.textA.content
-			);
-
-			this.doneB = this.merge_text(
-				subStringToReplaceB,
-				this.documents.textB.content
-			);
+			return {
+				A: this.merge_text(
+					subStringToReplaceA,
+					documents.textA.content
+				),
+				B: this.merge_text(
+					subStringToReplaceB,
+					documents.textB.content
+				),
+			};
 		},
 		hex_color_generator: function () {
 			return '#' + ((Math.random() * 0xffffff) << 0).toString(16);
