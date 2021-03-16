@@ -1,9 +1,14 @@
-const sleep = (ms) => {
+function sleep(ms) {
 	return new Promise((resolve) => setTimeout(resolve, ms));
-};
+}
 
 // generic function for retrying demand
-const retry = (fn, conditionFn, waitingInterval = 5000, maxRetries = 100) => {
+export default function retry(
+	fn,
+	conditionFn,
+	waitingInterval = 3000,
+	maxRetries = 10
+) {
 	const tryToGetResult = (retry) => {
 		return fn().then((result) => {
 			if (conditionFn(result)) {
@@ -21,6 +26,4 @@ const retry = (fn, conditionFn, waitingInterval = 5000, maxRetries = 100) => {
 	};
 	// start retrying function
 	return tryToGetResult(1);
-};
-
-module.exports = retry;
+}
