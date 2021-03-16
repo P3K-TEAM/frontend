@@ -1,5 +1,5 @@
 function sleep(ms) {
-	return new Promise((resolve) => setTimeout(resolve, ms));
+	return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 // generic function for retrying demand
@@ -9,8 +9,8 @@ export default function retry(
 	waitingInterval = 3000,
 	maxRetries = 10
 ) {
-	const tryToGetResult = (retry) => {
-		return fn().then((result) => {
+	const tryToGetResult = retry => {
+		return fn().then(result => {
 			if (conditionFn(result)) {
 				return result;
 			}

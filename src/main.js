@@ -29,7 +29,7 @@ Vue.directive('close-popover', VClosePopover);
 Vue.component('v-popover', VPopover);
 
 // Page title
-router.afterEach((to) => {
+router.afterEach(to => {
 	Vue.nextTick(() => {
 		document.title = `${to.meta && to.meta.title ? `${to.meta.title} | ` : ''}AntiPlag`;
 	});
@@ -50,5 +50,5 @@ Vue.prototype.$filters = filters;
 new Vue({
 	router,
 	store,
-	render: (h) => h(App),
+	render: h => h(App),
 }).$mount('#app');

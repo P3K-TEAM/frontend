@@ -36,7 +36,7 @@
 									multiple
 									class="hidden"
 									@change="handleFileUpload"
-								>
+								/>
 							</label>
 						</div>
 					</div>

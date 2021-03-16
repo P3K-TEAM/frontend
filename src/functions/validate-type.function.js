@@ -12,7 +12,7 @@ export default function validateType(variable, expectedType, variableName) {
 
 	const isOneOfType = expectedType
 		.split('|')
-		.some((type) => typeof variable === type.toString().trim());
+		.some(type => typeof variable === type.toString().trim());
 
 	// typeof array is object, needs to be checked separately
 	const isArray = expectedType.includes('array') && Array.isArray(variable);
