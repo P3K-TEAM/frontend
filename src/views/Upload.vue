@@ -37,8 +37,7 @@
 				/>
 			</div>
 
-			<div class="flex flex-row justify-end items-end text-center w-full px-2 md:px-20 md:text-right pb-2 md:pb-10 mt-10 md:mt-10 ">		
-							
+			<div class="flex flex-row justify-end items-end text-center w-full px-2 md:px-20 md:text-right pb-2 md:pb-10 mt-10 md:mt-10 ">					
 				<input 
 					v-model="userEmailProvided" 
 					type="checkbox" 
@@ -153,7 +152,7 @@ export default {
 							'Nezadali ste súbor, ktorý chcete skontrolovať !',
 						type: 'error',
 					});
-				};
+				}
 				
 				if (isEmailProvided) {
 					email = this.email; 
