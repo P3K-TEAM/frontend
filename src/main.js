@@ -1,11 +1,17 @@
 import Vue from 'vue';
+import Vuex from 'vuex';
 import router from './router';
 import store from './store';
-import App from './App.vue';
-import { VTooltip, VPopover, VClosePopover } from 'v-tooltip';
-import axios from 'axios';
 import filters from './filters';
 
+// Third party global dependencies
+import axios from 'axios';
+import { VTooltip, VPopover, VClosePopover } from 'v-tooltip';
+
+// Root component
+import App from './App.vue';
+
+// Production tooltip
 Vue.config.productionTip = false;
 
 // Font Awesome Icons
@@ -29,9 +35,14 @@ router.afterEach((to) => {
 	});
 });
 
-Vue.prototype.$axios = axios.create({
+// Set baseURL of axios
+const axiosInstance = axios.create({
 	baseURL: process.env.VUE_APP_API_URL,
 });
+
+// Set axios as global property (this.$axios)
+Vue.prototype.$axios = axiosInstance;
+Vuex.Store.prototype.$axios = axiosInstance;
 
 // Set filters as global property (to be addressed from script)
 Vue.prototype.$filters = filters;
