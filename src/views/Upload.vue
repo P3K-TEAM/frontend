@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import Navigation from '@/components/Navigation/Navigation.vue';
+import Navigation from '@/components/Global/Navigation/Navigation.vue';
 import UploadTab from '@/components/Upload/UploadTab.vue';
 import UploadFile from '@/components/Upload/UploadFile.vue';
 import UploadText from '@/components/Upload/UploadText.vue';

@@ -39,7 +39,7 @@
 </template>
 
 <script>
-import Navigation from '@/components/Navigation/Navigation';
+import Navigation from '@/components/Global/Navigation/Navigation';
 
 export default {
 	components: {
