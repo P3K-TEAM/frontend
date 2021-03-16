@@ -47,7 +47,7 @@ export default {
 		},
 
 		SET_DURATION(state, duration) {
-			if (!duration) {
+			if (duration === undefined) {
 				state.duration = state.defaultDuration;
 				return;
 			}

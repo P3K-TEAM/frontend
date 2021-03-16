@@ -1,6 +1,6 @@
 <template>
 	<div id="app" class="flex flex-col h-full">
-		<router-view class="flex-auto flex-shrink-0" />
+		<router-view class="flex flex-col min-h-screen" />
 		<Alert />
 		<Backdrop>
 			<Spinner :active="isLoading" :message="loadingMessage" />

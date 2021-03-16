@@ -7,7 +7,7 @@
 			"
 			description="Nižšie nájdete podrobné štatistiky kontroly originality vašej práce"
 		/>
-		<div v-if="document" class="mx-4 md:container md:mx-auto mt-4 md:my-20">
+		<div v-if="document" class="flex-grow mx-4 md:container md:mx-auto mt-4 md:my-20">
 			<a
 				v-if="isMultiple"
 				class="flex items-center p-2 mb-0 md:mb-2 cursor-pointer text-lg md:text-2xl text-gray-600 hover:text-gray-700"

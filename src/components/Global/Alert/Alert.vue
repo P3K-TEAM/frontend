@@ -43,7 +43,7 @@ export default {
 	watch: {
 		isActive(newValue) {
 			// If alert was enabled, set timeout and then dismiss after certain amount of time
-			if (newValue) {
+			if (newValue && this.duration > 0) {
 				setTimeout(() => this.dismiss(), this.duration);
 			}
 		},
