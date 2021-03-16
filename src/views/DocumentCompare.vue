@@ -7,6 +7,20 @@
 				{{ documents.textB.name }}
 			</p>
 		</ResultHeader>
+		<div class="px-5 pt-5 md:px-10 md:pt-0" >
+			<a
+				class="flex items-center p-2 mb-0 md:mb-2 cursor-pointer text-lg md:text-2xl text-gray-600 hover:text-gray-700"
+				@click="
+					$router.push({
+						name: 'result',
+						params: { result: 1 },
+					})
+				"
+			>
+				<i class="fas fa-chevron-left text-sm md:text-lg mr-2" />
+				Späť
+			</a>
+		</div>
 		<div v-if="documents" class="md:flex py-4 md:py-4">
 			<div
 				class="md:flex1 rounded-md md:rounded-lg mx-4 md:mt-0 md:mr-2 md:ml-4 md:w-1/2 lg:ml-12"
@@ -67,19 +81,19 @@ export default {
 		this.documentId = this.$route.params.document;
 
 		retry(
-			() => this.fetchResult(this.documentId, this.id),
+			() => this.fetchDocument(this.documentId, this.id),
 			(result) => result.textA && result.textB && result.matches
 		)
 			.then((result) => {
 				this.documents = result;
 
 				if (!this.documents.textA || !this.documents.textB)
-					throw new TypeError(
+					throw new Error(
 						'No documents for diff found. Please contact administrator'
 					);
 
 				if (this.documents && this.documents.matches.length === 0)
-					throw new TypeError(
+					throw new Error(
 						'Documents for diff found, but no matches found. Please contact administrator'
 					);
 
@@ -97,12 +111,28 @@ export default {
 			});
 	},
 	methods: {
-		fetchResult(documentId,id) {
+		fetchDocument(documentId, id) {
 			// Connect to BE
-			return this.$axios
-				.get(`/api/documents/${documentId}/diff/${id}`)
-				.then((response) => response.data);
+			// return this.$axios
+			// 	.get(`/api/documents/${documentId}/diff/${id}`)
+			// 	.then((response) => response.data);
 
+			return Promise.resolve({
+				textA: {
+					name: 'moj_dokument.docx',
+					content:
+						'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec imperdiet nibh vel dolor fringilla tincidunt. Etiam neque eros, feugiat iaculis nisl id, gravida molestie ipsum. Ut tempor, lacus non tincidunt tincidunt, nunc risus vehicula nibh, in pulvinar libero dolor imperdiet elit. Aliquam ac ipsum ut libero molestie bibendum. Donec consequat urna ut augue consectetur rutrum. Maecenas aliquam diam feugiat ipsum iaculis accumsan. Aliquam dictum arcu eu libero pharetra, id blandit lorem finibus. Quisque vitae orci egestas, commodo purus vel, dapibus urna. Nunc in justo dui. Aliquam vel placerat sapien. Sed id fringilla massa, id placerat ipsum. Aliquam placerat, nulla vitae condimentum condimentum, nibh nisl convallis purus, non congue enim sem eu orci. Nunc ultricies imperdiet augue ac pharetrMauris sed eros enim. Sed viverra semper nunc, et ornare tellus ullamcorper eu. Nullam quam nisl, posuere ac ipsum quis, vehicula sollicitudin dolor. Pellentesque hendrerit purus sed lacus euismod porta. Mauris aliquam consectetur sem nec imperdiet. Nam urna leo, rutrum at rutrum eget, euismod sed dui. Morbi sit amet libero eget urna rhoncus pellentesque eget condimentum eros. Aenean vehicula est quis dolor sodales scelerisque. Morbi imperdiet urna eget volutpat ornare. Phasellus feugiat leo eget lectus egestas gravida. Morbi hendrerit imperdiet enim at porttitor. Sed fermentum ac risus lacinia egestas. Donec malesuada velit nec quam commodo, in laoreet mauris tempor.',
+				},
+				textB: {
+					name: 'cudzi_dokument.docx',
+					content:
+						'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec imperdiet nibh vel dolor fringilla tincidunt. Etiam neque eros, feugiat iaculis nisl id, gravida molestie ipsum. Ut tempor, lacus non tincidunt tincidunt, nunc risus vehicula nibh, in pulvinar libero dolor imperdiet elit. Aliquam ac ipsum ut libero molestie bibendum. Donec consequat urna ut augue consectetur rutrum. Maecenas aliquam diam feugiat ipsum iaculis accumsan. Aliquam dictum arcu eu libero pharetra, id blandit lorem finibus. Quisque vitae orci egestas, commodo purus vel, dapibus urna. Nunc in justo dui. Aliquam vel placerat sapien. Sed id fringilla massa, id placerat ipsum. Aliquam placerat, nulla vitae condimentum condimentum, nibh nisl convallis purus, non congue enim sem eu orci. Nunc ultricies imperdiet augue ac pharetra.',
+				},
+				matches: [
+					{ fromA: 290, toA: 400, fromB: 800, toB: 1000 },
+					{ fromA: 550, toA: 900, fromB: 220, toB: 600 },
+				],
+			});
 		},
 		highlightText: function (documents) {
 			const indices = documents.matches
