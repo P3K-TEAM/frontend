@@ -3,13 +3,15 @@
 		<ResultHeader
 			:percentage="document ? document.result.percentage : undefined"
 			:title="
-				document && isMultiple ? document.name : 'Výsledky kontroly'
+				document && document.name ? document.name : 'Výsledky kontroly'
 			"
 			description="Nižšie nájdete podrobné štatistiky kontroly originality vašej práce"
 		/>
-		<div v-if="document" class="mx-4 md:container md:mx-auto mt-4 md:my-20">
+		<div
+			v-if="document"
+			class="flex-grow mx-4 md:container md:mx-auto mt-4 md:my-20"
+		>
 			<a
-				v-if="isMultiple"
 				class="flex items-center p-2 mb-0 md:mb-2 cursor-pointer text-lg md:text-2xl text-gray-600 hover:text-gray-700"
 				@click="
 					$router.push({
@@ -19,16 +21,13 @@
 				"
 			>
 				<i class="fas fa-chevron-left text-sm md:text-lg mr-2" />
-				Všetky súbory
+				Späť
 			</a>
 			<div class="shadow rounded-md md:rounded-lg">
 				<div
 					class="flex items-center justify-between px-4 py-1 md:p-4 md:h-16 bg-primary-500 text-white text-2xl rounded-t-md md:rounded-t-lg"
 				>
-					<span
-						v-if="isMultiple"
-						class="w-1/2 text-base md:text-3xl truncate pr-2"
-					>
+					<span class="w-1/2 text-base md:text-3xl truncate pr-2">
 						{{ document.name }}
 					</span>
 					<button
@@ -37,7 +36,9 @@
 						class="flex items-center ml-auto py-1 md:py-1 px-1 md:px-2 hover:text-white hover:bg-primary-400 focus:outline-none rounded-md"
 						@click="showFiles = !showFiles"
 					>
-						<span class="font-semibold text-base md:text-2xl"> Súbory / Texty </span>
+						<span class="font-semibold text-base md:text-2xl">
+							Súbory / Texty
+						</span>
 					</button>
 				</div>
 				<div
@@ -75,13 +76,12 @@ export default {
 			showFiles: !this.showDocumentText,
 			document: undefined,
 			submissionId: undefined,
-			isMultiple: true,
 		};
 	},
 	computed: {
 		compiledHighlight() {
 			return {
-				render: (h) => {
+				render: h => {
 					return h(Vue.compile(`<p>${this.highlightedText()}</p>`));
 				},
 			};
@@ -96,12 +96,11 @@ export default {
 
 		// fetch data from BE
 		return this.fetch(this.id)
-			.then((response) => {
-				this.isMultiple = response.is_multiple;
+			.then(response => {
 				this.submissionId = response.submission_id;
 				this.document = response.document;
 			})
-			.catch((e) => {
+			.catch(e => {
 				this.$store.dispatch('AlertStore/setAlert', {
 					message: e.message,
 					type: 'error',
@@ -116,12 +115,12 @@ export default {
 		fetch(id) {
 			return this.$axios
 				.get(`/api/documents/${id}`)
-				.then((response) => response.data);
+				.then(response => response.data);
 		},
 		highlightedText: function () {
 			const indices = this.document.matched_docs
-				.map((matched_doc) =>
-					matched_doc.matches.map((match) => ({
+				.map(matched_doc =>
+					matched_doc.matches.map(match => ({
 						name: matched_doc.name,
 						from: match.char_from,
 						to: match.char_to,
@@ -131,7 +130,7 @@ export default {
 
 			indices.sort((a, b) => b.to - b.from - (a.to - a.from));
 
-			const subStringsToReplace = indices.map((h) => ({
+			const subStringsToReplace = indices.map(h => ({
 				text: this.document.text.substring(h.from, h.to + 1),
 				doc: h.name,
 			}));

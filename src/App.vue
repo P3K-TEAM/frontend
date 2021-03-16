@@ -1,15 +1,17 @@
 <template>
 	<div id="app" class="flex flex-col h-full">
-		<router-view class="flex-auto" />
+		<router-view class="flex flex-col min-h-screen" />
 		<Alert />
 		<Backdrop>
-			<Spinner />
+			<Spinner :active="isLoading" :message="loadingMessage" />
 			<Modal />
 		</Backdrop>
 	</div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 import Alert from '@/components/Global/Alert/Alert';
 import Backdrop from '@/components/Global/Backdrop/Backdrop';
 import Modal from '@/components/Global/Modal/Modal';
@@ -21,6 +23,9 @@ export default {
 		Backdrop,
 		Modal,
 		Spinner,
+	},
+	computed: {
+		...mapGetters(['isLoading', 'loadingMessage']),
 	},
 };
 </script>

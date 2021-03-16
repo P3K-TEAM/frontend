@@ -30,7 +30,9 @@
 					<div
 						class="px-1 font-semibold md:font-bold text-3xl md:text-5xl leading-none"
 					>
-						<span>{{ percentage | toNumber | roundToTwoDecimals	}} %</span>
+						<span>
+							{{ percentage | toNumber | roundToTwoDecimals }}%
+						</span>
 					</div>
 				</div>
 			</div>
@@ -39,7 +41,7 @@
 </template>
 
 <script>
-import Navigation from '@/components/Navigation/Navigation';
+import Navigation from '@/components/Global/Navigation/Navigation';
 
 export default {
 	components: {
