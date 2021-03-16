@@ -38,22 +38,27 @@
 			</div>
 
 			<div class="flex flex-row justify-end items-end text-center w-full px-2 md:px-20 md:text-right pb-2 md:pb-10 mt-10 md:mt-10 ">		
-				<div class="flex flex-row">	
+							
+				<input 
+					v-model="userEmailProvided" 
+					type="checkbox" 
+					class="m-2"
+				>
+				<div v-if="userEmailProvided == true" class="flex-row pr-5">
 					<input 
-						v-model="checked" 
-						type="checkbox" 
-						class="m-2"
+						v-model="email" 
+						type="email"
+						class="border border-dark" 
+						placeholder="email@address.com"
 					>
-					<div v-if="checked == true" class="flex-row pr-5">
-						<input 
-							v-model="message" 
-							class="border border-dark" 
-							placeholder="mail@mail.sk"
-						>
-					</div>
-					<div v-else class="flex-row pr-5">
-						<label>Pridať mailovú adresu</label>
-					</div>
+				</div>
+				<div v-else class="flex-row pr-5">
+					<input 
+						v-model="email" 
+						type="email"
+						class="border border-dark" 
+						placeholder="email@address.com"
+					>
 				</div>
 
 				<button
@@ -88,7 +93,8 @@ export default {
 			tabs: ['Nahrať súbory', 'Vložiť text'],
 			files: [],
 			text: '',
-			checked: false,
+			userEmailProvided: false,
+			email: '',
 		};
 	},
 	mounted() {
@@ -133,6 +139,8 @@ export default {
 			const formData = new FormData();
 			let headers = '';
 			const isFileUpload = this.selectedTab === this.tabs[0];
+			const isEmailProvided = this.userEmailProvided;
+			let email = '';
 
 			if (isFileUpload) {
 				headers = { 'Content-Type': 'multipart/form-data' };
@@ -145,7 +153,28 @@ export default {
 							'Nezadali ste súbor, ktorý chcete skontrolovať !',
 						type: 'error',
 					});
+				};
+				
+				if (isEmailProvided) {
+					email = this.email; 
+
+					if (email == "") {
+						return this.$store.dispatch('AlertStore/setAlert', {
+						message:
+							'Nezadali ste emailovú adresu !',
+						type: 'error',
+						});
+					}
+				} else {
+					if (this.email !== "") {
+						return this.$store.dispatch('AlertStore/setAlert', {
+						message:
+							'Ak chcete poskytnúť email, je potrebné zaškrtnúť checkbox !',
+						type: 'error',
+						});
+					}
 				}
+
 			} else {
 				headers = { 'Content-Type': 'text/plain' };
 
@@ -165,6 +194,7 @@ export default {
 					isFileUpload ? formData : this.text,
 					{
 						headers,
+						email,
 					}
 				)
 				.then((response) => {
