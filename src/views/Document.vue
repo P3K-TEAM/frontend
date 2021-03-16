@@ -3,7 +3,7 @@
 		<ResultHeader
 			:percentage="document ? document.result.percentage : undefined"
 			:title="
-				document && isMultiple ? document.name : 'Výsledky kontroly'
+				document && document.name ? document.name : 'Výsledky kontroly'
 			"
 			description="Nižšie nájdete podrobné štatistiky kontroly originality vašej práce"
 		/>
@@ -12,7 +12,6 @@
 			class="flex-grow mx-4 md:container md:mx-auto mt-4 md:my-20"
 		>
 			<a
-				v-if="isMultiple"
 				class="flex items-center p-2 mb-0 md:mb-2 cursor-pointer text-lg md:text-2xl text-gray-600 hover:text-gray-700"
 				@click="
 					$router.push({
@@ -22,16 +21,13 @@
 				"
 			>
 				<i class="fas fa-chevron-left text-sm md:text-lg mr-2" />
-				Všetky súbory
+				Späť
 			</a>
 			<div class="shadow rounded-md md:rounded-lg">
 				<div
 					class="flex items-center justify-between px-4 py-1 md:p-4 md:h-16 bg-primary-500 text-white text-2xl rounded-t-md md:rounded-t-lg"
 				>
-					<span
-						v-if="isMultiple"
-						class="w-1/2 text-base md:text-3xl truncate pr-2"
-					>
+					<span class="w-1/2 text-base md:text-3xl truncate pr-2">
 						{{ document.name }}
 					</span>
 					<button
@@ -80,7 +76,6 @@ export default {
 			showFiles: !this.showDocumentText,
 			document: undefined,
 			submissionId: undefined,
-			isMultiple: true,
 		};
 	},
 	computed: {
@@ -102,7 +97,6 @@ export default {
 		// fetch data from BE
 		return this.fetch(this.id)
 			.then(response => {
-				this.isMultiple = response.is_multiple;
 				this.submissionId = response.submission_id;
 				this.document = response.document;
 			})
