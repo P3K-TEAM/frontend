@@ -31,7 +31,6 @@
 						{{ document.name }}
 					</span>
 					<button
-						v-if="showDocumentText"
 						type="button"
 						class="flex items-center ml-auto py-1 md:py-1 px-1 md:px-2 hover:text-white hover:bg-primary-400 focus:outline-none rounded-md"
 						@click="showFiles = !showFiles"
@@ -73,7 +72,6 @@ export default {
 	},
 	data: function () {
 		return {
-			showDocumentText: false, // TODO: Remove after it's supported on BE
 			showFiles: !this.showDocumentText,
 			document: undefined,
 			submissionId: undefined,
