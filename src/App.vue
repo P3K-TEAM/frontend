@@ -1,5 +1,5 @@
 <template>
-	<div id="app" class="flex flex-col h-full">
+	<div id="app">
 		<router-view class="flex flex-col min-h-screen" />
 		<Alert />
 		<Backdrop>

@@ -27,9 +27,6 @@
 				<div
 					class="flex items-center justify-between px-4 py-1 md:p-4 md:h-16 bg-primary-500 text-white text-2xl rounded-t-md md:rounded-t-lg"
 				>
-					<span class="w-1/2 text-base md:text-3xl truncate pr-2">
-						{{ document.name }}
-					</span>
 					<button
 						v-if="showDocumentText"
 						type="button"
@@ -82,7 +79,7 @@ export default {
 	computed: {
 		compiledHighlight() {
 			return {
-				render: (h) => {
+				render: h => {
 					return h(
 						Vue.compile(
 							`<p class="text-base md:text-lg">${this.highlightedText()}</p>`
@@ -154,7 +151,7 @@ export default {
 
 			intervals.shift();
 
-			intervals.forEach((item) => {
+			intervals.forEach(item => {
 				top = stack[stack.length - 1];
 
 				if (top.to < item.from) {
@@ -176,19 +173,19 @@ export default {
 		},
 		toggleTooltip: function (docs) {
 			const docs_unique = [
-				...new Map(docs.map((item) => [item['doc'], item])).values(),
+				...new Map(docs.map(item => [item['doc'], item])).values(),
 			];
 
 			const text = docs_unique
-				.map((d) => `Zhoda so súborom: ${d.doc} (${d.per}%)`)
+				.map(d => `Zhoda so súborom: ${d.doc} (${d.per}%)`)
 				.join('<br>');
 
 			return text;
 		},
 		highlightedText: function () {
 			const indices = this.document.result.matched_docs
-				.map((matched_doc) =>
-					matched_doc.intervals.map((match) => ({
+				.map(matched_doc =>
+					matched_doc.intervals.map(match => ({
 						name: matched_doc.name,
 						from: match.begin,
 						to: match.end,
@@ -197,16 +194,16 @@ export default {
 						),
 						color: color(
 							this.document.result.matched_docs
-								.map((d) => d.name)
+								.map(d => d.name)
 								.indexOf(matched_doc.name)
 						),
 					}))
 				)
 				.flat();
 
-			const intervals = this.mergeIntervals(indices)
+			const intervals = this.mergeIntervals(indices);
 
-			const subStringsToReplace = intervals.map((h) => ({
+			const subStringsToReplace = intervals.map(h => ({
 				text: this.document.text.substring(h.from, h.to + 1),
 				docs: h.matches,
 				color: h.color,
