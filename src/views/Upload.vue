@@ -43,20 +43,13 @@
 					type="checkbox" 
 					class="m-2"
 				>
-				<div v-if="userEmailProvided == true" class="flex-row pr-5">
+				<div class="flex-row pr-5">
 					<input 
-						v-model="email" 
+						v-model="email"
 						type="email"
 						class="border border-dark" 
 						placeholder="email@address.com"
-					>
-				</div>
-				<div v-else class="flex-row pr-5">
-					<input 
-						v-model="email" 
-						type="email"
-						class="border border-dark" 
-						placeholder="email@address.com"
+						:disabled="userEmailProvided ? false : true"
 					>
 				</div>
 
@@ -138,11 +131,24 @@ export default {
 			const formData = new FormData();
 			let headers = '';
 			const isFileUpload = this.selectedTab === this.tabs[0];
-			const isEmailProvided = this.userEmailProvided;
-			let email = '';
+			let emailAdd= this.email;
+			let text = [];
 
 			if (isFileUpload) {
 				headers = { 'Content-Type': 'multipart/form-data' };
+
+				if (this.userEmailProvided) {
+					if (this.email == "") {
+						return this.$store.dispatch('AlertStore/setAlert', {
+						message:
+							'Nezadali ste emailovú adresu !',
+						type: 'error',
+						});
+					} else {
+						emailAdd = this.email.trim();
+						formData.append('email', emailAdd);
+					}
+				}
 
 				this.files.forEach((file) => formData.append('files', file));
 
@@ -153,30 +159,9 @@ export default {
 						type: 'error',
 					});
 				}
-				
-				if (isEmailProvided) {
-					email = this.email; 
-
-					if (email == "") {
-						return this.$store.dispatch('AlertStore/setAlert', {
-						message:
-							'Nezadali ste emailovú adresu !',
-						type: 'error',
-						});
-					}
-				} else {
-					if (this.email !== "") {
-						return this.$store.dispatch('AlertStore/setAlert', {
-						message:
-							'Ak chcete poskytnúť email, je potrebné zaškrtnúť checkbox !',
-						type: 'error',
-						});
-					}
-				}
-
 			} else {
 				headers = { 'Content-Type': 'text/plain' };
-
+			
 				if (!this.text.length) {
 					return this.$store.dispatch('AlertStore/setAlert', {
 						message:
@@ -184,16 +169,34 @@ export default {
 						type: 'error',
 					});
 				}
+
+				if (this.userEmailProvided) {
+					if (this.email == "") {
+						return this.$store.dispatch('AlertStore/setAlert', {
+						message:
+							'Nezadali ste emailovú adresu !',
+						type: 'error',
+						});
+					} else {
+						emailAdd = this.email.trim();
+						text = [
+							{ email: emailAdd, txt: this.text }
+						]
+					}
+				} else {
+					text = [
+						{ txt: this.text }
+					]
+				}
 			}
 
 			this.$store.dispatch('setLoading', true);
 			this.$axios
 				.post(
 					'/api/submissions/',
-					isFileUpload ? formData : this.text,
+					isFileUpload ? formData : text,
 					{
 						headers,
-						email,
 					}
 				)
 				.then((response) => {
