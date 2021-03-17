@@ -1,10 +1,16 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+
+// Views
 import Home from '../views/Home.vue';
 import Upload from '../views/Upload.vue';
 import Result from '../views/Result.vue';
 import Document from '../views/Document';
 import DocumentCompare from '../views/DocumentCompare';
+
+// Components
+import ResultTable from '@/components/Result/ResultTable/ResultTable';
+import ResultGraph from '@/components/Result/ResultGraph/ResultGraph';
 
 Vue.use(VueRouter);
 
@@ -31,8 +37,20 @@ const routes = [
 			{
 				path: '/',
 				component: Result,
-				name: 'result',
-				meta: { title: 'Výsledky kontroly' },
+				children: [
+					{
+						path: '/',
+						component: ResultTable,
+						name: 'result',
+						meta: { title: 'Zoznam výsledkov' },
+					},
+					{
+						path: 'graph',
+						component: ResultGraph,
+						name: 'graph',
+						meta: { title: 'Graf výsledkov' },
+					},
+				],
 			},
 			{
 				path: 'document/:document',

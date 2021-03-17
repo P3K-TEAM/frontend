@@ -3,89 +3,87 @@
 		<ResultHeader
 			description="Gratulujeme. Nižšie nájdete podrobné štatistiky kontroly originality vašich prác."
 		/>
-		<ResultTable
-			v-if="documents && documents.length"
-			:documents="documents"
-		/>
+		<div
+			v-if="!isLoading"
+			class="flex flex-col flex-grow md:container mx-4 md:mx-auto my-3 md:my-10"
+		>
+			<div class="flex justify-end">
+				<Toggle :buttons="buttons" class="mb-3"></Toggle>
+			</div>
+			<router-view></router-view>
+		</div>
 	</div>
 </template>
 
 <script>
-import SubmissionStatus from '@/constants/submission';
+import { mapGetters } from 'vuex';
 import retry from '@/functions/retry.function';
-
-import ResultTable from '../components/Result/ResultTable';
+import SubmissionStatus from '@/constants/submission';
 import ResultHeader from '../components/Result/ResultHeader';
+import Toggle from '@/components/Global/Toggle/Toggle';
 
 export default {
 	components: {
-		ResultTable,
 		ResultHeader,
+		Toggle,
 	},
 	data: function () {
 		return {
 			id: undefined,
-			documents: [],
 		};
 	},
-	created: function () {
-		this.SubmissionStatus = SubmissionStatus;
+	computed: {
+		buttons: function () {
+			return [
+				{
+					tooltip: 'Zoznam',
+					url: this.getCurrentResultURL,
+					class: 'fas fa-bars',
+				},
+				{
+					tooltip: 'Grafové zobrazenie',
+					url: `${this.getCurrentResultURL}/graph`,
+					class: 'fas fa-project-diagram',
+				},
+			];
+		},
+		getCurrentResultURL: function () {
+			return `/result/${this.id}`;
+		},
+		...mapGetters(['isLoading', 'loadingMessage']),
+		...mapGetters('ResultStore', ['status']),
 	},
 	mounted: function () {
-		// initial spinner
+		// initial loader
 		this.$store.dispatch('setLoading', {
 			active: true,
-			infoStatus: true,
-			infoMessage: 'Vaše texty sme zobrali na spracovanie. Výsledky budú automaticky zobrazené na tejto stránke',
 		});
-		// get id from route
+
+		// retry fetching until the result is
 		this.id = this.$route.params.result;
 
 		// fetch data from BE
 		return retry(
-			() => this.fetchResult(this.id),
-			(result) => result.status === this.SubmissionStatus.PROCESSED
-		)
-			.then((result) => {
-				this.status = result.status;
-				this.documents = result.documents;
+			() => this.$store.dispatch('ResultStore/fetchResult', this.id),
+			() => {
+				// if submission is not processed, add message to the loading spinner
+				const isProcessed = this.status === SubmissionStatus.PROCESSED;
 
-				// If no documents are present even though the submission is processed
-				if (!this.documents)
-					this.$store.dispatch('AlertStore/setAlert', {
-						message:
-							'No documents found. Please contact administrator',
-						type: 'error',
-					});
-
-				// if single document, redirect to the detail
-				if (this.documents && this.documents.length === 1) {
-					return this.$router.push({
-						name: 'document',
-						params: {
-							result: this.id,
-							document: this.documents[0].id,
-						},
-					});
+				if (!isProcessed && !this.loadingMessage) {
+					this.$store.commit(
+						'SET_LOADING_MESSAGE',
+						'Vaše texty sme zobrali na spracovanie. Výsledky budú automaticky zobrazené na tejto stránke'
+					);
 				}
-			})
-			.catch((e) => {
-				this.$store.dispatch('AlertStore/setAlert', {
-					message: e.message,
-					type: 'error',
-					duration: 10000,
-				});
-			})
-			.finally(() => {
-				this.$store.dispatch('setLoading', false);
-			});
-	},
-	methods: {
-		fetchResult(id) {
-			return this.$axios
-				.get(`/api/submissions/${id}`)
-				.then((response) => response.data);
-		},
+
+				// retry until processed
+				return isProcessed;
+			},
+			5000,
+			100
+		).finally(() => {
+			this.$store.dispatch('setLoading', false);
+		});
 	},
 };
 </script>

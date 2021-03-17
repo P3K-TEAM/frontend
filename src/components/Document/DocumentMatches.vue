@@ -6,7 +6,9 @@
 			>
 				<span class="w-2/3 ml-4 md:ml-5 md:text-lg"> Súbor </span>
 
-				<span class="w-1/3 text-center mr-2 md:mr-0 md:text-lg"> Zhoda so súborom </span>
+				<span class="w-1/3 text-center mr-2 md:mr-0 md:text-lg">
+					Zhoda so súborom
+				</span>
 			</div>
 			<div
 				v-for="(match, index) in matches"

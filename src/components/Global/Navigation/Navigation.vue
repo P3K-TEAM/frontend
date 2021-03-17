@@ -5,7 +5,7 @@
 			class="text-white text-2xl flex items-center"
 		>
 			<img
-				src="../../assets/img/logo.png"
+				src="../../../assets/img/logo.png"
 				class="h-10"
 				alt="logo"
 			>
