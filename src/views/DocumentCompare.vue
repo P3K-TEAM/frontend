@@ -7,13 +7,13 @@
 				{{ documents.textB.name }}
 			</p>
 		</ResultHeader>
-		<div v-if="documents" class="px-5 pt-5 md:px-10 md:pt-0" >
+		<div v-if="documents" class="px-5 pt-5 md:px-10 md:pt-0">
 			<a
 				class="flex items-center p-2 mb-0 md:mb-2 cursor-pointer text-lg md:text-2xl text-gray-600 hover:text-gray-700"
 				@click="
 					$router.push({
-						name: 'result',
-						params: { result: 1 },
+						name: `document`,
+						params: {result:resultId, document: documentId}
 					})
 				"
 			>
@@ -85,9 +85,9 @@ export default {
 
 		retry(
 			() => this.fetchDocument(this.documentId, this.id),
-			(result) => result.textA && result.textB && result.matches
+			result => result.textA && result.textB && result.matches
 		)
-			.then((result) => {
+			.then(result => {
 				this.documents = result;
 
 				if (!this.documents.textA || !this.documents.textB)
@@ -102,7 +102,7 @@ export default {
 
 				this.highlightedTexts = this.highlightText(this.documents);
 			})
-			.catch((e) => {
+			.catch(e => {
 				this.$store.dispatch('AlertStore/setAlert', {
 					message: e.message,
 					type: 'error',
@@ -116,30 +116,13 @@ export default {
 	methods: {
 		fetchDocument(documentId, id) {
 			// Connect to BE
-			// return this.$axios
-			// 	.get(`/api/documents/${documentId}/diff/${id}`)
-			// 	.then((response) => response.data);
-
-			return Promise.resolve({
-				textA: {
-					name: 'moj_dokument.docx',
-					content:
-						'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec imperdiet nibh vel dolor fringilla tincidunt. Etiam neque eros, feugiat iaculis nisl id, gravida molestie ipsum. Ut tempor, lacus non tincidunt tincidunt, nunc risus vehicula nibh, in pulvinar libero dolor imperdiet elit. Aliquam ac ipsum ut libero molestie bibendum. Donec consequat urna ut augue consectetur rutrum. Maecenas aliquam diam feugiat ipsum iaculis accumsan. Aliquam dictum arcu eu libero pharetra, id blandit lorem finibus. Quisque vitae orci egestas, commodo purus vel, dapibus urna. Nunc in justo dui. Aliquam vel placerat sapien. Sed id fringilla massa, id placerat ipsum. Aliquam placerat, nulla vitae condimentum condimentum, nibh nisl convallis purus, non congue enim sem eu orci. Nunc ultricies imperdiet augue ac pharetrMauris sed eros enim. Sed viverra semper nunc, et ornare tellus ullamcorper eu. Nullam quam nisl, posuere ac ipsum quis, vehicula sollicitudin dolor. Pellentesque hendrerit purus sed lacus euismod porta. Mauris aliquam consectetur sem nec imperdiet. Nam urna leo, rutrum at rutrum eget, euismod sed dui. Morbi sit amet libero eget urna rhoncus pellentesque eget condimentum eros. Aenean vehicula est quis dolor sodales scelerisque. Morbi imperdiet urna eget volutpat ornare. Phasellus feugiat leo eget lectus egestas gravida. Morbi hendrerit imperdiet enim at porttitor. Sed fermentum ac risus lacinia egestas. Donec malesuada velit nec quam commodo, in laoreet mauris tempor.',
-				},
-				textB: {
-					name: 'cudzi_dokument.docx',
-					content:
-						'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec imperdiet nibh vel dolor fringilla tincidunt. Etiam neque eros, feugiat iaculis nisl id, gravida molestie ipsum. Ut tempor, lacus non tincidunt tincidunt, nunc risus vehicula nibh, in pulvinar libero dolor imperdiet elit. Aliquam ac ipsum ut libero molestie bibendum. Donec consequat urna ut augue consectetur rutrum. Maecenas aliquam diam feugiat ipsum iaculis accumsan. Aliquam dictum arcu eu libero pharetra, id blandit lorem finibus. Quisque vitae orci egestas, commodo purus vel, dapibus urna. Nunc in justo dui. Aliquam vel placerat sapien. Sed id fringilla massa, id placerat ipsum. Aliquam placerat, nulla vitae condimentum condimentum, nibh nisl convallis purus, non congue enim sem eu orci. Nunc ultricies imperdiet augue ac pharetra elit. Donec imperdiet nibh vel dolor fringilla tincidunt. Etiam neque eros, fe.',
-				},
-				matches: [
-					{ fromA: 290, toA: 400, fromB: 800, toB: 1000 },
-					{ fromA: 550, toA: 900, fromB: 220, toB: 600 },
-				],
-			});
+			return this.$axios
+				.get(`/api/documents/${documentId}/diff/${id}`)
+				.then((response) => response.data);
 		},
 		highlightText: function (documents) {
 			const indices = documents.matches
-				.map((matches,index) => ({
+				.map((matches, index) => ({
 					fromA: matches.fromA,
 					toA: matches.toA,
 					fromB: matches.fromB,
@@ -154,7 +137,7 @@ export default {
 			indicesA.sort((a, b) => b.toA - b.fromA - (a.toA - a.fromA));
 			indicesB.sort((a, b) => b.toB - b.fromB - (a.toB - a.fromB));
 
-			const subStringToReplaceA = indicesA.map((interval) => ({
+			const subStringToReplaceA = indicesA.map(interval => ({
 				text: documents.textA.content.substring(
 					interval.fromA,
 					interval.toA + 1
@@ -163,7 +146,7 @@ export default {
 				color: interval.color,
 			}));
 
-			const subStringToReplaceB = indicesB.map((interval) => ({
+			const subStringToReplaceB = indicesB.map(interval => ({
 				text: documents.textB.content.substring(
 					interval.fromB,
 					interval.toB + 1
