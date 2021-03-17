@@ -29,9 +29,6 @@ Vue.directive('close-popover', VClosePopover);
 Vue.component('v-popover', VPopover);
 VTooltip.options.defaultTrigger = window.innerWidth > 768 ? 'hover focus click' : 'click'
 
-// filters
-Vue.prototype.$filters = Vue.options.filters
-
 // Page title
 router.afterEach(to => {
 	Vue.nextTick(() => {
