@@ -60,6 +60,7 @@
 import ResultHeader from '../components/Result/ResultHeader';
 import { escape, cloneDeep } from 'lodash';
 import retry from '@/functions/retry.function';
+import colorForIndex from '@/functions/color.function';
 
 export default {
 	components: {
@@ -69,6 +70,7 @@ export default {
 		return {
 			id: undefined,
 			documentId: undefined,
+			resultId: undefined,
 			highlightedTexts: undefined,
 			documents: undefined,
 		};
@@ -76,7 +78,8 @@ export default {
 	mounted: function () {
 		// initial spinner
 		this.$store.dispatch('setLoading', true);
-
+		this.resultId = this.$route.params.result;
+		console.log(this.resultId)
 		this.id = this.$route.params.compare;
 		this.documentId = this.$route.params.document;
 
@@ -126,7 +129,7 @@ export default {
 				textB: {
 					name: 'cudzi_dokument.docx',
 					content:
-						'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec imperdiet nibh vel dolor fringilla tincidunt. Etiam neque eros, feugiat iaculis nisl id, gravida molestie ipsum. Ut tempor, lacus non tincidunt tincidunt, nunc risus vehicula nibh, in pulvinar libero dolor imperdiet elit. Aliquam ac ipsum ut libero molestie bibendum. Donec consequat urna ut augue consectetur rutrum. Maecenas aliquam diam feugiat ipsum iaculis accumsan. Aliquam dictum arcu eu libero pharetra, id blandit lorem finibus. Quisque vitae orci egestas, commodo purus vel, dapibus urna. Nunc in justo dui. Aliquam vel placerat sapien. Sed id fringilla massa, id placerat ipsum. Aliquam placerat, nulla vitae condimentum condimentum, nibh nisl convallis purus, non congue enim sem eu orci. Nunc ultricies imperdiet augue ac pharetra.',
+						'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec imperdiet nibh vel dolor fringilla tincidunt. Etiam neque eros, feugiat iaculis nisl id, gravida molestie ipsum. Ut tempor, lacus non tincidunt tincidunt, nunc risus vehicula nibh, in pulvinar libero dolor imperdiet elit. Aliquam ac ipsum ut libero molestie bibendum. Donec consequat urna ut augue consectetur rutrum. Maecenas aliquam diam feugiat ipsum iaculis accumsan. Aliquam dictum arcu eu libero pharetra, id blandit lorem finibus. Quisque vitae orci egestas, commodo purus vel, dapibus urna. Nunc in justo dui. Aliquam vel placerat sapien. Sed id fringilla massa, id placerat ipsum. Aliquam placerat, nulla vitae condimentum condimentum, nibh nisl convallis purus, non congue enim sem eu orci. Nunc ultricies imperdiet augue ac pharetra elit. Donec imperdiet nibh vel dolor fringilla tincidunt. Etiam neque eros, fe.',
 				},
 				matches: [
 					{ fromA: 290, toA: 400, fromB: 800, toB: 1000 },
@@ -136,12 +139,12 @@ export default {
 		},
 		highlightText: function (documents) {
 			const indices = documents.matches
-				.map((matches) => ({
+				.map((matches,index) => ({
 					fromA: matches.fromA,
 					toA: matches.toA,
 					fromB: matches.fromB,
 					toB: matches.toB,
-					color: this.hex_color_generator(),
+					color: colorForIndex(index),
 				}))
 				.flat();
 
@@ -156,6 +159,7 @@ export default {
 					interval.fromA,
 					interval.toA + 1
 				),
+
 				color: interval.color,
 			}));
 
