@@ -57,7 +57,7 @@ export default {
 		]),
 	},
 	mounted() {
-		document.addEventListener('keyup', (e) => {
+		document.addEventListener('keyup', e => {
 			if (e.key === 'Escape' && this.isActive) {
 				this.dismiss();
 			}

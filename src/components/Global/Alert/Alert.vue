@@ -4,7 +4,9 @@
 			v-if="isActive"
 			class="flex justify-center w-full fixed mt-8 z-9999"
 		>
-			<div class="bg-white rounded shadow-2xl mx-6 md:mx-0 max-w-sm relative">
+			<div
+				class="bg-white rounded shadow-2xl mx-6 md:mx-0 max-w-sm relative"
+			>
 				<a
 					href="#"
 					class="flex justify-center items-center close-icon"
@@ -43,7 +45,7 @@ export default {
 	watch: {
 		isActive(newValue) {
 			// If alert was enabled, set timeout and then dismiss after certain amount of time
-			if (newValue) {
+			if (newValue && this.duration > 0) {
 				setTimeout(() => this.dismiss(), this.duration);
 			}
 		},

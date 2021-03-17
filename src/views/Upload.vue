@@ -4,17 +4,25 @@
 			class="w-screen h-screen absolute bg-primary-gradient clip-half-circle"
 		/>
 		<Navigation class="z-10" />
-		<div class="h-full flex flex-col items-start md:container md:mx-auto w-full mx-0 md:h-auto md:rounded-lg shadow-xl mt-0 md:my-12 bg-white z-10">
+		<div
+			class="h-full flex flex-col items-start md:container md:mx-auto w-full mx-0 md:h-auto md:rounded-lg shadow-xl mt-0 md:my-12 bg-white z-10"
+		>
 			<div class="px-4 md:px-8 pt-3 md:pt-10 pb-1 md:pb-2">
-				<h1 class="text-xl md:text-3xl leading-normal md:leading-10 font-bold text-gray-900">
+				<h1
+					class="text-xl md:text-3xl leading-normal md:leading-10 font-bold text-gray-900"
+				>
 					Kontrola plagiátorstva
 				</h1>
-				<h3 class="text-base md:text-xl mt-1 md:mt-2 leading-6 md:leading-8 text-gray-800">
+				<h3
+					class="text-base md:text-xl mt-1 md:mt-2 leading-6 md:leading-8 text-gray-800"
+				>
 					Pridajte jednu alebo viac prác, ktoré si prajete
 					skontrolovať. Nahrajte súbory alebo vložte text práce.
 				</h3>
 			</div>
-			<div class="w-full h-full md:h-auto px-0 md:px-20 pb-4 md:pb-8 pt-3 md:pt-5">
+			<div
+				class="w-full h-full md:h-auto px-0 md:px-20 pb-4 md:pb-8 pt-3 md:pt-5"
+			>
 				<div class="flex">
 					<UploadTab
 						v-for="tab in tabs"
@@ -37,17 +45,19 @@
 				/>
 			</div>
 
-			<div class="flex flex-row justify-end items-end text-center w-full px-2 md:px-20 md:text-right pb-2 md:pb-10 mt-10 md:mt-10 ">					
-				<input 
-					v-model="userEmailProvided" 
-					type="checkbox" 
+			<div
+				class="flex flex-row justify-end items-end text-center w-full px-2 md:px-20 md:text-right pb-2 md:pb-10 mt-10 md:mt-10 "
+			>
+				<input
+					v-model="userEmailProvided"
+					type="checkbox"
 					class="m-2"
 				>
 				<div class="flex-row pr-5">
-					<input 
+					<input
 						v-model="email"
 						type="email"
-						class="border border-dark" 
+						class="border border-dark"
 						placeholder="email@address.com"
 						:disabled="userEmailProvided ? false : true"
 					>
@@ -55,8 +65,7 @@
 
 				<button
 					type="button"
-					class="fmt-2 w-full md:w-auto px-5 md:px-8 py-2 text-center text-base text-white bg-primary-500 hover:bg-primary-400 
-					rounded shadow-md cursor-pointer select-none focus:outline-none"
+					class="fmt-2 w-full md:w-auto px-5 md:px-8 py-2 text-center text-base text-white bg-primary-500 hover:bg-primary-400 rounded shadow-md cursor-pointer select-none focus:outline-none"
 					@click="submitForm"
 				>
 					Nahrať
@@ -67,7 +76,7 @@
 </template>
 
 <script>
-import Navigation from '@/components/Navigation/Navigation.vue';
+import Navigation from '@/components/Global/Navigation/Navigation.vue';
 import UploadTab from '@/components/Upload/UploadTab.vue';
 import UploadFile from '@/components/Upload/UploadFile.vue';
 import UploadText from '@/components/Upload/UploadText.vue';
@@ -100,7 +109,7 @@ export default {
 			const fileSizeLimit = 20;
 
 			const filteredFileArray = Array.from(fileList).filter(
-				(file) => file.size <= fileSizeLimit * 1024 * 1024
+				file => file.size <= fileSizeLimit * 1024 * 1024
 			);
 			const requestContainsLargeFile =
 				fileList.length !== filteredFileArray.length;
@@ -161,7 +170,7 @@ export default {
 				}
 			} else {
 				headers = { 'Content-Type': 'text/plain' };
-			
+
 				if (!this.text.length) {
 					return this.$store.dispatch('AlertStore/setAlert', {
 						message:
@@ -199,13 +208,13 @@ export default {
 						headers,
 					}
 				)
-				.then((response) => {
+				.then(response => {
 					return this.$router.push({
 						name: 'result',
 						params: { result: response.data.id },
 					});
 				})
-				.catch((e) => {
+				.catch(e => {
 					this.$store.dispatch('AlertStore/setAlert', {
 						message: e.message,
 						type: 'error',

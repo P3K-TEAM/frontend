@@ -1,12 +1,12 @@
-const validateType = require('../../functions/validate-type.function');
+import validateType from '@/functions/validate-type.function';
 
-module.exports = {
+export default {
 	namespaced: true,
 	state() {
 		return {
 			isActive: false,
 			defaultType: 'text',
-			type: this.defaultType,
+			type: undefined,
 			text: '',
 			htmlTemplate: {
 				header: '',

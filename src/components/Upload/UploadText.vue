@@ -1,8 +1,10 @@
 <template>
-	<div class="px-6 py-6 border-2 40vh border-gray-300 bg-white h-full flex flex-col">
-		<form>
+	<div
+		class="h-full flex flex-col items-center 40vh p-4 md:p-5 md:-mb-16 bg-white border-3 border-gray-300"
+	>
+		<form class="w-full h-full">
 			<textarea
-				class="w-full h-48 text-sm md:text-md focus:outline-none bg-white"
+				class="w-full min-h-full max-h-full md:h-64 text-sm md:text-base bg-white-100 focus:outline-none"
 				:disabled="disabled"
 				:placeholder="
 					disabled
