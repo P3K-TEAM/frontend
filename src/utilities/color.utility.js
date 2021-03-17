@@ -1,15 +1,8 @@
-const colorForIndex = function (i, asString = true) {
-	const values = HSVToRGB(
-		(i * 0.618033988749895) % 1.0,
-		0.5,
-		Math.sqrt(1.0 - ((i * 0.618033988749895) % 0.5))
-	);
-	return asString ? `rgb(${values[0]}, ${values[1]}, ${values[2]})` : values;
-};
-const clamp = function (val, min, max) {
+function clamp(val, min, max) {
 	return Math.max(min, Math.min(val, max));
-};
-const HSVToRGB = function (h, s, v) {
+}
+
+function HSVToRGB(h, s, v) {
 	if (s == 0) {
 		return [v, v, v];
 	}
@@ -71,6 +64,13 @@ const HSVToRGB = function (h, s, v) {
 	col[1] = Math.floor(clamp(col[1], 0, 1) * 255);
 	col[2] = Math.floor(clamp(col[2], 0, 1) * 255);
 	return col;
-};
+}
 
-module.exports = colorForIndex;
+export  function colorForIndex(i, asString = true) {
+	const values = HSVToRGB(
+		(i * 0.618033988749895) % 1.0,
+		0.5,
+		Math.sqrt(1.0 - ((i * 0.618033988749895) % 0.5))
+	);
+	return asString ? `rgb(${values[0]}, ${values[1]}, ${values[2]})` : values;
+}

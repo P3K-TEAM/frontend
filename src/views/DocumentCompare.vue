@@ -7,7 +7,7 @@
 				{{ documents.textB.name }}
 			</p>
 		</ResultHeader>
-		<div class="px-5 pt-5 md:px-10 md:pt-0" >
+		<div v-if="documents" class="px-5 pt-5 md:px-10 md:pt-0" >
 			<a
 				class="flex items-center p-2 mb-0 md:mb-2 cursor-pointer text-lg md:text-2xl text-gray-600 hover:text-gray-700"
 				@click="
@@ -60,7 +60,7 @@
 import ResultHeader from '../components/Result/ResultHeader';
 import { escape, cloneDeep } from 'lodash';
 import retry from '@/functions/retry.function';
-import colorForIndex from '@/functions/color.function';
+import { colorForIndex } from '@/utilities/color.utility';
 
 export default {
 	components: {
@@ -78,8 +78,8 @@ export default {
 	mounted: function () {
 		// initial spinner
 		this.$store.dispatch('setLoading', true);
+
 		this.resultId = this.$route.params.result;
-		console.log(this.resultId)
 		this.id = this.$route.params.compare;
 		this.documentId = this.$route.params.document;
 
@@ -181,9 +181,6 @@ export default {
 					documents.textB.content
 				),
 			};
-		},
-		hex_color_generator: function () {
-			return '#' + ((Math.random() * 0xffffff) << 0).toString(16);
 		},
 		merge_text(subStringIntervals, text) {
 			return subStringIntervals.reduce(

@@ -64,7 +64,8 @@ import Vue from 'vue';
 import { escape } from 'lodash';
 import DocumentMatches from '../components/Document/DocumentMatches';
 import ResultHeader from '../components/Result/ResultHeader';
-import color from '@/functions/color.function';
+import { colorForIndex } from '@/utilities/color.utility';
+
 
 export default {
 	components: {
@@ -195,7 +196,7 @@ export default {
 						percentage: this.$filters.roundToTwoDecimals(
 							this.$filters.toNumber(matched_doc.percentage)
 						),
-						color: color(
+						color: colorForIndex(
 							this.document.result.matched_docs
 								.map((d) => d.name)
 								.indexOf(matched_doc.name)
