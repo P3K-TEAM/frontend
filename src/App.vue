@@ -1,11 +1,11 @@
 <template>
 	<div id="app">
-		<router-view class="flex flex-col min-h-screen" />
 		<Alert />
 		<Backdrop>
 			<Spinner :active="isLoading" :message="loadingMessage" />
 			<Modal />
 		</Backdrop>
+		<router-view class="flex flex-col min-h-screen" />
 	</div>
 </template>
 

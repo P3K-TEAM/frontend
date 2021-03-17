@@ -44,9 +44,33 @@
 					@text-change="updateText"
 				/>
 			</div>
+
 			<div
-				class="flex flex-row justify-end items-end text-center w-full px-2 md:px-20 md:text-right pb-2 md:pb-10 mt-10 md:mt-10"
+				class="flex flex-row justify-end items-center text-center w-full px-2 md:px-20 md:text-right pb-2 md:pb-10 mt-10 md:mt-10"
 			>
+				<label class="text-sm text-gray-500">
+					<input
+						v-model="userEmailProvided"
+						name="emailProvidedCheckbox"
+						type="checkbox"
+						class="cursor-pointer"
+					/>
+					Informovať ma e-mailom o stave kontroly:
+				</label>
+				<div class="flex-row pr-5">
+					<input
+						v-model="userEmailAddress"
+						name="email"
+						type="email"
+						class="border border-dark rounded py-0.5 px-1 ml-1 text-gray-600"
+						:disabled="!userEmailProvided"
+						:class="{
+							'cursor-not-allowed border-gray-300 bg-gray-200': !userEmailProvided,
+						}"
+						placeholder="email@address.com"
+					/>
+				</div>
+
 				<button
 					type="button"
 					class="fmt-2 w-full md:w-auto px-5 md:px-8 py-2 text-center text-base text-white bg-primary-500 hover:bg-primary-400 rounded shadow-md cursor-pointer select-none focus:outline-none"
@@ -77,7 +101,8 @@ export default {
 			selectedTab: '',
 			tabs: ['Nahrať súbory', 'Vložiť text'],
 			files: [],
-			text: '',
+			userEmailProvided: false,
+			userEmailAddress: '',
 		};
 	},
 	mounted() {
@@ -121,6 +146,7 @@ export default {
 		submitForm() {
 			const formData = new FormData();
 			let headers = '';
+			let requestBody = {};
 			const isFileUpload = this.selectedTab === this.tabs[0];
 
 			if (isFileUpload) {
@@ -145,9 +171,31 @@ export default {
 						type: 'error',
 					});
 				}
+
+				requestBody.text = this.text;
+			}
+
+			// If user provided their address, append into request body
+			if (this.userEmailProvided) {
+				const userEmailAddress = this.userEmailAddress.trim();
+
+				if (userEmailAddress === '') {
+					return this.$store.dispatch('AlertStore/setAlert', {
+						message: 'Nezadali ste emailovú adresu !',
+						type: 'error',
+					});
+				}
+
+				if (isFileUpload) {
+					formData.append('email', userEmailAddress);
+				} else {
+					requestBody.email = userEmailAddress;
+				}
 			}
 
 			this.$store.dispatch('setLoading', true);
+			this.$store.dispatch('AlertStore/dismissAlert');
+
 			this.$axios
 				.post(
 					'/api/submissions/',
