@@ -6,6 +6,7 @@ import Home from '../views/Home.vue';
 import Upload from '../views/Upload.vue';
 import Result from '../views/Result.vue';
 import Document from '../views/Document';
+import DocumentCompare from '../views/DocumentCompare';
 
 // Components
 import ResultTable from '@/components/Result/ResultTable/ResultTable';
@@ -53,9 +54,25 @@ const routes = [
 			},
 			{
 				path: 'document/:document',
-				name: 'document',
-				component: Document,
-				meta: { title: 'Dokument' },
+				component: {
+					render(h) {
+						return h('router-view');
+					},
+				},
+				children: [
+					{
+						path: '/',
+						name: 'document',
+						component: Document,
+						meta: { title: 'Dokument' },
+					},
+					{
+						path: 'compare/:compare',
+						name: 'compare',
+						component: DocumentCompare,
+						meta: { title: 'Podobnosť dokumentov' },
+					},
+				],
 			},
 		],
 	},

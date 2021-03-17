@@ -111,13 +111,15 @@ export default {
 				Number(link.value)
 			)}%`;
 		},
-		// eslint-disable-next-line no-unused-vars
 		onLinkClick(link) {
-			// TODO (fgic): add after compare endpoint is finished
-			// this.$router.push({
-			// 	name: 'compare',
-			// 	params: { sourceId: link.source, targetId: link.target },
-			// });
+			this.$router.push({
+				name: 'compare',
+				params: {
+					result: this.$route.params.result,
+					document: link.source.id,
+					compare: link.target.id,
+				},
+			});
 		},
 		onLinkHover(link) {
 			this.$refs.graphElement.style.cursor = link ? 'pointer' : null;

@@ -14,9 +14,10 @@
 				>
 					{{ title }}
 				</p>
-				<p class="hidden md:flex text-xl">
+				<p v-if="description" class="hidden md:flex text-xl">
 					{{ description }}
 				</p>
+				<slot name="description"></slot>
 			</div>
 
 			<div
@@ -49,7 +50,7 @@ export default {
 	},
 	props: {
 		title: { type: String, default: 'Výsledky kontroly' },
-		description: { type: String, required: true },
+		description: { type: String, default: '' },
 		percentage: { type: Number, default: undefined },
 	},
 };

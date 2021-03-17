@@ -10,25 +10,41 @@
 					Zhoda so súborom
 				</span>
 			</div>
-			<div
-				v-for="match in matches"
-				:key="match.name"
-				class="flex justify-between py-3 md:py-5 text-base md:text-lg text-black bg-white border-b-2 last:border-b-0 md:border-b-2 md:last:border-b-2 border-gray-400"
+			<a
+				v-for="(match, index) in matches"
+				:key="index"
+				@click="
+					$router.push({
+						name: `compare`,
+						params: {
+							result: $route.params.result,
+							document: $route.params.document,
+							compare: match.elastic_id,
+						},
+					})
+				"
+				class="flex justify-between py-3 md:py-5 text-base md:text-lg text-black bg-white border-b-2 border-gray-400 cursor-pointer hover:bg-gray-200 group"
 				data-test-id="documentMatchesItem"
 			>
 				<span
-					class="pl-4 md:pl-5 w-2/3 pr-2 truncate"
+					class="pl-4 md:pl-5 w-7/12 md:w-6/12 pr-2 truncate"
 					data-test-id="documentMatchesItemName"
 				>
 					{{ match.name }}
 				</span>
 				<span
-					class="w-1/3 text-center mr-2 md:mr-0 truncate"
+					class="w-4/12 md:w-3/12 text-right mr-2 md:mr-0 truncate"
 					data-test-id="documentMatchesItemPercentage"
 				>
 					{{ match.percentage | toNumber | roundToTwoDecimals }} %
 				</span>
-			</div>
+
+				<div class="hidden md:flex justify-end md:w-1/12 mr-4">
+					<i
+						class="fa fa-eye invisible group-hover:visible text-2xl text-gray-400"
+					/>
+				</div>
+			</a>
 		</div>
 		<p
 			v-else
