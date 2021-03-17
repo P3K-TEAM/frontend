@@ -48,6 +48,8 @@
 					<DocumentMatches
 						v-else
 						:matches="document.result.matched_docs"
+						:document-id=id
+						:result-id=resultId
 					/>
 				</div>
 			</div>
@@ -62,7 +64,6 @@ import DocumentMatches from '../components/Document/DocumentMatches';
 import ResultHeader from '../components/Result/ResultHeader';
 import { colorForIndex } from '@/utilities/color.utility';
 
-
 export default {
 	components: {
 		DocumentMatches,
@@ -73,6 +74,7 @@ export default {
 			showFiles: !this.showDocumentText,
 			document: undefined,
 			submissionId: undefined,
+			resultId: undefined,
 		};
 	},
 	computed: {
@@ -94,6 +96,7 @@ export default {
 
 		// get id from route
 		this.id = this.$route.params.document;
+		this.resultId = this.$route.params.result;
 
 		// fetch data from BE
 		return this.fetch(this.id)
