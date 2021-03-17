@@ -46,21 +46,29 @@
 			</div>
 
 			<div
-				class="flex flex-row justify-end items-end text-center w-full px-2 md:px-20 md:text-right pb-2 md:pb-10 mt-10 md:mt-10 "
+				class="flex flex-row justify-end items-center text-center w-full px-2 md:px-20 md:text-right pb-2 md:pb-10 mt-10 md:mt-10"
 			>
-				<input
-					v-model="userEmailProvided"
-					type="checkbox"
-					class="m-2"
-				>
+				<label class="text-sm text-gray-500">
+					<input
+						v-model="userEmailProvided"
+						name="emailProvidedCheckbox"
+						type="checkbox"
+						class="cursor-pointer"
+					/>
+					Informovať ma e-mailom o stave kontroly:
+				</label>
 				<div class="flex-row pr-5">
 					<input
-						v-model="email"
+						v-model="userEmailAddress"
+						name="email"
 						type="email"
-						class="border border-dark"
+						class="border border-dark rounded py-0.5 px-1 ml-1 text-gray-600"
+						:disabled="!userEmailProvided"
+						:class="{
+							'cursor-not-allowed border-gray-300 bg-gray-200': !userEmailProvided,
+						}"
 						placeholder="email@address.com"
-						:disabled="userEmailProvided ? false : true"
-					>
+					/>
 				</div>
 
 				<button
@@ -93,9 +101,8 @@ export default {
 			selectedTab: '',
 			tabs: ['Nahrať súbory', 'Vložiť text'],
 			files: [],
-			text: '',
 			userEmailProvided: false,
-			email: '',
+			userEmailAddress: '',
 		};
 	},
 	mounted() {
@@ -139,27 +146,13 @@ export default {
 		submitForm() {
 			const formData = new FormData();
 			let headers = '';
+			let requestBody = {};
 			const isFileUpload = this.selectedTab === this.tabs[0];
-			let emailAdd= this.email;
-			let text = [];
 
 			if (isFileUpload) {
 				headers = { 'Content-Type': 'multipart/form-data' };
 
-				if (this.userEmailProvided) {
-					if (this.email == "") {
-						return this.$store.dispatch('AlertStore/setAlert', {
-						message:
-							'Nezadali ste emailovú adresu !',
-						type: 'error',
-						});
-					} else {
-						emailAdd = this.email.trim();
-						formData.append('email', emailAdd);
-					}
-				}
-
-				this.files.forEach((file) => formData.append('files', file));
+				this.files.forEach(file => formData.append('files', file));
 
 				if (!this.files.length) {
 					return this.$store.dispatch('AlertStore/setAlert', {
@@ -179,31 +172,34 @@ export default {
 					});
 				}
 
-				if (this.userEmailProvided) {
-					if (this.email == "") {
-						return this.$store.dispatch('AlertStore/setAlert', {
-						message:
-							'Nezadali ste emailovú adresu !',
+				requestBody.text = this.text;
+			}
+
+			// If user provided their address, append into request body
+			if (this.userEmailProvided) {
+				const userEmailAddress = this.userEmailAddress.trim();
+
+				if (userEmailAddress === '') {
+					return this.$store.dispatch('AlertStore/setAlert', {
+						message: 'Nezadali ste emailovú adresu !',
 						type: 'error',
-						});
-					} else {
-						emailAdd = this.email.trim();
-						text = [
-							{ email: emailAdd, txt: this.text }
-						]
-					}
+					});
+				}
+
+				if (isFileUpload) {
+					formData.append('email', userEmailAddress);
 				} else {
-					text = [
-						{ txt: this.text }
-					]
+					requestBody.email = userEmailAddress;
 				}
 			}
 
 			this.$store.dispatch('setLoading', true);
+			this.$store.dispatch('AlertStore/dismissAlert');
+
 			this.$axios
 				.post(
 					'/api/submissions/',
-					isFileUpload ? formData : text,
+					isFileUpload ? formData : this.text,
 					{
 						headers,
 					}
