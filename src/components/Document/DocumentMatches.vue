@@ -17,9 +17,9 @@
 					$router.push({
 						name: `compare`,
 						params: {
-							result: resultId,
-							document: documentId,
-							compare: 1,
+							result: $route.params.result,
+							document: $route.params.document,
+							compare: match.elastic_id,
 						},
 					})
 				"
@@ -27,19 +27,13 @@
 				data-test-id="documentMatchesItem"
 			>
 				<span
-					class="pl-4 md:pl-5 w-5/12 md:w-6/12 pr-2 truncate"
+					class="pl-4 md:pl-5 w-7/12 md:w-6/12 pr-2 truncate"
 					data-test-id="documentMatchesItemName"
 				>
 					{{ match.name }}
 				</span>
 				<span
-					class="w-4/12 md:w-3/12 text-center mr-2 md:mr-0 truncate"
-					data-test-id="documentMatchesItemPercentage"
-				>
-					{{ match.percentage | toNumber | roundToTwoDecimals }} %
-				</span>
-				<span
-					class="w-3/12 md:w-2/12 text-center mr-2 md:mr-0 truncate"
+					class="w-4/12 md:w-3/12 text-right mr-2 md:mr-0 truncate"
 					data-test-id="documentMatchesItemPercentage"
 				>
 					{{ match.percentage | toNumber | roundToTwoDecimals }} %
@@ -68,8 +62,6 @@ export default {
 			type: Array,
 			required: true,
 		},
-		documentId: undefined,
-		resultId: undefined,
 	},
 };
 </script>

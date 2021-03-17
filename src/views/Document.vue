@@ -48,8 +48,6 @@
 					<DocumentMatches
 						v-else
 						:matches="document.result.matched_docs"
-						:document-id=id
-						:result-id=resultId
 					/>
 				</div>
 			</div>
@@ -74,7 +72,6 @@ export default {
 			showFiles: !this.showDocumentText,
 			document: undefined,
 			submissionId: undefined,
-			resultId: undefined,
 		};
 	},
 	computed: {
@@ -96,8 +93,6 @@ export default {
 
 		// get id from route
 		this.id = this.$route.params.document;
-		this.resultId = this.$route.params.result;
-
 		// fetch data from BE
 		return this.fetch(this.id)
 			.then(response => {

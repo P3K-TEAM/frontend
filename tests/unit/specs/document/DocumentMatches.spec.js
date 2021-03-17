@@ -37,7 +37,7 @@ describe('DocumentMatches', () => {
 		percentage: testId('documentMatchesItemPercentage'),
 	};
 
-	it('renders list of matched documents correctly', () => {
+	it('renders list of matched documents correctly', async () => {
 		const wrapper = factory({
 			propsData: {
 				matches,

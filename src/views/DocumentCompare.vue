@@ -10,12 +10,7 @@
 		<div v-if="documents" class="px-5 pt-5 md:px-10 md:pt-0">
 			<a
 				class="flex items-center p-2 mb-0 md:mb-2 cursor-pointer text-lg md:text-2xl text-gray-600 hover:text-gray-700"
-				@click="
-					$router.push({
-						name: `document`,
-						params: {result:resultId, document: documentId}
-					})
-				"
+				@click="this.$router.back()"
 			>
 				<i class="fas fa-chevron-left text-sm md:text-lg mr-2" />
 				Späť
@@ -68,8 +63,8 @@ export default {
 	},
 	data: function () {
 		return {
-			id: undefined,
-			documentId: undefined,
+			documentBId: undefined,
+			documentAId: undefined,
 			resultId: undefined,
 			highlightedTexts: undefined,
 			documents: undefined,
@@ -80,11 +75,11 @@ export default {
 		this.$store.dispatch('setLoading', true);
 
 		this.resultId = this.$route.params.result;
-		this.id = this.$route.params.compare;
-		this.documentId = this.$route.params.document;
+		this.documentBId = this.$route.params.compare;
+		this.documentAId = this.$route.params.document;
 
 		retry(
-			() => this.fetchDocument(this.documentId, this.id),
+			() => this.fetchDocument(this.documentAId, this.documentBId),
 			result => result.textA && result.textB && result.matches
 		)
 			.then(result => {
@@ -118,7 +113,7 @@ export default {
 			// Connect to BE
 			return this.$axios
 				.get(`/api/documents/${documentId}/diff/${id}`)
-				.then((response) => response.data);
+				.then(response => response.data);
 		},
 		highlightText: function (documents) {
 			const indices = documents.matches
