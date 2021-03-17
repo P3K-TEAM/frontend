@@ -4,6 +4,7 @@ import Vuex from 'vuex';
 // stores
 import AlertStore from './alert/alert.store';
 import ModalStore from './modal/modal.store';
+import ResultStore from './result/result.store';
 
 // functions
 import validateType from '@/functions/validate-type.function';
@@ -14,13 +15,13 @@ export default new Vuex.Store({
 	modules: {
 		AlertStore,
 		ModalStore,
+		ResultStore,
 	},
 	state() {
 		return {
 			backdrop: false,
 			loading: false,
-			infoStatus: false,
-			infoMessage: undefined,
+			loadingMessage: undefined,
 		};
 	},
 	mutations: {
@@ -32,17 +33,9 @@ export default new Vuex.Store({
 			validateType(status, 'boolean', 'backdrop.status');
 			state.backdrop = status;
 		},
-		SET_INFO(state, status) {
-			validateType(status, 'boolean', 'infoStatus');
-			state.infoStatus = status;
-		},
-		SET_INFO_MESSAGE(state, infoMessage) {
-			validateType(infoMessage, 'string', 'infoMessage');
-			state.infoMessage = infoMessage;
-		},
-		CLEAR_INFO(state) {
-			state.infoStatus = false;
-			state.infoMessage = '';
+		SET_LOADING_MESSAGE(state, message) {
+			validateType(message, 'string | undefined', 'loadingMessage');
+			state.loadingMessage = message;
 		},
 	},
 	getters: {
@@ -52,11 +45,8 @@ export default new Vuex.Store({
 		isBackdropActive(state) {
 			return state.backdrop;
 		},
-		isMessageActive(info) {
-			return info.infoStatus;
-		},
-		infoMessage(info) {
-			return info.infoMessage;
+		loadingMessage(state) {
+			return state.loadingMessage;
 		},
 	},
 	actions: {
@@ -67,11 +57,11 @@ export default new Vuex.Store({
 			context.commit('SET_BACKDROP', status);
 			context.commit('SET_LOADING', status);
 
-			if (payload.infoStatus && payload.infoMessage) {
-				context.commit('SET_INFO', payload.infoStatus);
-				context.commit('SET_INFO_MESSAGE', payload.infoMessage);
+			// if payload contains loading message
+			if (payload.active && payload.loadingMessage) {
+				context.commit('SET_LOADING_MESSAGE', payload.loadingMessage);
 			} else {
-				context.commit('CLEAR_INFO');
+				context.commit('SET_LOADING_MESSAGE', undefined);
 			}
 		},
 	},
