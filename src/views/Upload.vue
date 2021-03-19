@@ -101,6 +101,7 @@ export default {
 			selectedTab: '',
 			tabs: ['Nahrať súbory', 'Vložiť text'],
 			files: [],
+			text: '',
 			userEmailProvided: false,
 			userEmailAddress: '',
 		};
