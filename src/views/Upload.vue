@@ -11,13 +11,12 @@
 				<h1
 					class="text-xl md:text-3xl leading-normal md:leading-10 font-bold text-gray-900"
 				>
-					Kontrola plagiátorstva
+					{{ $t('antiplagCheck') }}
 				</h1>
 				<h3
 					class="text-base md:text-xl mt-1 md:mt-2 leading-6 md:leading-8 text-gray-800"
 				>
-					Pridajte jednu alebo viac prác, ktoré si prajete
-					skontrolovať. Nahrajte súbory alebo vložte text práce.
+					{{ $t('uploadDescription') }}
 				</h3>
 			</div>
 			<div
@@ -55,7 +54,7 @@
 						type="checkbox"
 						class="cursor-pointer"
 					/>
-					Informovať ma e-mailom o stave kontroly:
+					{{ $t('emailInputDescription') }}
 				</label>
 				<div class="flex-row pr-5">
 					<input
@@ -65,9 +64,9 @@
 						class="border border-dark rounded py-0.5 px-1 ml-1 text-gray-600"
 						:disabled="!userEmailProvided"
 						:class="{
-							'cursor-not-allowed border-gray-300 bg-gray-200': !userEmailProvided,
+							'cursor-not-allowed border-gray-300 bg-gray-200': !userEmailProvided
 						}"
-						placeholder="email@address.com"
+						:placeholder="$t('emailInputPlaceholder')"
 					/>
 				</div>
 
@@ -76,7 +75,7 @@
 					class="fmt-2 w-full md:w-auto px-5 md:px-8 py-2 text-center text-base text-white bg-primary-500 hover:bg-primary-400 rounded shadow-md cursor-pointer select-none focus:outline-none"
 					@click="submitForm"
 				>
-					Nahrať
+					{{ $t('uploadSubmitButton') }}
 				</button>
 			</div>
 		</div>
@@ -94,17 +93,21 @@ export default {
 		Navigation,
 		UploadTab,
 		UploadFile,
-		UploadText,
+		UploadText
 	},
 	data: function () {
 		return {
 			selectedTab: '',
-			tabs: ['Nahrať súbory', 'Vložiť text'],
 			files: [],
 			text: '',
 			userEmailProvided: false,
-			userEmailAddress: '',
+			userEmailAddress: ''
 		};
+	},
+	computed: {
+		tabs() {
+			return [this.$i18n.t('uploadFiles'), this.$i18n.t('uploadText')];
+		}
 	},
 	mounted() {
 		this.selectedTab = this.tabs[0];
@@ -124,16 +127,20 @@ export default {
 
 			if (requestContainsLargeFile) {
 				this.$store.dispatch('AlertStore/setAlert', {
-					message: `Súbory väčšie ako ${fileSizeLimit} MB nie sú podporované!`,
-					type: 'error',
+					message: this.$i18n.t('uploadFileSizeLimitError', {
+						fileSizeLimit
+					}),
+					type: 'error'
 				});
 			}
 
 			this.files = [...this.files, ...filteredFileArray];
 			if (this.files.length > fileLimit) {
 				this.$store.dispatch('AlertStore/setAlert', {
-					message: `Nie je možné kontrolovať naraz viac ako ${fileLimit} súborov!`,
-					type: 'error',
+					message: this.$i18n.t('uploadFileLimitError', {
+						fileLimit
+					}),
+					type: 'error'
 				});
 				this.files = this.files.slice(0, fileLimit);
 			}
@@ -157,9 +164,8 @@ export default {
 
 				if (!this.files.length) {
 					return this.$store.dispatch('AlertStore/setAlert', {
-						message:
-							'Nezadali ste súbor, ktorý chcete skontrolovať !',
-						type: 'error',
+						message: this.$i18n.t('uploadFileNotProvidedError'),
+						type: 'error'
 					});
 				}
 			} else {
@@ -167,9 +173,8 @@ export default {
 
 				if (!this.text.length) {
 					return this.$store.dispatch('AlertStore/setAlert', {
-						message:
-							'Nezadali ste text, ktorý chcete skontrolovať !',
-						type: 'error',
+						message: this.$i18n.t('uploadTextNotProvidedError'),
+						type: 'error'
 					});
 				}
 
@@ -182,8 +187,8 @@ export default {
 
 				if (userEmailAddress === '') {
 					return this.$store.dispatch('AlertStore/setAlert', {
-						message: 'Nezadali ste emailovú adresu !',
-						type: 'error',
+						message: this.$i18n.t('uploadEmailNotProvidedError'),
+						type: 'error'
 					});
 				}
 
@@ -202,23 +207,23 @@ export default {
 					'/api/submissions/',
 					isFileUpload ? formData : this.text,
 					{
-						headers,
+						headers
 					}
 				)
 				.then(response => {
 					return this.$router.push({
 						name: 'result',
-						params: { result: response.data.id },
+						params: { result: response.data.id }
 					});
 				})
 				.catch(e => {
 					this.$store.dispatch('AlertStore/setAlert', {
 						message: e.message,
-						type: 'error',
+						type: 'error'
 					});
 				});
-		},
-	},
+		}
+	}
 };
 </script>
 

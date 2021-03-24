@@ -1,6 +1,6 @@
 <template>
 	<div class="bg-gray-300">
-		<ResultHeader v-if="documents" title="Podobnosť dokumentov:">
+		<ResultHeader v-if="documents" :title="$t('documentCompareHeading')">
 			<p slot="description" class="hidden md:flex text-xl md:invisible">
 				{{ documents.textA.name }}
 				<span class="font-medium px-2"> a </span>
@@ -59,7 +59,7 @@ import { colorForIndex } from '@/utilities/color.utility';
 
 export default {
 	components: {
-		ResultHeader,
+		ResultHeader
 	},
 	data: function () {
 		return {
@@ -67,7 +67,7 @@ export default {
 			documentAId: undefined,
 			resultId: undefined,
 			highlightedTexts: undefined,
-			documents: undefined,
+			documents: undefined
 		};
 	},
 	mounted: function () {
@@ -87,13 +87,11 @@ export default {
 
 				if (!this.documents.textA || !this.documents.textB)
 					throw new Error(
-						'No documents for diff found. Please contact administrator'
+						this.$t('documentCompareNoDocumentsProvidedError')
 					);
 
 				if (this.documents && this.documents.matches.length === 0)
-					throw new Error(
-						'Documents for diff found, but no matches found. Please contact administrator'
-					);
+					throw new Error(this.$t('documentCompareZeroMatchesError'));
 
 				this.highlightedTexts = this.highlightText(this.documents);
 			})
@@ -101,7 +99,7 @@ export default {
 				this.$store.dispatch('AlertStore/setAlert', {
 					message: e.message,
 					type: 'error',
-					duration: 10000,
+					duration: 10000
 				});
 			})
 			.finally(() => {
@@ -122,7 +120,7 @@ export default {
 					toA: matches.toA,
 					fromB: matches.fromB,
 					toB: matches.toB,
-					color: colorForIndex(index),
+					color: colorForIndex(index)
 				}))
 				.flat();
 
@@ -138,7 +136,7 @@ export default {
 					interval.toA + 1
 				),
 
-				color: interval.color,
+				color: interval.color
 			}));
 
 			const subStringToReplaceB = indicesB.map(interval => ({
@@ -146,7 +144,7 @@ export default {
 					interval.fromB,
 					interval.toB + 1
 				),
-				color: interval.color,
+				color: interval.color
 			}));
 
 			return {
@@ -154,10 +152,7 @@ export default {
 					subStringToReplaceA,
 					documents.textA.content
 				),
-				B: this.merge_text(
-					subStringToReplaceB,
-					documents.textB.content
-				),
+				B: this.merge_text(subStringToReplaceB, documents.textB.content)
 			};
 		},
 		merge_text(subStringIntervals, text) {
@@ -165,11 +160,11 @@ export default {
 				(string, substring) =>
 					string.replace(
 						new RegExp(substring.text, 'g'),
-						`<span  style="color:${substring.color};" class=" font-bold">${substring.text}</span>`
+						`<span  style="color:${substring.color};" class="font-bold">${substring.text}</span>`
 					),
 				escape(text)
 			);
-		},
-	},
+		}
+	}
 };
 </script>

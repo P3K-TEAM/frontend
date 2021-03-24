@@ -8,16 +8,12 @@
 				>
 					<h1
 						class="text-4xl md:text-8xl leading-snug md:leading-tight font-bold w-full text-left tracking-widest"
-					>
-						Nebuďte<br />ako kapitán!
-					</h1>
+						v-html="$t('homePageBannerHeader')"
+					></h1>
 					<p
 						class="my-5 md:my-12 text-base md:text-xl leading-relaxed md:leading-normal font-hairline text-justify"
 					>
-						Po odovzdaní práce už niet cesty späť. Buď ste plagiátor
-						alebo nie. Náš systém vám to ale môže povedať skôr aby
-						ste to dokázali včas zmeniť. Povie Vám na koľko percent
-						máte zhodu v dokumente.
+						{{ $t('homePageBannerDescription') }}
 					</p>
 
 					<div class="flex items-center w-full md:w-auto mt-2">
@@ -25,7 +21,7 @@
 							to="/upload"
 							class="flex md:flex-none w-full md:w-auto items-center justify-center text-xl px-4 md:px-8 py-3 rounded-lg focus:outline-none bg-primary-500 hover:bg-primary-400"
 						>
-							Skontrolovať moju prácu
+							{{ $t('homePageCallToActionButton') }}
 							<i class="hidden md:flex fas fa-angle-right ml-3" />
 						</router-link>
 					</div>
@@ -48,12 +44,10 @@
 				>
 					<div class="w-full md:w-3/5 text-center">
 						<h2 class="font-bold text-3xl md:text-4xl">
-							Vložte celé súbory alebo skopírujte text
+							{{ $t('homePageGuideHeading') }}
 						</h2>
 						<p class="mt-5 text-base md:text-xl">
-							Lorem ipsum dolor sit amet, consectetur adipiscing
-							elit. Nulla semper odio quis pulvinar mattis. Sed
-							vulputate arcu.
+							{{ $t('homePageGuideDescription') }}
 						</p>
 					</div>
 				</div>
@@ -78,10 +72,10 @@
 						<h3
 							class="font-bold text-4xl md:text-6xl mb-2 md:mb-4 leading-none"
 						>
-							5 minút
+							5 {{ $t('minutePlural') }}
 						</h3>
 						<p class="text-lg md:text-xl">
-							priemerný čas doručenia výsledku
+							{{ $t('homePageTimeStats') }}
 						</p>
 					</div>
 				</div>
@@ -95,7 +89,7 @@
 							3857
 						</h3>
 						<p class="text-lg md:text-xl">
-							analyzovaných prác v korpuse
+							{{ $t('homePageAmountStats') }}
 						</p>
 					</div>
 				</div>
@@ -108,7 +102,9 @@
 						>
 							16217
 						</h3>
-						<p class="text-lg md:text-xl">iná štatistika</p>
+						<p class="text-lg md:text-xl">
+							{{ $t('homePageOtherStats') }}
+						</p>
 					</div>
 				</div>
 			</div>
@@ -132,12 +128,10 @@
 				>
 					<div class="w-full md:w-8/12 text-center">
 						<h2 class="font-bold text-3xl md:text-4xl">
-							Detailná štatistika zdrojov
+							{{ $t('homePageProductOverviewHeading') }}
 						</h2>
 						<p class="mt-5 text-base md:text-xl">
-							Lorem ipsum dolor sit amet, consectetur adipiscing
-							elit. Nulla semper odio quis pulvinar mattis. Sed
-							vulputate arcu.
+							{{ $t('homePageProductOverviewDescription') }}
 						</p>
 					</div>
 				</div>
@@ -154,8 +148,8 @@ import Footer from '@/components/Footer/Footer';
 export default {
 	components: {
 		Navigation,
-		Footer,
-	},
+		Footer
+	}
 };
 </script>
 
