@@ -58,9 +58,6 @@ export default {
 		id: function () {
 			return this.$route.params.document;
 		},
-		submissionId: function () {
-			return this.$route.params.submission;
-		},
 		buttons: function () {
 			return [
 				{

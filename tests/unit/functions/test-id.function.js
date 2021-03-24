@@ -1,5 +1,3 @@
-function testId(selector) {
+export function testId(selector) {
 	return `[data-test-id="${selector}"]`;
 }
-
-module.exports = testId;

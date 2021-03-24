@@ -1,3 +1,5 @@
+const path = require('path');
+
 module.exports = {
 	publicPath: '/',
 	outputDir: 'dist',
@@ -6,6 +8,13 @@ module.exports = {
 	lintOnSave: true,
 	devServer: {
 		port: 8080
+	},
+	configureWebpack: {
+		resolve: {
+			alias: {
+				'@': path.join(__dirname, 'src')
+			}
+		}
 	},
 	chainWebpack: config => {
 		config.plugin('html').tap(args => {

@@ -40,9 +40,9 @@ module.exports = {
 	},
 	overrides: [
 		{
-			files: '**/tests/unit/**/*.spec.{j,t}s?(x)',
+			files: '**/tests/unit/**/*.spec.js',
 			env: {
-				mocha: true
+				jest: true
 			}
 		}
 	]
