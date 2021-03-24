@@ -42,8 +42,9 @@
 				</span>
 
 				<div class="hidden md:flex justify-end md:w-1/12 mr-4">
-					<i
-						class="fa fa-eye invisible group-hover:visible text-2xl text-gray-400"
+					<fa-icon
+						:icon="['fas', 'eye']"
+						class="invisible group-hover:visible text-2xl text-gray-400"
 					/>
 				</div>
 			</a>

@@ -12,7 +12,10 @@
 				class="flex items-center p-2 mb-0 md:mb-2 cursor-pointer text-lg md:text-2xl text-gray-600 hover:text-gray-700"
 				@click="this.$router.back()"
 			>
-				<i class="fas fa-chevron-left text-sm md:text-lg mr-2" />
+				<fa-icon
+					:icon="['fas', 'chevron-left']"
+					class="text-sm md:text-lg mr-2"
+				/>
 				Späť
 			</a>
 		</div>

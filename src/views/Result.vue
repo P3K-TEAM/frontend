@@ -39,12 +39,12 @@ export default {
 				{
 					tooltip: this.$i18n.t('listViewIconTooltip'),
 					url: this.getCurrentResultURL,
-					class: 'fas fa-bars'
+					icon: ['fas', 'bars']
 				},
 				{
 					tooltip: this.$i18n.t('graphViewIconTooltip'),
 					url: `${this.getCurrentResultURL}/graph`,
-					class: 'fas fa-project-diagram'
+					icon: ['fas', 'project-diagram']
 				}
 			];
 		},

@@ -11,8 +11,9 @@
 						class="flex flex-col justify-center items-center md:space-y-2 py-8"
 					>
 						<span>
-							<i
-								class="hidden md:flex fa fa-cloud-upload-alt text-gray-400 text-6xl"
+							<fa-icon
+								:icon="['fas', 'cloud-upload-alt']"
+								class="hidden md:flex text-gray-400 text-6xl"
 							/>
 						</span>
 						<h2
@@ -51,7 +52,10 @@
 				class="flex justify-between items-center px-3 md:px-4 py-1 border-b-3 border-gray-400"
 			>
 				<div class="flex items-center space-x-2 md:space-x-4">
-					<i class="fas fa-file text-gray-500 text-lg md:text-3xl" />
+					<fa-icon
+						:icon="['fas', 'file']"
+						class="text-gray-500 text-lg md:text-3xl"
+					/>
 					<p class="text-sm md:text-lg">
 						{{ file.name }}
 					</p>
@@ -61,7 +65,10 @@
 					class="p-2 flex justify-center items-center focus:outline-none text-gray-500 hover:bg-gray-100 hover:text-gray-600"
 					@click="removeFile(key)"
 				>
-					<i class="fas fa-trash text-lg md:text-2xl" />
+					<fa-icon
+						:icon="['fas', 'trash']"
+						class="text-lg md:text-2xl"
+					/>
 				</button>
 			</div>
 		</div>

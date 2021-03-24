@@ -5,14 +5,14 @@
 			:to="buttons[0].url"
 			class="inline-block text-center w-10 toggle py-1 px-3 border border-r-0 border-gray-400 rounded-tl-md rounded-bl-md"
 		>
-			<i :class="buttons[0].class"></i>
+			<fa-icon :icon="buttons[0].icon" />
 		</router-link>
 		<router-link
 			v-tooltip.top="buttons[1].tooltip"
 			:to="buttons[1].url"
 			class="inline-block text-center w-10 toggle py-1 border border-gray-400 rounded-tr-md rounded-br-md"
 		>
-			<i :class="buttons[1].class"></i>
+			<fa-icon :icon="buttons[1].icon" />
 		</router-link>
 	</div>
 </template>
@@ -22,12 +22,12 @@ export default {
 	props: {
 		buttons: {
 			type: Array,
-			required: true,
-		},
+			required: true
+		}
 	},
 	data: function () {
 		return {};
-	},
+	}
 };
 </script>
 

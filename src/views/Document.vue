@@ -22,7 +22,10 @@
 					})
 				"
 			>
-				<i class="fas fa-chevron-left text-sm md:text-lg mr-2" />
+				<fa-icon
+					:icon="['fas', 'chevron-left']"
+					class="text-sm md:text-lg mr-2"
+				/>
 				{{ $t('back') }}
 			</a>
 			<div class="shadow rounded-md md:rounded-lg">

@@ -7,6 +7,9 @@ import filters from './filters';
 // Internationalization
 import i18n from './i18n';
 
+// Font Awesome Icons
+import './icons';
+
 // Third party global dependencies
 import axios from 'axios';
 import { VTooltip, VPopover, VClosePopover } from 'v-tooltip';
@@ -16,12 +19,6 @@ import App from './App.vue';
 
 // Production tooltip
 Vue.config.productionTip = false;
-
-// Font Awesome Icons
-import '@fortawesome/fontawesome-free/js/fontawesome';
-import '@fortawesome/fontawesome-free/js/solid';
-import '@fortawesome/fontawesome-free/js/regular';
-import '@fortawesome/fontawesome-free/js/brands';
 
 // Root styles
 import '@/assets/scss/app.scss';

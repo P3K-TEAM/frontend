@@ -19,13 +19,16 @@
 				class="w-full sm:w-1/3 text-center md:text-left text-xl sm:text-3xl"
 			>
 				<li class="inline">
-					<i class="fab fa-facebook-square mr-4 sm:m-4" />
+					<fa-icon
+						:icon="['fab', 'facebook-square']"
+						class="mr-4 sm:m-4"
+					/>
 				</li>
 				<li class="inline">
-					<i class="fab fa-instagram-square mr-4 sm:m-4" />
+					<fa-icon :icon="['fab', 'instagram']" class="mr-4 sm:m-4" />
 				</li>
 				<li class="inline">
-					<i class="far fa-envelope sm:m-4" />
+					<fa-icon :icon="['far', 'envelope']" class="sm:m-4" />
 				</li>
 			</ul>
 		</div>
