@@ -30,14 +30,14 @@
 				class="bg-primary hover:bg-red-100 border border-red-500 text-red-500 font-bold rounded py-1 px-3"
 				@click="dismiss"
 			>
-				Zrušiť
+				{{ $t('cancel') }}
 			</button>
 			<button
 				type="button"
 				class="bg-primary-500 hover:bg-primary-400 text-white font-bold rounded py-1 px-3 ml-2"
 				@click="confirm"
 			>
-				{{ confirmation.text || 'OK' }}
+				{{ confirmation.text || $t('ok') }}
 			</button>
 		</footer>
 	</div>
@@ -53,8 +53,8 @@ export default {
 			'type',
 			'text',
 			'confirmation',
-			'htmlTemplate',
-		]),
+			'htmlTemplate'
+		])
 	},
 	mounted() {
 		document.addEventListener('keyup', e => {
@@ -72,7 +72,7 @@ export default {
 				this.confirmation.callback();
 			}
 			this.dismiss();
-		},
-	},
+		}
+	}
 };
 </script>

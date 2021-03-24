@@ -8,8 +8,8 @@
 				:disabled="disabled"
 				:placeholder="
 					disabled
-						? 'Text môžete zadať len ak nemáte vložený súbor'
-						: 'Sem skopírujte text Vašej práce...'
+						? $t('uploadTextDisabledMessage')
+						: $t('uploadTextPlaceholder')
 				"
 				@input="handleTextChange"
 			/>
@@ -24,13 +24,13 @@ export default {
 	props: {
 		disabled: {
 			type: Boolean,
-			default: false,
-		},
+			default: false
+		}
 	},
 	methods: {
 		handleTextChange: debounce(function (event) {
 			this.$emit('text-change', event.target.value);
-		}, 500),
-	},
+		}, 500)
+	}
 };
 </script>

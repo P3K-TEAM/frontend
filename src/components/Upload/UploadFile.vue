@@ -18,18 +18,18 @@
 						<h2
 							class="hidden md:flex text-xl font-semibold leading-6 text-center text-gray-800"
 						>
-							Pretiahnite súbory sem
+							{{ $t('dragFilesHere') }}
 						</h2>
 						<span
 							class="hidden md:flex items-center text-base text-gray-600"
 						>
-							alebo
+							{{ $t('or') }}
 						</span>
 						<div>
 							<label
 								class="flex text-white text-center text-base py-2 px-3 md:px-6 rounded shadow-md bg-primary-500 hover:bg-primary-400 cursor-pointer select-none focus:outline-none"
 							>
-								Vybrať súbory
+								{{ $t('chooseFiles') }}
 								<input
 									ref="files"
 									type="file"
@@ -73,12 +73,12 @@ export default {
 	props: {
 		files: {
 			type: Array,
-			required: true,
-		},
+			required: true
+		}
 	},
 	data() {
 		return {
-			dragAndDropCapable: false,
+			dragAndDropCapable: false
 		};
 	},
 	mounted() {
@@ -92,7 +92,7 @@ export default {
 				'dragover',
 				'dragenter',
 				'dragleave',
-				'drop',
+				'drop'
 			].forEach(
 				function (evt) {
 					this.$refs.fileForm.addEventListener(
@@ -129,7 +129,7 @@ export default {
 		},
 		handleFileUpload() {
 			this.$emit('update-files', this.$refs.files.files);
-		},
-	},
+		}
+	}
 };
 </script>

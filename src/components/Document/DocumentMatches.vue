@@ -4,10 +4,12 @@
 			<div
 				class="flex justify-between py-1 text-gray-500 text-sm uppercase border-b-2 border-gray-400"
 			>
-				<span class="w-2/3 ml-4 md:ml-5 md:text-lg"> Súbor </span>
+				<span class="w-2/3 ml-4 md:ml-5 md:text-lg">
+					{{ $t('file') }}
+				</span>
 
 				<span class="w-1/3 text-center mr-2 md:mr-0 md:text-lg">
-					Zhoda so súborom
+					{{ $t('fileMatch') }}
 				</span>
 			</div>
 			<a
@@ -19,8 +21,8 @@
 						params: {
 							result: $route.params.result,
 							document: $route.params.document,
-							compare: match.elastic_id,
-						},
+							compare: match.elastic_id
+						}
 					})
 				"
 				class="flex justify-between py-3 md:py-5 text-base md:text-lg text-black bg-white border-b-2 border-gray-400 cursor-pointer hover:bg-gray-200 group"
@@ -50,7 +52,7 @@
 			v-else
 			class="text-gray-600 font-normal text-sm md:text-lg py-2 md:py-0 px-4 md:px-0"
 		>
-			Gratulujeme! Vaša práca sa nezhoduje so žiadnymi súbormi!
+			{{ $t('documentZeroMatchesCongratulationsMessage') }}
 		</p>
 	</div>
 </template>
@@ -60,9 +62,9 @@ export default {
 	props: {
 		matches: {
 			type: Array,
-			required: true,
-		},
-	},
+			required: true
+		}
+	}
 };
 </script>
 

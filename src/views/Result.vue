@@ -1,7 +1,8 @@
 <template>
 	<div class="bg-gray-300 min-h-screen">
 		<ResultHeader
-			description="Gratulujeme. Nižšie nájdete podrobné štatistiky kontroly originality vašich prác."
+			:title="$t('resultHeaderHeading')"
+			:description="$t('resultHeaderDescription')"
 		/>
 		<div
 			v-if="!isLoading"
@@ -25,38 +26,38 @@ import Toggle from '@/components/Global/Toggle/Toggle';
 export default {
 	components: {
 		ResultHeader,
-		Toggle,
+		Toggle
 	},
 	data: function () {
 		return {
-			id: undefined,
+			id: undefined
 		};
 	},
 	computed: {
 		buttons: function () {
 			return [
 				{
-					tooltip: 'Zoznam',
+					tooltip: this.$i18n.t('listViewIconTooltip'),
 					url: this.getCurrentResultURL,
-					class: 'fas fa-bars',
+					class: 'fas fa-bars'
 				},
 				{
-					tooltip: 'Grafové zobrazenie',
+					tooltip: this.$i18n.t('graphViewIconTooltip'),
 					url: `${this.getCurrentResultURL}/graph`,
-					class: 'fas fa-project-diagram',
-				},
+					class: 'fas fa-project-diagram'
+				}
 			];
 		},
 		getCurrentResultURL: function () {
 			return `/result/${this.id}`;
 		},
 		...mapGetters(['isLoading', 'loadingMessage']),
-		...mapGetters('ResultStore', ['status']),
+		...mapGetters('ResultStore', ['status'])
 	},
 	mounted: function () {
 		// initial loader
 		this.$store.dispatch('setLoading', {
-			active: true,
+			active: true
 		});
 
 		// retry fetching until the result is
@@ -72,7 +73,7 @@ export default {
 				if (!isProcessed && !this.loadingMessage) {
 					this.$store.commit(
 						'SET_LOADING_MESSAGE',
-						'Vaše texty sme zobrali na spracovanie. Výsledky budú automaticky zobrazené na tejto stránke'
+						this.$i18n.t('resultPageLoadingMessage')
 					);
 				}
 
@@ -84,6 +85,6 @@ export default {
 		).finally(() => {
 			this.$store.dispatch('setLoading', false);
 		});
-	},
+	}
 };
 </script>
