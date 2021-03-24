@@ -22,7 +22,10 @@
 							class="flex md:flex-none w-full md:w-auto items-center justify-center text-xl px-4 md:px-8 py-3 rounded-lg focus:outline-none bg-primary-500 hover:bg-primary-400"
 						>
 							{{ $t('homePageCallToActionButton') }}
-							<i class="hidden md:flex fas fa-angle-right ml-3" />
+							<fa-icon
+								:icon="['fas', 'angle-right']"
+								class="hidden md:flex ml-3"
+							/>
 						</router-link>
 					</div>
 				</div>
@@ -32,7 +35,7 @@
 				class="flex justify-center text-white text-4xl pb-6 md:pb-10 pt-6 md:pt-4 cursor-pointer"
 				@click="$refs.caret.scrollIntoView()"
 			>
-				<i class="fas fa-angle-down" />
+				<fa-icon :icon="['fas', 'angle-down']" />
 			</div>
 		</div>
 		<div class="bg-white">

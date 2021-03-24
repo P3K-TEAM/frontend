@@ -6,7 +6,7 @@
 			class="text-gray-600 text-base absolute right-0 top-0 flex justify-center items-center h-8 w-8"
 			@click.prevent="dismiss"
 		>
-			<i class="fas fa-times" />
+			<fa-icon :icon="['fas', 'times']" />
 		</a>
 
 		<template v-if="type === 'html'">

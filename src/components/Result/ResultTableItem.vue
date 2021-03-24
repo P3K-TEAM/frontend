@@ -5,9 +5,10 @@
 		append
 	>
 		<div class="w-5/12 md:w-6/12 truncate pr-2">
-			<i
+			<fa-icon
 				class="w-4 md:w-8 mx-1 md:mx-2"
-				:class="getIcon(document.name)"
+				:icon="getIcon(document.name).icon"
+				:class="getIcon(document.name).cssClass"
 			/>
 			<span>
 				{{ document.name ? document.name : 'Text' }}
@@ -20,8 +21,9 @@
 			{{ document.matches }}
 		</span>
 		<div class="hidden md:flex justify-end md:w-1/12 mr-4">
-			<i
-				class="fas fa-angle-right invisible group-hover:visible text-2xl text-gray-400"
+			<fa-icon
+				:icon="['fas', 'angle-right']"
+				class="invisible group-hover:visible text-2xl text-gray-400"
 			/>
 		</div>
 	</router-link>
@@ -29,27 +31,39 @@
 <script>
 export default {
 	props: {
-		document: { type: Object, required: true },
+		document: { type: Object, required: true }
 	},
 	methods: {
 		getIcon: function (filename) {
 			// Plain text
 			if (!filename) {
-				return 'fas fa-file text-gray-400 text-lg md:text-2xl';
+				return {
+					icon: ['fas', 'file'],
+					cssClass: 'text-gray-400 text-lg md:text-2xl'
+				};
 			}
 
 			const regex = /\.(.[^.]*)$/;
 			const match = filename.match(regex);
 			switch (match[0]) {
 				case '.pdf':
-					return 'fas fa-file-pdf text-red-500 text-lg md:text-2xl';
+					return {
+						icon: ['fas', 'file-pdf'],
+						cssClass: 'text-red-500 text-lg md:text-2xl'
+					};
 				case '.docx':
 				case '.doc':
-					return 'fas fa-file text-blue-500 text-lg md:text-2xl';
+					return {
+						icon: ['fas', 'file'],
+						cssClass: 'text-blue-500 text-lg md:text-2xl'
+					};
 				default:
-					return 'fas fa-file text-2x ';
+					return {
+						icon: ['fas', 'file'],
+						cssClass: 'text-2x'
+					};
 			}
-		},
-	},
+		}
+	}
 };
 </script>
