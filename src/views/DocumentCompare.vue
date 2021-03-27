@@ -38,7 +38,7 @@
 				<div
 					class="flex items-center justify--between px-2 py-1 md:p-2 md:h-12 bg-primary-500 text-white text-lg rounded-t-md md:rounded-t-lg"
 				>
-					<p class="mx-auto">
+					<p  class="mx-auto">
 						{{ documents.textB.name }}
 					</p>
 				</div>
@@ -56,6 +56,7 @@ import ResultHeader from '../components/Result/ResultHeader';
 import { escape, cloneDeep } from 'lodash';
 import retry from '@/functions/retry.function';
 import { colorForIndex } from '@/utilities/color.utility';
+import Vue from 'vue';
 
 export default {
 	components: {
@@ -63,6 +64,7 @@ export default {
 	},
 	data: function () {
 		return {
+			id: 'A2',
 			documentBId: undefined,
 			documentAId: undefined,
 			resultId: undefined,
@@ -129,7 +131,7 @@ export default {
 				matches: [
 					{ fromA: 5, toA: 150, fromB: 15, toB: 150 },
 					{ fromA: 290, toA: 400, fromB: 800, toB: 1000 },
-					{ fromA: 550, toA: 900, fromB: 220, toB: 600 },
+					{ fromA: 950, toA: 1500, fromB: 220, toB: 600 },
 				],
 			});
 		},
@@ -141,6 +143,7 @@ export default {
 					fromB: matches.fromB,
 					toB: matches.toB,
 					color: colorForIndex(index),
+					index: index,
 				}))
 				.flat();
 
@@ -155,8 +158,8 @@ export default {
 					interval.fromA,
 					interval.toA + 1
 				),
-
 				color: interval.color,
+				index: interval.index,
 			}));
 
 			const subStringToReplaceB = indicesB.map(interval => ({
@@ -165,25 +168,35 @@ export default {
 					interval.toB + 1
 				),
 				color: interval.color,
+				index: interval.index,
 			}));
 
 			return {
 				A: this.merge_text(
 					subStringToReplaceA,
-					documents.textA.content
+					documents.textA.content,
+					'A',
+					'B',
 				),
 				B: this.merge_text(
 					subStringToReplaceB,
-					documents.textB.content
+					documents.textB.content,
+					'B',
+					'A',
 				),
 			};
 		},
-		merge_text(subStringIntervals, text) {
+		merge_text(subStringIntervals, text, from, to) {
 			return subStringIntervals.reduce(
 				(string, substring) =>
 					string.replace(
 						new RegExp(substring.text, 'g'),
-						`<span  style="color:${substring.color};" class=" font-bold">${substring.text}</span>`
+						`<span
+							onclick="document.getElementById('${to}${substring.index}').scrollIntoView({behavior: 'smooth'})"
+							id="${from}${substring.index}"
+							style="color:${substring.color};"
+							class="font-bold">${substring.text}
+						</span>`
 					),
 				escape(text)
 			);
