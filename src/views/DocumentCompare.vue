@@ -1,6 +1,6 @@
 <template>
 	<div class="bg-gray-300">
-		<ResultHeader v-if="documents" title="Podobnosť dokumentov:">
+		<ResultHeader v-if="documents" :title="$t('documentCompareHeading')">
 			<p slot="description" class="hidden md:flex text-xl md:invisible">
 				{{ documents.textA.name }}
 				<span class="font-medium px-2"> a </span>
@@ -12,7 +12,10 @@
 				class="flex items-center p-2 mb-0 md:mb-2 cursor-pointer text-lg md:text-2xl text-gray-600 hover:text-gray-700"
 				@click="$router.back()"
 			>
-				<i class="fas fa-chevron-left text-sm md:text-lg mr-2" />
+				<fa-icon
+					:icon="['fas', 'chevron-left']"
+					class="text-sm md:text-lg mr-2"
+				/>
 				Späť
 			</a>
 		</div>
@@ -38,7 +41,7 @@
 				<div
 					class="flex items-center justify--between px-2 py-1 md:p-2 md:h-12 bg-primary-500 text-white text-lg rounded-t-md md:rounded-t-lg"
 				>
-					<p  class="mx-auto">
+					<p class="mx-auto">
 						{{ documents.textB.name }}
 					</p>
 				</div>
@@ -56,20 +59,18 @@ import ResultHeader from '../components/Result/ResultHeader';
 import { escape, cloneDeep } from 'lodash';
 import retry from '@/functions/retry.function';
 import { colorForIndex } from '@/utilities/color.utility';
-import Vue from 'vue';
 
 export default {
 	components: {
-		ResultHeader,
+		ResultHeader
 	},
 	data: function () {
 		return {
-			id: 'A2',
 			documentBId: undefined,
 			documentAId: undefined,
 			resultId: undefined,
 			highlightedTexts: undefined,
-			documents: undefined,
+			documents: undefined
 		};
 	},
 	mounted: function () {
@@ -89,13 +90,11 @@ export default {
 
 				if (!this.documents.textA || !this.documents.textB)
 					throw new Error(
-						'No documents for diff found. Please contact administrator'
+						this.$t('documentCompareNoDocumentsProvidedError')
 					);
 
 				if (this.documents && this.documents.matches.length === 0)
-					throw new Error(
-						'Documents for diff found, but no matches found. Please contact administrator'
-					);
+					throw new Error(this.$t('documentCompareZeroMatchesError'));
 
 				this.highlightedTexts = this.highlightText(this.documents);
 			})
@@ -103,7 +102,7 @@ export default {
 				this.$store.dispatch('AlertStore/setAlert', {
 					message: e.message,
 					type: 'error',
-					duration: 10000,
+					duration: 10000
 				});
 			})
 			.finally(() => {
@@ -125,7 +124,7 @@ export default {
 					fromB: matches.fromB,
 					toB: matches.toB,
 					color: colorForIndex(index),
-					index: index,
+					index
 				}))
 				.flat();
 
@@ -141,7 +140,7 @@ export default {
 					interval.toA + 1
 				),
 				color: interval.color,
-				index: interval.index,
+				index: interval.index
 			}));
 
 			const subStringToReplaceB = indicesB.map(interval => ({
@@ -150,7 +149,7 @@ export default {
 					interval.toB + 1
 				),
 				color: interval.color,
-				index: interval.index,
+				index: interval.index
 			}));
 
 			return {
@@ -158,14 +157,14 @@ export default {
 					subStringToReplaceA,
 					documents.textA.content,
 					'A',
-					'B',
+					'B'
 				),
 				B: this.merge_text(
 					subStringToReplaceB,
 					documents.textB.content,
 					'B',
-					'A',
-				),
+					'A'
+				)
 			};
 		},
 		merge_text(subStringIntervals, text, from, to) {
@@ -182,7 +181,7 @@ export default {
 					),
 				escape(text)
 			);
-		},
-	},
+		}
+	}
 };
 </script>

@@ -3,12 +3,14 @@
 		<div
 			class="flex justify-start mb-4 md:mx-0 px-1 text-sm font-bold text-gray-400 uppercase"
 		>
-			<span class="w-5/12 md:w-6/12 pl-4"> Súbor </span>
+			<span class="w-5/12 md:w-6/12 pl-4">{{ $t('file') }}</span>
 			<span class="w-4/12 md:w-3/12 text-center">
-				Percentuálna zhoda
+				{{ $t('matchPercentage') }}
 			</span>
 
-			<span class="w-3/12 md:w-2/12 text-center"> Počet zhôd </span>
+			<span class="w-3/12 md:w-2/12 text-center">{{
+				$t('numOfMatches')
+			}}</span>
 			<span class="md:w-1/12 md:mr-4" />
 		</div>
 
@@ -24,9 +26,9 @@
 			>
 				<span>
 					<span class="font-bold">
-						{{ documents.length }} výsledkov
+						{{ documents.length }} {{ $t('results') }}
 					</span>
-					z {{ documents.length }}
+					{{ $t('of') }} {{ documents.length }}
 				</span>
 			</div>
 		</div>
@@ -39,10 +41,10 @@ import ResultTableItem from '../ResultTableItem';
 
 export default {
 	components: {
-		ResultTableItem,
+		ResultTableItem
 	},
 	computed: {
-		...mapGetters('ResultStore', ['documents']),
-	},
+		...mapGetters('ResultStore', ['documents'])
+	}
 };
 </script>

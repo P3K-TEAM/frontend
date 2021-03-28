@@ -12,7 +12,7 @@
 					class="flex justify-center items-center close-icon"
 					@click.prevent="dismiss"
 				>
-					<i class="fas fa-times" />
+					<fa-icon :icon="['fas', 'times']" />
 				</a>
 				<div
 					class="p-4 border-t-4"
@@ -20,7 +20,7 @@
 						'border-green-500': type === 'success',
 						'border-red-600': type === 'error',
 						'border-orange-500': type === 'warning',
-						'border-blue-500': type === 'info',
+						'border-blue-500': type === 'info'
 					}"
 				>
 					{{ message }}
@@ -35,12 +35,7 @@ import { mapGetters } from 'vuex';
 
 export default {
 	computed: {
-		...mapGetters('AlertStore', [
-			'isActive',
-			'message',
-			'type',
-			'duration',
-		]),
+		...mapGetters('AlertStore', ['isActive', 'message', 'type', 'duration'])
 	},
 	watch: {
 		isActive(newValue) {
@@ -48,13 +43,13 @@ export default {
 			if (newValue && this.duration > 0) {
 				setTimeout(() => this.dismiss(), this.duration);
 			}
-		},
+		}
 	},
 	methods: {
 		dismiss() {
 			return this.$store.dispatch('AlertStore/dismissAlert');
-		},
-	},
+		}
+	}
 };
 </script>
 

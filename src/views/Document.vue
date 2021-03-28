@@ -3,9 +3,11 @@
 		<ResultHeader
 			:percentage="document ? document.result.percentage : undefined"
 			:title="
-				document && document.name ? document.name : 'Výsledky kontroly'
+				document && document.name
+					? document.name
+					: $t('resultHeaderHeading')
 			"
-			description="Nižšie nájdete podrobné štatistiky kontroly originality vašej práce"
+			:description="$t('documentResultHeaderDescription')"
 		/>
 		<div
 			v-if="document"
@@ -16,12 +18,15 @@
 				@click="
 					$router.push({
 						name: 'result',
-						params: { result: submissionId },
+						params: { result: submissionId }
 					})
 				"
 			>
-				<i class="fas fa-chevron-left text-sm md:text-lg mr-2" />
-				Späť
+				<fa-icon
+					:icon="['fas', 'chevron-left']"
+					class="text-sm md:text-lg mr-2"
+				/>
+				{{ $t('back') }}
 			</a>
 			<div class="shadow rounded-md md:rounded-lg">
 				<div
@@ -33,7 +38,7 @@
 						@click="showFiles = !showFiles"
 					>
 						<span class="font-semibold text-base md:text-2xl">
-							Súbory / Texty
+							{{ $t('documentTextFileSwitch') }}
 						</span>
 					</button>
 				</div>
@@ -65,13 +70,13 @@ import { colorForIndex } from '@/utilities/color.utility';
 export default {
 	components: {
 		DocumentMatches,
-		ResultHeader,
+		ResultHeader
 	},
 	data: function () {
 		return {
 			showFiles: !this.showDocumentText,
 			document: undefined,
-			submissionId: undefined,
+			submissionId: undefined
 		};
 	},
 	computed: {
@@ -83,9 +88,9 @@ export default {
 							`<p class="text-base md:text-lg">${this.highlightedText()}</p>`
 						)
 					);
-				},
+				}
 			};
-		},
+		}
 	},
 	mounted() {
 		// initial spinner
@@ -103,7 +108,7 @@ export default {
 				this.$store.dispatch('AlertStore/setAlert', {
 					message: e.message,
 					type: 'error',
-					duration: 10000,
+					duration: 10000
 				});
 			})
 			.finally(() => {
@@ -142,7 +147,7 @@ export default {
 			});
 
 			intervals[0].matches = [
-				{ doc: intervals[0].name, per: intervals[0].percentage },
+				{ doc: intervals[0].name, per: intervals[0].percentage }
 			];
 			stack.push(intervals[0]);
 
@@ -170,11 +175,16 @@ export default {
 		},
 		toggleTooltip: function (docs) {
 			const docs_unique = [
-				...new Map(docs.map(item => [item['doc'], item])).values(),
+				...new Map(docs.map(item => [item['doc'], item])).values()
 			];
 
 			const text = docs_unique
-				.map(d => `Zhoda so súborom: ${d.doc} (${d.per}%)`)
+				.map(d =>
+					this.$i18n.t('documentMatchWithOtherFile', {
+						document: d.doc,
+						percentage: d.per
+					})
+				)
 				.join('<br>');
 
 			return text;
@@ -193,7 +203,7 @@ export default {
 							this.document.result.matched_docs
 								.map(d => d.name)
 								.indexOf(matched_doc.name)
-						),
+						)
 					}))
 				)
 				.flat();
@@ -203,7 +213,7 @@ export default {
 			const subStringsToReplace = intervals.map(h => ({
 				text: this.document.text.substring(h.from, h.to + 1),
 				docs: h.matches,
-				color: h.color,
+				color: h.color
 			}));
 
 			return subStringsToReplace.reduce(
@@ -218,7 +228,7 @@ export default {
 					),
 				escape(this.document.text)
 			);
-		},
-	},
+		}
+	}
 };
 </script>

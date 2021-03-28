@@ -2,6 +2,10 @@ import { shallowMount } from '@vue/test-utils';
 import DocumentMatches from '@/components/Document/DocumentMatches';
 import testId from '../../functions/test-id.function';
 import { expect } from 'chai';
+import { config } from '@vue/test-utils';
+
+// i18n mock
+config.mocks.$t = key => key;
 
 const factory = (values = {}) => {
 	return shallowMount(DocumentMatches, values);
@@ -15,9 +19,9 @@ describe('DocumentMatches', () => {
 			matches: [
 				{
 					char_from: 200,
-					char_to: 280,
-				},
-			],
+					char_to: 280
+				}
+			]
 		},
 		{
 			name: '2.pdf',
@@ -25,23 +29,23 @@ describe('DocumentMatches', () => {
 			matches: [
 				{
 					char_from: 120,
-					char_to: 150,
-				},
-			],
-		},
+					char_to: 150
+				}
+			]
+		}
 	];
 
 	const selectors = {
 		matchItems: testId('documentMatchesItem'),
 		name: testId('documentMatchesItemName'),
-		percentage: testId('documentMatchesItemPercentage'),
+		percentage: testId('documentMatchesItemPercentage')
 	};
 
 	it('renders list of matched documents correctly', async () => {
 		const wrapper = factory({
 			propsData: {
-				matches,
-			},
+				matches
+			}
 		});
 
 		const matchItems = wrapper.findAll(selectors.matchItems);
