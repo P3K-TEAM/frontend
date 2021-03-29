@@ -10,7 +10,7 @@
 		<div v-if="documents" class="px-5 pt-5 md:px-10 md:pt-0">
 			<a
 				class="flex items-center p-2 mb-0 md:mb-2 cursor-pointer text-lg md:text-2xl text-gray-600 hover:text-gray-700"
-				@click="this.$router.back()"
+				@click="$router.back()"
 			>
 				<fa-icon
 					:icon="['fas', 'chevron-left']"
@@ -123,7 +123,8 @@ export default {
 					toA: matches.toA,
 					fromB: matches.fromB,
 					toB: matches.toB,
-					color: colorForIndex(index)
+					color: colorForIndex(index),
+					index
 				}))
 				.flat();
 
@@ -138,8 +139,8 @@ export default {
 					interval.fromA,
 					interval.toA + 1
 				),
-
-				color: interval.color
+				color: interval.color,
+				index: interval.index
 			}));
 
 			const subStringToReplaceB = indicesB.map(interval => ({
@@ -147,23 +148,36 @@ export default {
 					interval.fromB,
 					interval.toB + 1
 				),
-				color: interval.color
+				color: interval.color,
+				index: interval.index
 			}));
 
 			return {
 				A: this.merge_text(
 					subStringToReplaceA,
-					documents.textA.content
+					documents.textA.content,
+					'A',
+					'B'
 				),
-				B: this.merge_text(subStringToReplaceB, documents.textB.content)
+				B: this.merge_text(
+					subStringToReplaceB,
+					documents.textB.content,
+					'B',
+					'A'
+				)
 			};
 		},
-		merge_text(subStringIntervals, text) {
+		merge_text(subStringIntervals, text, from, to) {
 			return subStringIntervals.reduce(
 				(string, substring) =>
 					string.replace(
 						new RegExp(substring.text, 'g'),
-						`<span  style="color:${substring.color};" class="font-bold">${substring.text}</span>`
+						`<span
+							onclick="document.getElementById('${to}${substring.index}').scrollIntoView({behavior: 'smooth'})"
+							id="${from}${substring.index}"
+							style="color:${substring.color};cursor: pointer;"
+							class="font-bold">${substring.text}
+						</span>`
 					),
 				escape(text)
 			);

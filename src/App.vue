@@ -35,7 +35,10 @@ export default {
 			localStorage.userLanguagePreference
 		);
 
-		if (userPreferredLanguage && isSupportedLanguage(userPreferredLanguage)) {
+		if (
+			userPreferredLanguage &&
+			isSupportedLanguage(userPreferredLanguage)
+		) {
 			this.$i18n.locale = userPreferredLanguage;
 		}
 	}
