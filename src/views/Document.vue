@@ -174,15 +174,12 @@ export default {
 			return stack;
 		},
 		toggleTooltip: function (docs) {
-			const docs_unique = [
-				...new Map(docs.map(item => [item['doc'], item])).values()
-			];
 
-			const text = docs_unique
+			const text = docs
 				.map(d =>
 					this.$i18n.t('documentMatchWithOtherFile', {
-						document: d.doc,
-						percentage: d.per
+						document: d.name,
+						percentage: d.percentage
 					})
 				)
 				.join('<br>');
@@ -190,42 +187,37 @@ export default {
 			return text;
 		},
 		highlightedText: function () {
-			const indices = this.document.result.matched_docs
-				.map(matched_doc =>
-					matched_doc.intervals.map(match => ({
-						name: matched_doc.name,
-						from: match.begin,
-						to: match.end,
-						percentage: this.$filters.roundToTwoDecimals(
-							this.$filters.toNumber(matched_doc.percentage)
-						),
-						color: colorForIndex(
-							this.document.result.matched_docs
-								.map(d => d.name)
-								.indexOf(matched_doc.name)
-						)
-					}))
-				)
-				.flat();
+			
+			// get flat array of ids
+			const documentIds = this.document.intervals.flatMap(({matches}) => matches.map(m => m.id));
 
-			const intervals = this.mergeIntervals(indices);
+			// remove duplicates
+			const uniqueDocumentIds = documentIds.filter((x, i, a) => a.indexOf(x) == i);
+			
+			// crate object of {documentId: color}
+			const colors = uniqueDocumentIds.reduce((colors,documentId) => {
+				colors[documentId] = colorForIndex(documentId)
+				return colors;
+			}, {});
 
-			const subStringsToReplace = intervals.map(h => ({
-				text: this.document.text.substring(h.from, h.to + 1),
+			// assign color to each interval
+			this.document.intervals.forEach(interval => {
+				const matches = interval.matches.slice()
+				const intervalMaximumPercDocId = matches.sort((a, b) => (a.percentage > b.percentage) ? -1 : 1)[0].id;
+				interval.color = colors[intervalMaximumPercDocId];
+			})
+
+			const subStringsToReplace = this.document.intervals.map(h => ({
+				text: this.document.text.substring(h.ranges.from, h.ranges.to + 1),
 				docs: h.matches,
 				color: h.color
-			}));
+			}));			
 
 			return subStringsToReplace.reduce(
 				(string, substring) =>
 					string.replace(
 						new RegExp(substring.text, 'g'),
-						`<span v-tooltip.top="'${this.toggleTooltip(
-							substring.docs
-						)}'" class="font-bold" style="color:${
-							substring.color
-						};">${substring.text}</span>`
-					),
+						`<span v-tooltip.top="'${this.toggleTooltip(substring.docs)}'" class="font-bold" style="color:${substring.color};">${substring.text}</span>`),
 				escape(this.document.text)
 			);
 		}
