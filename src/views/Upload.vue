@@ -218,9 +218,13 @@ export default {
 				})
 				.catch(e => {
 					this.$store.dispatch('AlertStore/setAlert', {
-						message: e.message,
+						message:
+							e.response.data && e.response.data.error
+								? e.response.data.error
+								: e.message,
 						type: 'error'
 					});
+					this.$store.dispatch('setLoading', false);
 				});
 		}
 	}

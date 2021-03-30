@@ -61,7 +61,6 @@
 <script>
 import ResultHeader from '../components/Result/ResultHeader';
 import { escape, cloneDeep } from 'lodash';
-import retry from '@/functions/retry.function';
 import { colorForIndex } from '@/utilities/color.utility';
 
 export default {
@@ -85,11 +84,8 @@ export default {
 		this.documentAId = this.$route.params.document;
 		this.documentBId = this.$route.params.compare;
 
-		return retry(
-			() => this.fetchComparison(this.documentAId, this.documentBId),
-			result => result.textA && result.textB && result.matches
-		)
-			.then(result => {
+		this.fetchComparison(this.documentAId, this.documentBId).then(
+			result => {
 				this.documents = result;
 
 				if (!this.documents.textA || !this.documents.textB)
@@ -101,24 +97,28 @@ export default {
 					throw new Error(this.$t('documentCompareZeroMatchesError'));
 
 				this.highlightedTexts = this.highlightText(this.documents);
-			})
-			.catch(e => {
-				this.$store.dispatch('AlertStore/setAlert', {
-					message: e.message,
-					type: 'error',
-					duration: 10000
-				});
-			})
-			.finally(() => {
-				this.$store.dispatch('setLoading', false);
-			});
+			}
+		);
 	},
 	methods: {
 		// Connect to BE
 		fetchComparison(id, corpusId) {
 			return this.$axios
 				.get(`/api/documents/${id}/diff/${corpusId}`)
-				.then(response => response.data);
+				.then(response => response.data)
+				.catch(e => {
+					this.$store.dispatch('AlertStore/setAlert', {
+						message:
+							e.response.data && e.response.data.error
+								? e.response.data.error
+								: e.message,
+						type: 'error',
+						duration: 0
+					});
+				})
+				.finally(() => {
+					this.$store.dispatch('setLoading', false);
+				});
 		},
 		highlightText: function (documents) {
 			const indices = documents.matches

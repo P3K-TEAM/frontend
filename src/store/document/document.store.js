@@ -45,7 +45,10 @@ export default {
 				})
 				.catch(e => {
 					this.dispatch('AlertStore/setAlert', {
-						message: e.message,
+						message:
+							e.response.data && e.response.data.error
+								? e.response.data.error
+								: e.message,
 						type: 'error',
 						duration: 0 // do not dismiss the error automatically
 					});

@@ -9,16 +9,10 @@ import sk from './languages/slovak';
 Vue.use(VueI18n);
 Vue.use(FlagIcon);
 
-const languages = {
+export const languages = {
 	sk,
 	en
 };
-
-export const supportedLanguages = Object.freeze(Object.keys(languages));
-
-export function isSupportedLanguage(language) {
-	return supportedLanguages.includes(language);
-}
 
 const i18n = new VueI18n({
 	locale: 'sk',
