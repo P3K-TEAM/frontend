@@ -7,7 +7,7 @@ export default {
 			id: undefined,
 			status: undefined,
 			documents: [],
-			graph: undefined,
+			graph: undefined
 		};
 	},
 	getters: {
@@ -22,7 +22,7 @@ export default {
 		},
 		graph(state) {
 			return state.graph;
-		},
+		}
 	},
 	mutations: {
 		SET_ID(state, id) {
@@ -40,7 +40,7 @@ export default {
 		SET_GRAPH(state, graph) {
 			validateType(graph, 'object', 'graph');
 			state.graph = graph;
-		},
+		}
 	},
 	actions: {
 		fetchResult(context, id) {
@@ -54,9 +54,12 @@ export default {
 				})
 				.catch(e => {
 					this.dispatch('AlertStore/setAlert', {
-						message: e.message,
+						message:
+							e.response.data && e.response.data.error
+								? e.response.data.error
+								: e.message,
 						type: 'error',
-						duration: 0, // do not dismiss the error automatically
+						duration: 0 // do not dismiss the error automatically
 					});
 				});
 		},
@@ -68,11 +71,14 @@ export default {
 				})
 				.catch(e => {
 					this.dispatch('AlertStore/setAlert', {
-						message: e.message,
+						message:
+							e.response.data && e.response.data.error
+								? e.response.data.error
+								: e.message,
 						type: 'error',
-						duration: 0, // do not dismiss the error automatically
+						duration: 0 // do not dismiss the error automatically
 					});
 				});
-		},
-	},
+		}
+	}
 };

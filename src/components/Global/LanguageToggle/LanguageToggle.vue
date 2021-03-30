@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import localStorage from '@/constants/localStorage';
+import { setPreferredLanguage } from '@/utilities/language.utility';
 
 export default {
 	data: function () {
@@ -31,11 +31,7 @@ export default {
 	},
 	methods: {
 		changeLocale(locale) {
-			window.localStorage.setItem(
-				localStorage.userLanguagePreference,
-				locale
-			);
-			this.$i18n.locale = locale;
+			setPreferredLanguage(this, locale);
 		}
 	}
 };
