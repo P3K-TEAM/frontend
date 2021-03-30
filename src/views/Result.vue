@@ -56,14 +56,12 @@ export default {
 	},
 	mounted: function () {
 		// initial loader
-		this.$store.dispatch('setLoading', {
-			active: true
-		});
+		this.$store.dispatch('setLoading', true);
 
-		// retry fetching until the result is
+		// get id from route
 		this.id = this.$route.params.result;
 
-		// fetch data from BE
+		// retry fetching until the result is processed
 		return retry(
 			() => this.$store.dispatch('ResultStore/fetchResult', this.id),
 			() => {

@@ -24,6 +24,7 @@ body {
 
 .tooltip {
 	@apply block;
+	z-index: 99;
 
 	.tooltip-inner {
 		@apply bg-black text-white rounded-lg px-4 py-2;

@@ -10,7 +10,7 @@
 		<router-link
 			v-tooltip.top="buttons[1].tooltip"
 			:to="buttons[1].url"
-			class="inline-block text-center w-10 toggle py-1 border border-gray-400 rounded-tr-md rounded-br-md"
+			class="inline-block text-center w-10 toggle py-1 border border-l-0 border-gray-400 rounded-tr-md rounded-br-md"
 		>
 			<fa-icon :icon="buttons[1].icon" />
 		</router-link>

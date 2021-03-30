@@ -19,6 +19,7 @@ const upload = {
 	emailInputPlaceholder: 'adresa@email.sk',
 	uploadSubmitButton: 'Nahrať',
 	uploadFileLimitError: 'Nie je možné kontrolovať naraz viac ako {fileLimit} súborov!',
+	uploadFileDisabledMessage: 'Súbory môžete nahrať len ak nemáte vložený text',
 	uploadFileSizeLimitError: 'Súbory väčšie ako {fileSizeLimit} MB nie sú podporované!',
 	uploadFileNotProvidedError: 'Nezadali ste súbor, ktorý chcete skontrolovať!',
 	uploadTextNotProvidedError: 'Nezadali ste text, ktorý chcete skontrolovať!',
@@ -31,6 +32,7 @@ const upload = {
 
 const result = {
 	results: 'výsledkov',
+	matches: 'zhôd',
 	resultHeaderHeading: 'Výsledky kontroly',
 	resultHeaderDescription: 'Gratulujeme. Nižšie nájdete podrobné štatistiky kontroly originality vašich prác.',
 	resultPageLoadingMessage: 'Vaše texty sme zobrali na spracovanie. Výsledky budú automaticky zobrazené na tejto stránke',
@@ -39,12 +41,13 @@ const result = {
 
 const document = {
 	documentResultHeaderDescription: 'Nižšie nájdete podrobné štatistiky kontroly originality vašej práce',
-	documentTextFileSwitch: 'Súbory / Texty',
 	documentMatchWithOtherFile: 'Zhoda so súborom: {document} ({percentage})',
 	documentCompareNoDocumentsProvidedError: 'Nenašli sa žiadne dokumenty pre porovnanie. Prosím, kontaktujte administrátora.',
 	documentCompareZeroMatchesError: 'Nenašli sa žiadne zhody medzi danými súbormi. Prosím, kontaktujte administrátora.',
 	documentCompareHeading: 'Podobnosť dokumentov:',
-	documentZeroMatchesCongratulationsMessage: 'Gratulujeme! Vaša práca sa nezhoduje so žiadnymi súbormi!'
+	documentZeroMatchesCongratulationsMessage: 'Gratulujeme! Vaša práca sa nezhoduje so žiadnymi súbormi!',
+	documentContentView: 'Obsah dokumentu',
+	documentFileListView: 'Zoznam zhodných dokumentov'
 };
 
 const messages = {
