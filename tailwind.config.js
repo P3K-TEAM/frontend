@@ -47,7 +47,8 @@ module.exports = {
 	variants: {
 		visibility: ['group-hover'],
 		extend: {
-			borderWidth: ['first', 'last']
+			borderWidth: ['first', 'last'],
+			margin: ['last']
 		}
 	},
 	plugins: []

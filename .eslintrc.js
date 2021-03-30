@@ -1,27 +1,28 @@
 module.exports = {
 	root: true,
 	env: {
-		node: true,
+		node: true
 	},
 	extends: [
 		'plugin:vue/essential',
 		'plugin:vue/recommended',
-		'eslint:recommended',
+		'eslint:recommended'
 	],
 	plugins: ['vue'],
 	parserOptions: {
-		parser: 'babel-eslint',
+		parser: 'babel-eslint'
 	},
 	rules: {
+		'vue/attribute-hyphenation': 'off',
 		'vue/max-attributes-per-line': [
 			2,
 			{
 				singleline: 2,
 				multiline: {
 					max: 1,
-					allowFirstLine: false,
-				},
-			},
+					allowFirstLine: false
+				}
+			}
 		],
 		'vue/html-indent': [
 			'error',
@@ -31,18 +32,18 @@ module.exports = {
 				baseIndent: 1,
 				closeBracket: 0,
 				alignAttributesVertically: true,
-				ignores: [],
-			},
+				ignores: []
+			}
 		],
 		'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-		'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
+		'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off'
 	},
 	overrides: [
 		{
 			files: '**/tests/unit/**/*.spec.{j,t}s?(x)',
 			env: {
-				mocha: true,
-			},
-		},
-	],
+				mocha: true
+			}
+		}
+	]
 };

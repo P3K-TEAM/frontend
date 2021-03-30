@@ -2,7 +2,7 @@
 	<table class="flex flex-col pt-4 pb-3 rounded-xl bg-white shadow">
 		<thead>
 			<tr
-				class="flex justify-start mb-4 md:mx-0 px-1 text-sm font-bold text-gray-400 uppercase"
+				class="flex justify-start mb-4 md:mx-0 px-1 pl-4 md:mr-4 text-sm font-bold text-gray-400 uppercase"
 			>
 				<th
 					v-for="(item, index) in header.items"
@@ -16,11 +16,12 @@
 
 		<tbody>
 			<!-- Empty message -->
-			<tr v-if="!data.items || !data.items.length">
+			<tr
+				v-if="!data.items || !data.items.length"
+				class="flex text-gray-600 p-3 pl-4 md:mr-4 text-left border-t border-gray-200"
+			>
 				<td :colspan="header.items.length">
-					<p class="text-gray-600 px-6 text-left">
-						{{ data.empty }}
-					</p>
+					{{ data.empty }}
 				</td>
 			</tr>
 
@@ -28,7 +29,7 @@
 			<tr
 				v-for="item in data.items"
 				:key="item.id"
-				class="flex items-center px-3 py-5 md:py-3 text-lg bg-white hover:bg-gray-100 border-t border-gray-200 cursor-pointer group"
+				class="flex items-center p-3 pl-4 md:pr-4 text-lg hover:bg-gray-100 border-t border-gray-200 cursor-pointer group"
 				@click="options.onClick ? options.onClick(item) : undefined"
 			>
 				<slot name="tableItemTemplate" :tableItem="item" />

@@ -13,11 +13,13 @@ import {
 	faEye,
 	faTimes,
 	faCloudUploadAlt,
+	faFont,
+	faThList
 } from '@fortawesome/free-solid-svg-icons';
 import { faEnvelope } from '@fortawesome/free-regular-svg-icons';
 import {
 	faFacebookSquare,
-	faInstagram,
+	faInstagram
 } from '@fortawesome/free-brands-svg-icons';
 
 library.add(
@@ -34,7 +36,9 @@ library.add(
 	faFacebookSquare,
 	faInstagram,
 	faTimes,
-	faCloudUploadAlt
+	faCloudUploadAlt,
+	faFont,
+	faThList
 );
 
 Vue.component('fa-icon', FontAwesomeIcon);

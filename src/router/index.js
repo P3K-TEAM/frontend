@@ -11,6 +11,8 @@ import DocumentCompare from '../views/DocumentCompare';
 // Components
 import ResultTable from '@/components/Result/ResultTable/ResultTable';
 import ResultGraph from '@/components/Result/ResultGraph/ResultGraph';
+import DocumentMatchesTable from '@/components/Document/DocumentMatchesTable';
+import DocumentText from '@/components/Document/DocumentText';
 
 Vue.use(VueRouter);
 
@@ -18,20 +20,20 @@ const routes = [
 	{
 		path: '/',
 		name: 'home',
-		component: Home,
+		component: Home
 	},
 	{
 		path: '/upload',
 		name: 'upload',
 		component: Upload,
-		meta: { title: 'Nahrať dokument' },
+		meta: { title: 'Nahrať dokument' }
 	},
 	{
 		path: '/result/:result',
 		component: {
 			render(h) {
 				return h('router-view');
-			},
+			}
 		},
 		children: [
 			{
@@ -42,45 +44,57 @@ const routes = [
 						path: '/',
 						component: ResultTable,
 						name: 'result',
-						meta: { title: 'Zoznam výsledkov' },
+						meta: { title: 'Zoznam výsledkov' }
 					},
 					{
 						path: 'graph',
 						component: ResultGraph,
 						name: 'graph',
-						meta: { title: 'Graf výsledkov' },
-					},
-				],
+						meta: { title: 'Graf výsledkov' }
+					}
+				]
 			},
 			{
 				path: 'document/:document',
 				component: {
 					render(h) {
 						return h('router-view');
-					},
+					}
 				},
 				children: [
 					{
 						path: '/',
-						name: 'document',
 						component: Document,
-						meta: { title: 'Dokument' },
+						children: [
+							{
+								path: '/',
+								component: DocumentText,
+								name: 'document',
+								meta: { title: 'Obsah súboru' }
+							},
+							{
+								path: 'files',
+								component: DocumentMatchesTable,
+								name: 'matches',
+								meta: { title: 'Zoznam zhodných súborov' }
+							}
+						]
 					},
 					{
 						path: 'compare/:compare',
 						name: 'compare',
 						component: DocumentCompare,
-						meta: { title: 'Podobnosť dokumentov' },
-					},
-				],
-			},
-		],
-	},
+						meta: { title: 'Podobnosť dokumentov' }
+					}
+				]
+			}
+		]
+	}
 ];
 
 const router = new VueRouter({
 	mode: 'history',
-	routes,
+	routes
 });
 
 export default router;

@@ -5,6 +5,7 @@ import Vuex from 'vuex';
 import AlertStore from './alert/alert.store';
 import ModalStore from './modal/modal.store';
 import ResultStore from './result/result.store';
+import DocumentStore from './document/document.store';
 
 // functions
 import validateType from '@/functions/validate-type.function';
@@ -16,12 +17,13 @@ export default new Vuex.Store({
 		AlertStore,
 		ModalStore,
 		ResultStore,
+		DocumentStore
 	},
 	state() {
 		return {
 			backdrop: false,
 			loading: false,
-			loadingMessage: undefined,
+			loadingMessage: undefined
 		};
 	},
 	mutations: {
@@ -36,7 +38,7 @@ export default new Vuex.Store({
 		SET_LOADING_MESSAGE(state, message) {
 			validateType(message, 'string | undefined', 'loadingMessage');
 			state.loadingMessage = message;
-		},
+		}
 	},
 	getters: {
 		isLoading(state) {
@@ -47,7 +49,7 @@ export default new Vuex.Store({
 		},
 		loadingMessage(state) {
 			return state.loadingMessage;
-		},
+		}
 	},
 	actions: {
 		setLoading(context, payload) {
@@ -63,6 +65,6 @@ export default new Vuex.Store({
 			} else {
 				context.commit('SET_LOADING_MESSAGE', undefined);
 			}
-		},
-	},
+		}
+	}
 });

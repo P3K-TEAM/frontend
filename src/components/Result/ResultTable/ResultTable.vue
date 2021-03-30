@@ -1,50 +1,95 @@
 <template>
-	<div class="pt-4 pb-3 rounded-xl bg-white shadow">
-		<div
-			class="flex justify-start mb-4 md:mx-0 px-1 text-sm font-bold text-gray-400 uppercase"
-		>
-			<span class="w-5/12 md:w-6/12 pl-4">{{ $t('file') }}</span>
-			<span class="w-4/12 md:w-3/12 text-center">
-				{{ $t('matchPercentage') }}
-			</span>
-
-			<span class="w-3/12 md:w-2/12 text-center">{{
-				$t('numOfMatches')
-			}}</span>
-			<span class="md:w-1/12 md:mr-4" />
-		</div>
-
-		<div v-if="documents.length">
-			<!-- items -->
-			<ResultTableItem
-				v-for="(doc, index) in documents"
-				:key="index"
-				:document="doc"
-			/>
-			<div
-				class="flex justify-between pt-3 pl-4 text-gray-400 text-sm md:text-md border-t border-gray-200"
-			>
+	<Table
+		:header="header"
+		:data="data"
+		:options="options"
+	>
+		<template #tableItemTemplate="{ tableItem }">
+			<td class="truncate pr-2" :class="options.layout[0]">
+				<fa-icon
+					class="w-4 md:w-8 mr-1 md:mr-2"
+					:icon="getIcon(tableItem.name).icon"
+					:class="getIcon(tableItem.name).cssClass"
+				/>
 				<span>
-					<span class="font-bold">
-						{{ documents.length }} {{ $t('results') }}
-					</span>
-					{{ $t('of') }} {{ documents.length }}
+					{{ tableItem.name }}
 				</span>
-			</div>
-		</div>
-	</div>
+			</td>
+
+			<td class="truncate text-center" :class="options.layout[1]">
+				{{ tableItem.percentage | toNumber | roundToTwoDecimals }} %
+			</td>
+
+			<td class="truncate text-center" :class="options.layout[2]">
+				{{ tableItem.matches }}
+			</td>
+
+			<td
+				class="hidden md:flex justify-end mr-4"
+				:class="options.layout[3]"
+			>
+				<fa-icon
+					:icon="['fas', 'angle-right']"
+					class="invisible group-hover:visible text-2xl text-gray-400"
+				/>
+			</td>
+		</template>
+	</Table>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-import ResultTableItem from '../ResultTableItem';
+import Table from '@/components/Global/Table/Table';
+import { getFileIcon } from '@/functions/get-file-icon.function';
 
 export default {
 	components: {
-		ResultTableItem
+		Table
 	},
 	computed: {
-		...mapGetters('ResultStore', ['documents'])
+		options() {
+			return {
+				layout: [
+					'w-5/12 md:w-6/12 text-left',
+					'w-4/12 md:w-3/12',
+					'w-3/12 md:w-2/12',
+					'md:w-1/12'
+				],
+				itemName: this.$i18n.t('results'),
+				onClick: item =>
+					this.$router.push({
+						name: 'document',
+						params: { document: item.id }
+					})
+			};
+		},
+		header() {
+			return {
+				items: [
+					{
+						name: this.$i18n.t('file')
+					},
+					{
+						name: this.$i18n.t('matchPercentage'),
+						classes: 'text-center'
+					},
+					{
+						name: this.$i18n.t('numOfMatches'),
+						classes: 'text-center'
+					},
+					{
+						name: ''
+					}
+				]
+			};
+		},
+		data() {
+			return {
+				items: this.$store.getters['ResultStore/documents']
+			};
+		}
+	},
+	methods: {
+		getIcon: getFileIcon
 	}
 };
 </script>
