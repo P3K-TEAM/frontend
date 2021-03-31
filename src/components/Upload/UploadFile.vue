@@ -29,6 +29,7 @@
 						type="file"
 						multiple
 						class="hidden"
+						accept=".doc, .docx, .pdf, .pps, .pptx, text/plain, text/markdown, text/xml, text/rtf, text/html, text/pdf, text/csv, application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/vnd.openxmlformats-officedocument.presentationml.slideshow, application/vnd.openxmlformats-officedocument.presentationml.presentation, image/*"
 						@change="handleFileUpload"
 					/>
 				</label>
