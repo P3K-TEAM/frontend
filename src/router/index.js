@@ -92,9 +92,17 @@ const routes = [
 	}
 ];
 
+export let prevRoute = {};
+
 const router = new VueRouter({
 	mode: 'history',
-	routes
+	routes,
+	prevRoute
+});
+
+router.beforeEach((to, from, next) => {
+	prevRoute = from;
+	next();
 });
 
 export default router;

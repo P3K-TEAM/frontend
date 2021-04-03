@@ -15,19 +15,16 @@
 			class="flex-grow mx-4 md:container md:mx-auto mt-4 md:my-20"
 		>
 			<div class="flex items-center justify-between mb-3">
-				<router-link
+				<a
 					class="flex items-center p-2 text-xl text-gray-400 hover:text-gray-500 cursor-pointer"
-					:to="{
-						name: 'result',
-						params: { result: resultId }
-					}"
+					@click.prevent='$router.push(backToPrev)'
 				>
 					<fa-icon
 						:icon="['fas', 'chevron-left']"
 						class="text-sm md:text-lg mr-2"
 					/>
 					{{ $t('back') }}
-				</router-link>
+				</a>
 
 				<Toggle :buttons="buttons" />
 			</div>
@@ -41,6 +38,7 @@
 import { mapGetters } from 'vuex';
 import ResultHeader from '../components/Result/ResultHeader';
 import Toggle from '@/components/Global/Toggle/Toggle';
+import { prevRoute } from '../router/index.js'
 
 export default {
 	components: {
@@ -48,6 +46,11 @@ export default {
 		Toggle
 	},
 	computed: {
+		backToPrev: function () {
+			if ( prevRoute.name === 'graph' || prevRoute.name === 'result' )
+				return {path: prevRoute.fullPath};
+			return {name: 'result', params: {result: this.resultId}}
+		},
 		id: function () {
 			return this.$route.params.document;
 		},
@@ -76,7 +79,6 @@ export default {
 	mounted() {
 		// initial loader
 		this.$store.dispatch('setLoading', true);
-
 		// fetch data from BE
 		return this.$store
 			.dispatch('DocumentStore/fetchDocument', this.id)
