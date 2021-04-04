@@ -1,78 +1,72 @@
 <template>
 	<div class="flex flex-col min-h-screen bg-primary-500">
+		<!-- background -->
 		<div
 			class="w-screen h-screen absolute bg-primary-gradient clip-half-circle"
 		/>
+
 		<Navigation class="z-10" />
+
 		<div
-			class="h-full flex flex-col items-start md:container md:mx-auto w-full mx-0 md:h-auto md:rounded-lg shadow-xl mt-0 md:my-12 bg-white z-10"
+			class="flex flex-col flex-grow md:container md:mx-auto mb-20 p-4 md:p-10 z-10 bg-white rounded-lg shadow-xl"
 		>
-			<div class="px-4 md:px-8 pt-3 md:pt-10 pb-1 md:pb-2">
-				<h1
-					class="text-xl md:text-3xl leading-normal md:leading-10 font-bold text-gray-900"
-				>
-					{{ $t('antiplagCheck') }}
-				</h1>
-				<h3
-					class="text-base md:text-xl mt-1 md:mt-2 leading-6 md:leading-8 text-gray-800"
-				>
-					{{ $t('uploadDescription') }}
-				</h3>
-			</div>
-			<div
-				class="w-full h-full md:h-auto px-0 md:px-20 pb-4 md:pb-8 pt-3 md:pt-5"
+			<h1
+				class="text-xl md:text-3xl leading-normal md:leading-10 font-bold text-gray-900"
 			>
-				<div class="flex">
-					<UploadTab
-						v-for="tab in tabs"
-						:key="tab"
-						:title="tab"
-						:active="tab === selectedTab"
-						@click.native="selectedTab = tab"
-					/>
-				</div>
-				<UploadFile
-					v-if="selectedTab === tabs[0]"
-					:files="files"
-					@update-files="updateFileList"
-					@remove-file="removeFile"
-				/>
-				<UploadText
-					v-else
-					:disabled="files.length > 0"
-					@text-change="updateText"
-				/>
-			</div>
+				{{ $t('antiplagCheck') }}
+			</h1>
+			<h3
+				class="text-base md:text-xl mt-1 md:mt-2 leading-6 md:leading-8 text-gray-800"
+			>
+				{{ $t('uploadDescription') }}
+			</h3>
+
+			<Tabs
+				:tabs="tabs"
+				:selectedTab.sync="selectedTab"
+				class="mt-4"
+			/>
+
+			<UploadFile
+				v-if="selectedTab === tabs[0].key"
+				:files="files"
+				@update-files="updateFileList"
+				@remove-file="removeFile"
+			/>
+
+			<UploadText v-else @text-change="updateText" />
 
 			<div
-				class="flex flex-row justify-end items-center text-center w-full px-2 md:px-20 md:text-right pb-2 md:pb-10 mt-10 md:mt-10"
+				class="flex flex-col md:flex-row justify-end items-center text-center mt-6"
 			>
-				<label class="text-sm text-gray-500">
-					<input
-						v-model="userEmailProvided"
-						name="emailProvidedCheckbox"
-						type="checkbox"
-						class="cursor-pointer"
-					/>
-					{{ $t('emailInputDescription') }}
-				</label>
-				<div class="flex-row pr-5">
-					<input
-						v-model="userEmailAddress"
-						name="email"
-						type="email"
-						class="border border-dark rounded py-0.5 px-1 ml-1 text-gray-600"
-						:disabled="!userEmailProvided"
-						:class="{
-							'cursor-not-allowed border-gray-300 bg-gray-200': !userEmailProvided
-						}"
-						:placeholder="$t('emailInputPlaceholder')"
-					/>
+				<div class="flex flex-row items-center text-gray-500">
+					<label class="flex flex-row text-xs md:text-sm text-left">
+						<input
+							v-model="userEmailProvided"
+							name="emailProvidedCheckbox"
+							type="checkbox"
+							class="cursor-pointer mr-2"
+						/>
+						{{ $t('emailInputDescription') }}
+					</label>
+					<div class="flex-row pr-5">
+						<input
+							v-model="userEmailAddress"
+							name="email"
+							type="email"
+							class="w-48 py-1 px-2 ml-2 border text-sm border-dark text-gray-600 rounded"
+							:disabled="!userEmailProvided"
+							:class="{
+								'cursor-not-allowed border-gray-300 bg-gray-200': !userEmailProvided
+							}"
+							:placeholder="$t('emailInputPlaceholder')"
+						/>
+					</div>
 				</div>
 
 				<button
 					type="button"
-					class="fmt-2 w-full md:w-auto px-5 md:px-8 py-2 text-center text-base text-white bg-primary-500 hover:bg-primary-400 rounded shadow-md cursor-pointer select-none focus:outline-none"
+					class="w-full md:w-auto py-1 px-5 md:px-8 mt-4 md:mt-0 text-white bg-primary-500 hover:bg-primary-400 rounded focus:outline-none"
 					@click="submitForm"
 				>
 					{{ $t('uploadSubmitButton') }}
@@ -84,20 +78,21 @@
 
 <script>
 import Navigation from '@/components/Global/Navigation/Navigation.vue';
-import UploadTab from '@/components/Upload/UploadTab.vue';
+import Tabs from '@/components/Global/Tabs/Tabs';
 import UploadFile from '@/components/Upload/UploadFile.vue';
 import UploadText from '@/components/Upload/UploadText.vue';
+import { fileLimit, fileSizeLimit } from '@/constants/submission';
 
 export default {
 	components: {
 		Navigation,
-		UploadTab,
+		Tabs,
 		UploadFile,
 		UploadText
 	},
 	data: function () {
 		return {
-			selectedTab: '',
+			selectedTab: 'file',
 			files: [],
 			text: '',
 			userEmailProvided: false,
@@ -106,19 +101,24 @@ export default {
 	},
 	computed: {
 		tabs() {
-			return [this.$i18n.t('uploadFiles'), this.$i18n.t('uploadText')];
+			return [
+				{
+					key: 'file',
+					title: this.$i18n.t('uploadFiles'),
+					disabled: this.text !== '',
+					disabledMessage: this.$i18n.t('uploadFileDisabledMessage')
+				},
+				{
+					key: 'text',
+					title: this.$i18n.t('uploadText'),
+					disabled: !!this.files.length,
+					disabledMessage: this.$i18n.t('uploadTextDisabledMessage')
+				}
+			];
 		}
-	},
-	mounted() {
-		this.selectedTab = this.tabs[0];
 	},
 	methods: {
 		updateFileList(fileList) {
-			// Setting: Max number of files per request
-			const fileLimit = 50;
-			// Setting: Max size of a file in MB
-			const fileSizeLimit = 20;
-
 			const filteredFileArray = Array.from(fileList).filter(
 				file => file.size <= fileSizeLimit * 1024 * 1024
 			);
@@ -155,7 +155,7 @@ export default {
 			const formData = new FormData();
 			let headers = '';
 			let requestBody = {};
-			const isFileUpload = this.selectedTab === this.tabs[0];
+			const isFileUpload = this.selectedTab === this.tabs[0].key;
 
 			if (isFileUpload) {
 				headers = { 'Content-Type': 'multipart/form-data' };
@@ -218,9 +218,13 @@ export default {
 				})
 				.catch(e => {
 					this.$store.dispatch('AlertStore/setAlert', {
-						message: e.message,
+						message:
+							e.response.data && e.response.data.error
+								? e.response.data.error
+								: e.message,
 						type: 'error'
 					});
+					this.$store.dispatch('setLoading', false);
 				});
 		}
 	}

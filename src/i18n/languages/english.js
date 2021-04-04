@@ -19,6 +19,7 @@ const upload = {
 	emailInputPlaceholder: 'adress@domain.com',
 	uploadSubmitButton: 'Upload',
 	uploadFileLimitError: 'Maximum file amount reached. You might only upload {fileLimit} at the same time.',
+	uploadFileDisabledMessage: 'You can only upload files if you do not have any text inserted',
 	uploadFileSizeLimitError: 'The maximum supported file size is {fileSizeLimit} MB.',
 	uploadFileNotProvidedError: 'Please, upload some files to check.',
 	uploadTextNotProvidedError: 'Please, upload some text.',
@@ -31,6 +32,7 @@ const upload = {
 
 const result = {
 	results: 'results',
+	matches: 'matches',
 	resultHeaderHeading: 'Your result',
 	resultHeaderDescription: 'Congratulations. Please, find detailed information about your submission below.',
 	resultPageLoadingMessage: "Your documents are now processing. We'll show you the results on this page as soon as possible.",
@@ -39,12 +41,13 @@ const result = {
 
 const document = {
 	documentResultHeaderDescription: 'Please, find detailed information about your submission below.',
-	documentTextFileSwitch: 'Files / Text',
 	documentMatchWithOtherFile: 'Match with file: {document} ({percentage})',
 	documentCompareNoDocumentsProvidedError: 'No documents for diff check found. Please contact administrator.',
 	documentCompareZeroMatchesError: 'No matches between documents found. Please contact administrator.',
 	documentCompareHeading: 'Document similarity:',
-	documentZeroMatchesCongratulationsMessage: "Congratulations! Your submission didn't match any documents in our database!"
+	documentZeroMatchesCongratulationsMessage: "Congratulations! Your submission didn't match any documents in our database!",
+	documentContentView: 'Document content',
+	documentFileListView: 'List of matched files'
 };
 
 const messages = {

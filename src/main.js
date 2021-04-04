@@ -12,7 +12,7 @@ import './icons';
 
 // Third party global dependencies
 import axios from 'axios';
-import { VTooltip, VPopover, VClosePopover } from 'v-tooltip';
+import VTooltip from 'v-tooltip';
 
 // Root component
 import App from './App.vue';
@@ -24,10 +24,10 @@ Vue.config.productionTip = false;
 import '@/assets/scss/app.scss';
 
 // v-tooltip
-Vue.directive('tooltip', VTooltip);
-Vue.directive('close-popover', VClosePopover);
-Vue.component('v-popover', VPopover);
-VTooltip.options.defaultTrigger = window.innerWidth > 768 ? 'hover focus click' : 'click'
+Vue.use(VTooltip, {
+	defaultTrigger: window.innerWidth > 768 ? 'hover focus' : 'click',
+	defaultHideOnTargetClick: false,
+});
 
 // Page title
 router.afterEach(to => {

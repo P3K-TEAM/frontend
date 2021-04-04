@@ -7,48 +7,52 @@
 				{{ documents.textB.name }}
 			</p>
 		</ResultHeader>
-		<div v-if="documents" class="px-5 pt-5 md:px-10 md:pt-0">
-			<a
-				class="flex items-center p-2 mb-0 md:mb-2 cursor-pointer text-lg md:text-2xl text-gray-600 hover:text-gray-700"
-				@click="this.$router.back()"
-			>
-				<fa-icon
-					:icon="['fas', 'chevron-left']"
-					class="text-sm md:text-lg mr-2"
-				/>
-				Späť
-			</a>
-		</div>
-		<div v-if="documents" class="md:flex py-4 md:py-4">
-			<div
-				class="md:flex1 rounded-md md:rounded-lg mx-4 md:mt-0 md:mr-2 md:ml-4 md:w-1/2 lg:ml-12"
-			>
-				<div
-					class="flex items-center justify-between px-2 py-1 md:p-2 md:h-12 bg-primary-500 text-white text-lg rounded-t-md md:rounded-t-lg"
+
+		<div
+			v-if="documents && highlightedTexts"
+			class="flex-grow mx-4 md:container md:mx-auto mt-4 md:my-20"
+		>
+			<div class="flex items-center justify-between mb-3">
+				<a
+					class="flex items-center p-2 text-xl text-gray-400 hover:text-gray-500 cursor-pointer"
+					@click.prevent="$router.back()"
 				>
-					<p class="mx-auto">
-						{{ documents.textA.name }}
-					</p>
-				</div>
-				<div
-					v-html="highlightedTexts.A"
-					class="px-4 py-1 pt-1 md:pt-2 md:p-4 bg-white text-justify rounded-b-md md:rounded-b-lg shadow-md"
-				/>
+					<fa-icon
+						:icon="['fas', 'chevron-left']"
+						class="text-sm md:text-lg mr-2"
+					/>
+					{{ $t('back') }}
+				</a>
 			</div>
-			<div
-				class="md:flex1 rounded-md md:rounded-md mt-4 mx-4 md:mt-0 d:mr-4 md:ml-2 md:w-1/2 lg:mr-12"
-			>
-				<div
-					class="flex items-center justify--between px-2 py-1 md:p-2 md:h-12 bg-primary-500 text-white text-lg rounded-t-md md:rounded-t-lg"
-				>
-					<p class="mx-auto">
-						{{ documents.textB.name }}
-					</p>
+
+			<div class="flex flex-row bg-white rounded-b-xl">
+				<div class="w-1/2">
+					<div
+						class="flex items-center justify-between py-3 bg-primary-500 text-white text-xl"
+					>
+						<p class="mx-auto">
+							{{ documents.textA.name }}
+						</p>
+					</div>
+					<div
+						class="p-6 text-justify border-r border-gray-100"
+						v-html="highlightedTexts.A"
+					/>
 				</div>
-				<div
-					v-html="highlightedTexts.B"
-					class="px-4 py-1 pt-1 md:pt-2 md:p-4 bg-white text-justify rounded-b-md md:rounded-b-lg shadow-md"
-				/>
+
+				<div class="w-1/2">
+					<div
+						class="flex items-center justify-between py-3 bg-primary-500 text-white text-xl"
+					>
+						<p class="mx-auto">
+							{{ documents.textB.name }}
+						</p>
+					</div>
+					<div
+						class="p-6 text-justify border-l border-gray-100"
+						v-html="highlightedTexts.B"
+					/>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -57,7 +61,6 @@
 <script>
 import ResultHeader from '../components/Result/ResultHeader';
 import { escape, cloneDeep } from 'lodash';
-import retry from '@/functions/retry.function';
 import { colorForIndex } from '@/utilities/color.utility';
 
 export default {
@@ -78,14 +81,11 @@ export default {
 		this.$store.dispatch('setLoading', true);
 
 		this.resultId = this.$route.params.result;
-		this.documentBId = this.$route.params.compare;
 		this.documentAId = this.$route.params.document;
+		this.documentBId = this.$route.params.compare;
 
-		retry(
-			() => this.fetchDocument(this.documentAId, this.documentBId),
-			result => result.textA && result.textB && result.matches
-		)
-			.then(result => {
+		this.fetchComparison(this.documentAId, this.documentBId).then(
+			result => {
 				this.documents = result;
 
 				if (!this.documents.textA || !this.documents.textB)
@@ -97,24 +97,28 @@ export default {
 					throw new Error(this.$t('documentCompareZeroMatchesError'));
 
 				this.highlightedTexts = this.highlightText(this.documents);
-			})
-			.catch(e => {
-				this.$store.dispatch('AlertStore/setAlert', {
-					message: e.message,
-					type: 'error',
-					duration: 10000
-				});
-			})
-			.finally(() => {
-				this.$store.dispatch('setLoading', false);
-			});
+			}
+		);
 	},
 	methods: {
-		fetchDocument(documentId, id) {
-			// Connect to BE
+		// Connect to BE
+		fetchComparison(id, corpusId) {
 			return this.$axios
-				.get(`/api/documents/${documentId}/diff/${id}`)
-				.then(response => response.data);
+				.get(`/api/documents/${id}/diff/${corpusId}`)
+				.then(response => response.data)
+				.catch(e => {
+					this.$store.dispatch('AlertStore/setAlert', {
+						message:
+							e.response.data && e.response.data.error
+								? e.response.data.error
+								: e.message,
+						type: 'error',
+						duration: 0
+					});
+				})
+				.finally(() => {
+					this.$store.dispatch('setLoading', false);
+				});
 		},
 		highlightText: function (documents) {
 			const indices = documents.matches
@@ -123,7 +127,8 @@ export default {
 					toA: matches.toA,
 					fromB: matches.fromB,
 					toB: matches.toB,
-					color: colorForIndex(index)
+					color: colorForIndex(index),
+					index
 				}))
 				.flat();
 
@@ -138,8 +143,8 @@ export default {
 					interval.fromA,
 					interval.toA + 1
 				),
-
-				color: interval.color
+				color: interval.color,
+				index: interval.index
 			}));
 
 			const subStringToReplaceB = indicesB.map(interval => ({
@@ -147,23 +152,36 @@ export default {
 					interval.fromB,
 					interval.toB + 1
 				),
-				color: interval.color
+				color: interval.color,
+				index: interval.index
 			}));
 
 			return {
 				A: this.merge_text(
 					subStringToReplaceA,
-					documents.textA.content
+					documents.textA.content,
+					'A',
+					'B'
 				),
-				B: this.merge_text(subStringToReplaceB, documents.textB.content)
+				B: this.merge_text(
+					subStringToReplaceB,
+					documents.textB.content,
+					'B',
+					'A'
+				)
 			};
 		},
-		merge_text(subStringIntervals, text) {
+		merge_text(subStringIntervals, text, from, to) {
 			return subStringIntervals.reduce(
 				(string, substring) =>
 					string.replace(
 						new RegExp(substring.text, 'g'),
-						`<span  style="color:${substring.color};" class="font-bold">${substring.text}</span>`
+						`<span
+							onclick="document.getElementById('${to}${substring.index}').scrollIntoView({behavior: 'smooth'})"
+							id="${from}${substring.index}"
+							style="color:${substring.color};cursor: pointer;"
+							class="font-bold">${substring.text}
+						</span>`
 					),
 				escape(text)
 			);

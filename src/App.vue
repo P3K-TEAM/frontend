@@ -16,8 +16,7 @@ import Alert from '@/components/Global/Alert/Alert';
 import Backdrop from '@/components/Global/Backdrop/Backdrop';
 import Modal from '@/components/Global/Modal/Modal';
 import Spinner from '@/components/Global/Spinner/Spinner';
-import localStorage from '@/constants/localStorage';
-import { isSupportedLanguage } from '@/i18n';
+import { getPreferredLanguage, setPreferredLanguage } from '@/utilities/language.utility';
 
 export default {
 	components: {
@@ -31,13 +30,8 @@ export default {
 	},
 	mounted() {
 		// if user's language preference exists in localstorage, set it
-		const userPreferredLanguage = window.localStorage.getItem(
-			localStorage.userLanguagePreference
-		);
-
-		if (userPreferredLanguage && isSupportedLanguage(userPreferredLanguage)) {
-			this.$i18n.locale = userPreferredLanguage;
-		}
+		const userPreferredLanguage = getPreferredLanguage();
+		setPreferredLanguage(this, userPreferredLanguage);
 	}
 };
 </script>

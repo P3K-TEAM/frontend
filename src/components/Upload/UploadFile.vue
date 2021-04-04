@@ -1,68 +1,61 @@
 <template>
-	<div class="h-full flex flex-col space-y-2 md:space-y-6">
-		<div
-			class="h-full flex flex-col items-center border-3 border-gray-400 border-dashed 40vh"
+	<div class="flex flex-col flex-grow">
+		<form
+			ref="fileForm"
+			class="flex flex-col space-y-2 justify-center items-center py-8 border-2 border-gray-300"
+			:class="!!files.length ? 'h-64' : 'flex-grow md:space-y-6'"
 		>
-			<div
-				class="h-full flex flex-col items-center justify-center bg-white"
+			<span>
+				<fa-icon
+					:icon="['fas', 'cloud-upload-alt']"
+					class="hidden md:flex text-gray-300 text-6xl"
+				/>
+			</span>
+			<h2
+				class="hidden md:flex text-xl font-semibold leading-6 text-center text-gray-800"
 			>
-				<form ref="fileForm">
-					<div
-						class="flex flex-col justify-center items-center md:space-y-2 py-8"
-					>
-						<span>
-							<fa-icon
-								:icon="['fas', 'cloud-upload-alt']"
-								class="hidden md:flex text-gray-400 text-6xl"
-							/>
-						</span>
-						<h2
-							class="hidden md:flex text-xl font-semibold leading-6 text-center text-gray-800"
-						>
-							{{ $t('dragFilesHere') }}
-						</h2>
-						<span
-							class="hidden md:flex items-center text-base text-gray-600"
-						>
-							{{ $t('or') }}
-						</span>
-						<div>
-							<label
-								class="flex text-white text-center text-base py-2 px-3 md:px-6 rounded shadow-md bg-primary-500 hover:bg-primary-400 cursor-pointer select-none focus:outline-none"
-							>
-								{{ $t('chooseFiles') }}
-								<input
-									ref="files"
-									type="file"
-									multiple
-									class="hidden"
-									@change="handleFileUpload"
-								/>
-							</label>
-						</div>
-					</div>
-				</form>
+				{{ $t('dragFilesHere') }}
+			</h2>
+			<span class="hidden md:flex items-center text-base text-gray-400">
+				{{ $t('or') }}
+			</span>
+			<div>
+				<label
+					class="text-white text-center py-2 px-3 md:px-5 rounded bg-primary-500 hover:bg-primary-400 cursor-pointer focus:outline-none"
+				>
+					{{ $t('chooseFiles') }}
+					<input
+						ref="files"
+						type="file"
+						multiple
+						class="hidden"
+						@change="handleFileUpload"
+					/>
+				</label>
 			</div>
-		</div>
+		</form>
 
-		<div v-show="!!files.length" class="md:overflow-auto md:h-40 bg-white">
+		<div
+			v-if="!!files.length"
+			class="flex-grow border-2 border-t-0 border-gray-300 rounded-b max-h-60 overflow-y-scroll"
+		>
 			<div
 				v-for="(file, key) in files"
 				:key="key"
-				class="flex justify-between items-center px-3 md:px-4 py-1 border-b-3 border-gray-400"
+				class="flex justify-between items-center px-3 md:px-4 py-1 border-b border-gray-200 group"
 			>
 				<div class="flex items-center space-x-2 md:space-x-4">
 					<fa-icon
 						:icon="['fas', 'file']"
-						class="text-gray-500 text-lg md:text-3xl"
+						class="text-gray-400 text-lg md:text-2xl"
 					/>
-					<p class="text-sm md:text-lg">
+					<p class="">
 						{{ file.name }}
 					</p>
 				</div>
 
 				<button
-					class="p-2 flex justify-center items-center focus:outline-none text-gray-500 hover:bg-gray-100 hover:text-gray-600"
+					class="flex justify-center items-center p-2 mr-2 text-gray-300 hover:text-gray-400 invisible group-hover:visible"
 					@click="removeFile(key)"
 				>
 					<fa-icon

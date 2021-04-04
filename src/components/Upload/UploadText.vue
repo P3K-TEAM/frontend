@@ -1,34 +1,19 @@
 <template>
-	<div
-		class="h-full flex flex-col items-center 40vh p-4 md:p-5 md:-mb-16 bg-white border-3 border-gray-300"
-	>
-		<form class="w-full h-full">
-			<textarea
-				class="w-full min-h-full max-h-full md:h-64 text-sm md:text-base bg-white-100 focus:outline-none"
-				:disabled="disabled"
-				:placeholder="
-					disabled
-						? $t('uploadTextDisabledMessage')
-						: $t('uploadTextPlaceholder')
-				"
-				@input="handleTextChange"
-			/>
-		</form>
-	</div>
+	<form class="flex flex-col flex-grow border-2 border-gray-300">
+		<textarea
+			class="focus:outline-none p-4 md:p-5 flex-grow resize-none"
+			:placeholder="$t('uploadTextPlaceholder')"
+			@input="handleTextChange"
+		/>
+	</form>
 </template>
 
 <script>
-import { debounce } from 'lodash';
+import { throttle } from 'lodash';
 
 export default {
-	props: {
-		disabled: {
-			type: Boolean,
-			default: false
-		}
-	},
 	methods: {
-		handleTextChange: debounce(function (event) {
+		handleTextChange: throttle(function (event) {
 			this.$emit('text-change', event.target.value);
 		}, 500)
 	}
