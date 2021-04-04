@@ -1,10 +1,16 @@
 <template>
 	<div class="py-6 px-10 rounded-xl bg-white shadow text-justify">
-		<component
-			:is="compiledHighlight"
-			v-if="document && matches"
-			class="py-1 px-4 md:px-0"
-		/>
+		<div v-if="document && matches && intervals" class="py-1 px-4 md:px-0">
+			<span
+				v-for="(substring, index) in documentSubstrings"
+				:key="index"
+				v-tooltip.top="substring.matches && toggleTooltip(substring.matches)"
+				:class="[substring.color ? 'font-bold' : 'font-normal']"
+				:style="{ color: substring.color }"
+			>
+				{{ substring.text }}
+			</span>
+		</div>
 	</div>
 </template>
 
@@ -16,122 +22,73 @@ import { mapGetters } from 'vuex';
 
 export default {
 	computed: {
-		compiledHighlight() {
-			return {
-				render: h => {
-					return h(
-						Vue.compile(
-							`<p class="text-base md:text-lg">${this.highlightedText()}</p>`
-						)
-					);
-				}
-			};
+		documentSubstrings() {
+			return this.createDocumentSubstrings();
 		},
-		...mapGetters('DocumentStore', ['document', 'matches'])
+		...mapGetters('DocumentStore', ['document', 'matches', 'intervals'])
 	},
 	methods: {
-		highlightedText: function () {
-			const indices = this.matches
-				.map(matched_doc =>
-					matched_doc.intervals.map(match => ({
-						name: matched_doc.name,
-						from: match.begin,
-						to: match.end,
-						percentage: this.$filters.roundToTwoDecimals(
-							this.$filters.toNumber(matched_doc.percentage)
-						),
-						color: colorForIndex(
-							this.matches
-								.map(d => d.name)
-								.indexOf(matched_doc.name)
-						)
-					}))
-				)
-				.flat();
-
-			const intervals = this.mergeIntervals(indices);
-
-			const subStringsToReplace = intervals.map(h => ({
-				text: this.document.text.substring(h.from, h.to + 1),
-				docs: h.matches,
-				color: h.color
-			}));
-
-			return subStringsToReplace.reduce(
-				(string, substring) =>
-					string.replace(
-						new RegExp(substring.text, 'g'),
-						`<span v-tooltip.top="'${this.toggleTooltip(
-							substring.docs
-						)}'" class="font-bold" style="color:${
-							substring.color
-						};">${substring.text}</span>`
-					),
-				escape(this.document.text)
+		createDocumentSubstrings: function () {
+			
+			const documentIds = this.intervals.flatMap(({ matches }) =>
+				matches.map(m => m.id)
 			);
-		},
-		mergeIntervals: function (intervals) {
-			if (intervals.length <= 1) {
-				return intervals;
-			}
 
-			let stack = [];
-			let top = null;
+			const uniqueDocumentIds = documentIds.filter(
+				(x, i, a) => a.indexOf(x) == i
+			);
 
-			intervals = intervals.sort(function (a, b) {
-				if (a.from === b.from) {
-					if (a.to > b.to || a.to === b.to) {
-						return 1;
-					} else {
-						return -1;
-					}
-				} else {
-					if (a.from < b.from) {
-						return -1;
-					} else if (a.from > b.from) {
-						return 1;
-					}
-					return 0;
-				}
+			const colors = uniqueDocumentIds.reduce((colors, documentId) => {
+				colors[documentId] = colorForIndex(documentId);
+				return colors;
+			}, {});
+
+			this.intervals.forEach(interval => {
+				const matches = interval.matches.slice();
+				const maxPercentageDocId = matches.sort((a, b) =>
+					a.percentage > b.percentage ? -1 : 1
+				)[0].id;
+				interval.color = colors[maxPercentageDocId];
 			});
 
-			intervals[0].matches = [
-				{ doc: intervals[0].name, per: intervals[0].percentage }
-			];
-			stack.push(intervals[0]);
+			let start = 0;
+			let textSubstrings = [];
 
-			intervals.shift();
-
-			intervals.forEach(item => {
-				top = stack[stack.length - 1];
-
-				if (top.to < item.from) {
-					item.matches = [{ doc: item.name, per: item.percentage }];
-					stack.push(item);
-				} else if (top.to <= item.to) {
-					top.to = item.to;
-					top.matches.push({ doc: item.name, per: item.percentage });
-					stack.pop();
-					stack.push(top);
-				} else if (top.to > item.to) {
-					top.matches.push({ doc: item.name, per: item.percentage });
-					stack.pop();
-					stack.push(top);
-				}
+			this.intervals.forEach(interval => {
+				const documentText = this.document.text.substring(
+					start,
+					interval.ranges.from
+				);
+				const textMatch = this.document.text.substring(
+					interval.ranges.from,
+					interval.ranges.to + 1
+				);
+				start = interval.ranges.to + 1;
+				textSubstrings.push({
+					text: documentText
+				}),
+				textSubstrings.push({
+					text: textMatch,
+					matches: interval.matches,
+					color: interval.color
+				});
 			});
 
-			return stack;
+			textSubstrings.push({
+				text: this.document.text.substring(
+					start,
+					this.document.text.length
+				)
+			});
+
+			return textSubstrings;
 		},
 		toggleTooltip: function (docs) {
-			const docs_unique = [
-				...new Map(docs.map(item => [item['doc'], item])).values()
-			];
-
-			const text = docs_unique
+			const text = docs
 				.map(d =>
 					this.$i18n.t('documentMatchWithOtherFile', {
-						document: d.doc,
-						percentage: d.per
+						document: d.name,
+						percentage: d.percentage
 					})
 				)
 				.join('<br>');
