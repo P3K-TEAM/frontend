@@ -4,7 +4,9 @@
 			<span
 				v-for="(substring, index) in documentSubstrings"
 				:key="index"
-				v-tooltip.top="substring.matches && toggleTooltip(substring.matches)"
+				v-tooltip.top="
+					substring.matches && getTooltipContent(substring.matches)
+				"
 				:class="[substring.color ? 'font-bold' : 'font-normal']"
 				:style="{ color: substring.color }"
 			>
@@ -27,62 +29,62 @@ export default {
 	},
 	methods: {
 		createDocumentSubstrings: function () {
-			
-			const documentIds = this.intervals.flatMap(({ matches }) =>
-				matches.map(m => m.id)
-			);
+			// get flat array of unique documentIds
+			const uniqueDocumentIds = this.intervals
+				.flatMap(({ matches }) => matches.map(m => m.id))
+				.filter((x, i, a) => a.indexOf(x) == i);
 
-			const uniqueDocumentIds = documentIds.filter(
-				(x, i, a) => a.indexOf(x) == i
-			);
-
+			// create a map of unique colors for each documentId with documentIds as keys
 			const colors = uniqueDocumentIds.reduce((colors, documentId) => {
 				colors[documentId] = colorForIndex(documentId);
 				return colors;
 			}, {});
 
+			// assign color for each interval
 			this.intervals.forEach(interval => {
-				const matches = interval.matches.slice();
-				const maxPercentageDocId = matches.sort((a, b) =>
+				const maxPercentageDocId = [...interval.matches].sort((a, b) =>
 					a.percentage > b.percentage ? -1 : 1
 				)[0].id;
 				interval.color = colors[maxPercentageDocId];
 			});
 
-			let start = 0;
-			let textSubstrings = [];
+			const textSubstrings = this.intervals.reduce(
+				(substrings, currentInterval, index) => {
+					const previous = substrings[substrings.length - 1];
+					previous.to = currentInterval.ranges.from;
+					previous.text = this.document.text.substring(
+						previous.from,
+						previous.to
+					);
 
-			this.intervals.forEach(interval => {
-				const documentText = this.document.text.substring(
-					start,
-					interval.ranges.from
-				);
-				const textMatch = this.document.text.substring(
-					interval.ranges.from,
-					interval.ranges.to + 1
-				);
-				start = interval.ranges.to + 1;
-				textSubstrings.push({
-					text: documentText
-				}),
-				textSubstrings.push({
-					text: textMatch,
-					matches: interval.matches,
-					color: interval.color
-				});
-			});
+					currentInterval.text = this.document.text.substring(
+						currentInterval.ranges.from,
+						currentInterval.ranges.to
+					);
+					substrings.push(currentInterval);
 
-			textSubstrings.push({
-				text: this.document.text.substring(
-					start,
-					this.document.text.length
-				)
-			});
+					const following = { from: currentInterval.ranges.to + 1 };
+
+					if (index === this.intervals.length - 1) {
+						following.to = this.document.text.length;
+						following.text = this.document.text.substring(
+							following.from,
+							following.to
+						);
+					}
+					substrings.push(following);
+
+					return substrings;
+				},
+				[{ from: 0 }]
+			);
 
 			return textSubstrings;
 		},
-		toggleTooltip: function (docs) {
-			const text = docs
+		getTooltipContent: function (docs) {
+			const tooltipText = [...docs]
+				.sort((a, b) => a.percentage - b.percentage)
+				.reverse()
 				.map(d =>
 					this.$i18n.t('documentMatchWithOtherFile', {
 						document: d.name,
@@ -91,7 +93,7 @@ export default {
 				)
 				.join('<br>');
 
-			return text;
+			return tooltipText;
 		}
 	}
 };
