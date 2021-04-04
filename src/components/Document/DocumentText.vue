@@ -15,9 +15,7 @@
 </template>
 
 <script>
-import Vue from 'vue';
 import { colorForIndex } from '@/utilities/color.utility';
-import { escape } from 'lodash';
 import { mapGetters } from 'vuex';
 
 export default {
