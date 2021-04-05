@@ -23,12 +23,6 @@ import { mapGetters } from 'vuex';
 export default {
 	computed: {
 		documentSubstrings() {
-			return this.createDocumentSubstrings();
-		},
-		...mapGetters('DocumentStore', ['document', 'matches', 'intervals'])
-	},
-	methods: {
-		createDocumentSubstrings: function () {
 			// get flat array of unique documentIds
 			const uniqueDocumentIds = this.intervals
 				.flatMap(({ matches }) => matches.map(m => m.id))
@@ -50,6 +44,7 @@ export default {
 
 			const textSubstrings = this.intervals.reduce(
 				(substrings, currentInterval, index) => {
+					// previous interval
 					const previous = substrings[substrings.length - 1];
 					previous.to = currentInterval.ranges.from;
 					previous.text = this.document.text.substring(
@@ -57,14 +52,17 @@ export default {
 						previous.to
 					);
 
+					// current interval
 					currentInterval.text = this.document.text.substring(
 						currentInterval.ranges.from,
 						currentInterval.ranges.to
 					);
 					substrings.push(currentInterval);
 
+					// set starting index of the following interval
 					const following = { from: currentInterval.ranges.to + 1 };
 
+					// in case of last element, copy the rest of the text till the end
 					if (index === this.intervals.length - 1) {
 						following.to = this.document.text.length;
 						following.text = this.document.text.substring(
@@ -76,19 +74,22 @@ export default {
 
 					return substrings;
 				},
-				[{ from: 0 }]
+				[{ from: 0 }] // initial value - its `to` will be filled in first iteration
 			);
 
 			return textSubstrings;
 		},
+		...mapGetters('DocumentStore', ['document', 'matches', 'intervals'])
+	},
+	methods: {
 		getTooltipContent: function (docs) {
 			const tooltipText = [...docs]
 				.sort((a, b) => a.percentage - b.percentage)
 				.reverse()
-				.map(d =>
+				.map(doc =>
 					this.$i18n.t('documentMatchWithOtherFile', {
-						document: d.name,
-						percentage: d.percentage
+						document: doc.name,
+						percentage: doc.percentage
 					})
 				)
 				.join('<br>');
