@@ -5,7 +5,8 @@ export default {
 	state() {
 		return {
 			document: undefined,
-			matches: undefined
+			matches: undefined,
+			intervals: undefined
 		};
 	},
 	getters: {
@@ -14,6 +15,9 @@ export default {
 		},
 		matches(state) {
 			return state.matches;
+		},
+		intervals(state) {
+			return state.intervals;
 		}
 	},
 	mutations: {
@@ -24,6 +28,10 @@ export default {
 		SET_MATCHES(state, matches) {
 			validateType(matches, 'array', 'matches');
 			state.matches = matches;
+		},
+		SET_INTERVALS(state, intervals) {
+			validateType(intervals, 'array', 'intervals');
+			state.intervals = intervals;
 		}
 	},
 	actions: {
@@ -41,6 +49,10 @@ export default {
 					context.commit(
 						'SET_MATCHES',
 						data.document.result.matched_docs
+					);
+					context.commit(
+						'SET_INTERVALS',
+						data.document.intervals
 					);
 				})
 				.catch(e => {
