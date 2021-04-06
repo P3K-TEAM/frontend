@@ -1,142 +1,100 @@
 <template>
 	<div class="py-6 px-10 rounded-xl bg-white shadow text-justify">
-		<component
-			:is="compiledHighlight"
-			v-if="document && matches"
-			class="py-1 px-4 md:px-0"
-		/>
+		<div v-if="document && matches && intervals" class="py-1 px-4 md:px-0">
+			<span
+				v-for="(substring, index) in documentSubstrings"
+				:key="index"
+				v-tooltip.top="
+					substring.matches && getTooltipContent(substring.matches)
+				"
+				:class="[substring.color ? 'font-bold' : 'font-normal']"
+				:style="{ color: substring.color }"
+			>
+				{{ substring.text }}
+			</span>
+		</div>
 	</div>
 </template>
 
 <script>
-import Vue from 'vue';
 import { colorForIndex } from '@/utilities/color.utility';
-import { escape } from 'lodash';
 import { mapGetters } from 'vuex';
 
 export default {
 	computed: {
-		compiledHighlight() {
-			return {
-				render: h => {
-					return h(
-						Vue.compile(
-							`<p class="text-base md:text-lg">${this.highlightedText()}</p>`
-						)
+		documentSubstrings() {
+			// get flat array of unique documentIds
+			const uniqueDocumentIds = this.intervals
+				.flatMap(({ matches }) => matches.map(m => m.id))
+				.filter((x, i, a) => a.indexOf(x) == i);
+
+			// create a map of unique colors for each documentId with documentIds as keys
+			const colors = uniqueDocumentIds.reduce((colors, documentId) => {
+				colors[documentId] = colorForIndex(documentId);
+				return colors;
+			}, {});
+
+			// assign color for each interval
+			this.intervals.forEach(interval => {
+				const maxPercentageDocId = [...interval.matches].sort((a, b) =>
+					a.percentage > b.percentage ? -1 : 1
+				)[0].id;
+				interval.color = colors[maxPercentageDocId];
+			});
+
+			const textSubstrings = this.intervals.reduce(
+				(substrings, currentInterval, index) => {
+					// previous interval
+					const previous = substrings[substrings.length - 1];
+					previous.to = currentInterval.ranges.from;
+					previous.text = this.document.text.substring(
+						previous.from,
+						previous.to
 					);
-				}
-			};
+
+					// current interval
+					currentInterval.text = this.document.text.substring(
+						currentInterval.ranges.from,
+						currentInterval.ranges.to
+					);
+					substrings.push(currentInterval);
+
+					// set starting index of the following interval
+					const following = { from: currentInterval.ranges.to + 1 };
+
+					// in case of last element, copy the rest of the text till the end
+					if (index === this.intervals.length - 1) {
+						following.to = this.document.text.length;
+						following.text = this.document.text.substring(
+							following.from,
+							following.to
+						);
+					}
+					substrings.push(following);
+
+					return substrings;
+				},
+				[{ from: 0 }] // initial value - its `to` will be filled in first iteration
+			);
+
+			return textSubstrings;
 		},
-		...mapGetters('DocumentStore', ['document', 'matches'])
+		...mapGetters('DocumentStore', ['document', 'matches', 'intervals'])
 	},
 	methods: {
-		highlightedText: function () {
-			const indices = this.matches
-				.map(matched_doc =>
-					matched_doc.intervals.map(match => ({
-						name: matched_doc.name,
-						from: match.begin,
-						to: match.end,
-						percentage: this.$filters.roundToTwoDecimals(
-							this.$filters.toNumber(matched_doc.percentage)
-						),
-						color: colorForIndex(
-							this.matches
-								.map(d => d.name)
-								.indexOf(matched_doc.name)
-						)
-					}))
-				)
-				.flat();
-
-			const intervals = this.mergeIntervals(indices);
-
-			const subStringsToReplace = intervals.map(h => ({
-				text: this.document.text.substring(h.from, h.to + 1),
-				docs: h.matches,
-				color: h.color
-			}));
-
-			return subStringsToReplace.reduce(
-				(string, substring) =>
-					string.replace(
-						new RegExp(substring.text, 'g'),
-						`<span v-tooltip.top="'${this.toggleTooltip(
-							substring.docs
-						)}'" class="font-bold" style="color:${
-							substring.color
-						};">${substring.text}</span>`
-					),
-				escape(this.document.text)
-			);
-		},
-		mergeIntervals: function (intervals) {
-			if (intervals.length <= 1) {
-				return intervals;
-			}
-
-			let stack = [];
-			let top = null;
-
-			intervals = intervals.sort(function (a, b) {
-				if (a.from === b.from) {
-					if (a.to > b.to || a.to === b.to) {
-						return 1;
-					} else {
-						return -1;
-					}
-				} else {
-					if (a.from < b.from) {
-						return -1;
-					} else if (a.from > b.from) {
-						return 1;
-					}
-					return 0;
-				}
-			});
-
-			intervals[0].matches = [
-				{ doc: intervals[0].name, per: intervals[0].percentage }
-			];
-			stack.push(intervals[0]);
-
-			intervals.shift();
-
-			intervals.forEach(item => {
-				top = stack[stack.length - 1];
-
-				if (top.to < item.from) {
-					item.matches = [{ doc: item.name, per: item.percentage }];
-					stack.push(item);
-				} else if (top.to <= item.to) {
-					top.to = item.to;
-					top.matches.push({ doc: item.name, per: item.percentage });
-					stack.pop();
-					stack.push(top);
-				} else if (top.to > item.to) {
-					top.matches.push({ doc: item.name, per: item.percentage });
-					stack.pop();
-					stack.push(top);
-				}
-			});
-
-			return stack;
-		},
-		toggleTooltip: function (docs) {
-			const docs_unique = [
-				...new Map(docs.map(item => [item['doc'], item])).values()
-			];
-
-			const text = docs_unique
-				.map(d =>
+		getTooltipContent: function (docs) {
+			const tooltipText = [...docs]
+				.sort((a, b) => a.percentage - b.percentage)
+				.reverse()
+				.map(doc =>
 					this.$i18n.t('documentMatchWithOtherFile', {
-						document: d.doc,
-						percentage: d.per
+						document: doc.name,
+						percentage: doc.percentage
 					})
 				)
 				.join('<br>');
 
-			return text;
+			return tooltipText;
 		}
 	}
 };
