@@ -13,16 +13,16 @@
 			class="flex-grow mx-4 md:container md:mx-auto mt-4 md:my-20"
 		>
 			<div class="flex items-center justify-between mb-3">
-				<a
+				<router-link
 					class="flex items-center p-2 text-xl text-gray-400 hover:text-gray-500 cursor-pointer"
-					@click.prevent="$router.back()"
+					:to="getGoBackURL"
 				>
 					<fa-icon
 						:icon="['fas', 'chevron-left']"
 						class="text-sm md:text-lg mr-2"
 					/>
 					{{ $t('back') }}
-				</a>
+				</router-link>
 			</div>
 
 			<div class="flex flex-row bg-white rounded-b-xl">
@@ -62,6 +62,7 @@
 import ResultHeader from '../components/Result/ResultHeader';
 import { escape, cloneDeep } from 'lodash';
 import { colorForIndex } from '@/utilities/color.utility';
+import { prevRoute } from '../router/index.js';
 
 export default {
 	components: {
@@ -75,6 +76,20 @@ export default {
 			highlightedTexts: undefined,
 			documents: undefined
 		};
+	},
+	computed: {
+		getGoBackURL: function () {
+			if (prevRoute === undefined) {
+				return {
+					name: 'matches',
+					params: {
+						result: this.resultId,
+						document: this.documentAId
+					}
+				};
+			}
+			return { path: prevRoute.fullPath };
+		}
 	},
 	mounted: function () {
 		// initial spinner

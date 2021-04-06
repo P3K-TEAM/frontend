@@ -17,10 +17,7 @@
 			<div class="flex items-center justify-between mb-3">
 				<router-link
 					class="flex items-center p-2 text-xl text-gray-400 hover:text-gray-500 cursor-pointer"
-					:to="{
-						name: 'result',
-						params: { result: resultId }
-					}"
+					:to="getGoBackURL"
 				>
 					<fa-icon
 						:icon="['fas', 'chevron-left']"
@@ -41,6 +38,7 @@
 import { mapGetters } from 'vuex';
 import ResultHeader from '../components/Result/ResultHeader';
 import Toggle from '@/components/Global/Toggle/Toggle';
+import { prevRoute } from '../router/index.js';
 
 export default {
 	components: {
@@ -48,6 +46,12 @@ export default {
 		Toggle
 	},
 	computed: {
+		getGoBackURL: function () {
+			if (prevRoute === undefined) {
+				return { name: 'result', params: { result: this.resultId } };
+			}
+			return { path: prevRoute.fullPath };
+		},
 		id: function () {
 			return this.$route.params.document;
 		},
@@ -76,7 +80,6 @@ export default {
 	mounted() {
 		// initial loader
 		this.$store.dispatch('setLoading', true);
-
 		// fetch data from BE
 		return this.$store
 			.dispatch('DocumentStore/fetchDocument', this.id)
