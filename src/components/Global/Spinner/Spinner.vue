@@ -4,7 +4,8 @@
 			v-if="active"
 			viewBox="0 0 100 100"
 			xmlns="http://www.w3.org/2000/svg"
-			class="text-primary-500 stroke-current spinner w-16"
+			class="stroke-current spinner w-16"
+			:class="additionalClasses"
 		>
 			<circle
 				cx="50"
@@ -25,12 +26,16 @@ export default {
 	props: {
 		active: {
 			type: Boolean,
-			required: true,
+			required: true
 		},
 		message: {
 			type: String,
-			default: '',
+			default: ''
 		},
-	},
+		additionalClasses: {
+			type: String,
+			default: 'text-primary-500'
+		}
+	}
 };
 </script>

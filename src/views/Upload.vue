@@ -231,7 +231,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .clip-half-circle {
 	clip-path: ellipse(30% 100% at 22% 50%);
 }
