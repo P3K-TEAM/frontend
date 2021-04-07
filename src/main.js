@@ -13,6 +13,9 @@ import './icons';
 // Third party global dependencies
 import axios from 'axios';
 import VTooltip from 'v-tooltip';
+import VueAnimateNumber from 'vue-animate-number';
+import checkView from 'vue-check-view';
+import VueSmoothScroll from 'vue2-smooth-scroll'
 
 // Root component
 import App from './App.vue';
@@ -26,13 +29,24 @@ import '@/assets/scss/app.scss';
 // v-tooltip
 Vue.use(VTooltip, {
 	defaultTrigger: window.innerWidth > 768 ? 'hover focus' : 'click',
-	defaultHideOnTargetClick: false,
+	defaultHideOnTargetClick: false
 });
+
+// vue-animate-number
+Vue.use(VueAnimateNumber);
+
+// vue-check-view
+Vue.use(checkView)
+
+// vue2-smooth-scroll
+Vue.use(VueSmoothScroll)
 
 // Page title
 router.afterEach(to => {
 	Vue.nextTick(() => {
-		document.title = `${to.meta && to.meta.title ? `${to.meta.title} | ` : ''}AntiPlag`;
+		document.title = `${
+			to.meta && to.meta.title ? `${to.meta.title} | ` : ''
+		}AntiPlag`;
 	});
 });
 
