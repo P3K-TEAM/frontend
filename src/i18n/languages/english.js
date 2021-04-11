@@ -3,12 +3,16 @@ const homePage = {
 	homePageBannerDescription: "There's no way back after you submit your files. Use our system to look up for matched documents of your work.",
 	homePageCallToActionButton: 'Check my files',
 	homePageGuideHeading: 'Upload files or paste text',
-	homePageGuideDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla semper odio quis pulvinar mattis. Sed vulputate arcu.',
+	homePageGuideDescription: 'We offer quick verification of the originality of your text. By simply dragging the file by inserting text, you can verify whether the thesis you have written is original and how many percentage match with other thesis.',
 	homePageTimeStats: 'mean time of result delivery',
 	homePageCorpusSizeStats: 'files in corpus',
 	homePageSubmissionCountStats: 'analysed files',
 	homePageProductOverviewHeading: 'Detailed information about matched files',
-	homePageProductOverviewDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla semper odio quis pulvinar mattis. Sed vulputate arcu.'
+	homePageProductOverviewDescription: 'We offer a detailed display of inspection results. You will see exactly which parts of your thesis match others and also how many percentage match.',
+	footerNameFaculty: 'Faculty of Informatics and Information Technologies',
+	footerAddressFaculty: 'Ilkovičova 2',
+	footerCityFaculty: '842 16 Bratislava 4',
+	footerPrivacyPolicy: 'Privacy policy'
 };
 
 const upload = {
