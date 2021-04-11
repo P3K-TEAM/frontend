@@ -3,12 +3,14 @@ const homePage = {
 	homePageBannerDescription: 'Po odovzdaní práce už niet cesty späť. Buď ste plagiátor alebo nie. Náš systém vám to ale môže povedať skôr abyste to dokázali včas zmeniť. Povie Vám na koľko percent máte zhodu v dokumente.',
 	homePageCallToActionButton: 'Skontrolovať moju prácu',
 	homePageGuideHeading: 'Vložte celé súbory alebo skopírujte text',
-	homePageGuideDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla semper odio quis pulvinar mattis. Sed vulputate arcu.',
+	homePageGuideDescription: 'Ponúkame rýchle overenie originality vášho textu. Jednoduchým  potiahnutím súboru vložením textu si viete overiť, či vami napísaná práca je originálna a na koľko percent sa zhoduje s inými prácami.',
 	homePageTimeStats: 'priemerný čas doručenia výsledku',
 	homePageCorpusSizeStats: 'prác k porovnaniu v korpuse',
 	homePageSubmissionCountStats: 'analyzovaných prác',
 	homePageProductOverviewHeading: 'Detailná štatistika zdrojov',
-	homePageProductOverviewDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla semper odio quis pulvinar mattis. Sed vulputate arcu.'
+	homePageProductOverviewDescription: 'Ponúkame detailné zobrazenie výsledkov kontroly. Presne uvidíte, ktoré časti vašej práce sa zhodujú s inými prácami a aj na koľko percent sa vaša práca zhoduje.',
+	homePageFooterPrivacyPolicy: 'Zásady ochrany osobných údajov',
+	homePageFooterFacultyAddress: 'Fakulta informatiky a informačných technológií<br/>Ilkovičova 2<br/>842 16 Bratislava 4'
 };
 
 const upload = {
