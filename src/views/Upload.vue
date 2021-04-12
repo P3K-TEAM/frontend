@@ -169,7 +169,7 @@ export default {
 					});
 				}
 			} else {
-				headers = { 'Content-Type': 'text/plain' };
+				headers = { 'Content-Type': 'application/json' };
 
 				if (!this.text.length) {
 					return this.$store.dispatch('AlertStore/setAlert', {
@@ -205,7 +205,7 @@ export default {
 			this.$axios
 				.post(
 					'/api/submissions/',
-					isFileUpload ? formData : this.text,
+					isFileUpload ? formData : requestBody,
 					{
 						headers
 					}
