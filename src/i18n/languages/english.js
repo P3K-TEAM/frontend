@@ -5,8 +5,8 @@ const homePage = {
 	homePageGuideHeading: 'Upload files or paste text',
 	homePageGuideDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla semper odio quis pulvinar mattis. Sed vulputate arcu.',
 	homePageTimeStats: 'mean time of result delivery',
-	homePageAmountStats: 'files in corpus',
-	homePageOtherStats: 'other stats',
+	homePageCorpusSizeStats: 'files in corpus',
+	homePageSubmissionCountStats: 'analysed files',
 	homePageProductOverviewHeading: 'Detailed information about matched files',
 	homePageProductOverviewDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla semper odio quis pulvinar mattis. Sed vulputate arcu.'
 };

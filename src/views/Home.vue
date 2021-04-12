@@ -31,15 +31,15 @@
 				</div>
 			</div>
 			<div
-				ref="caret"
 				class="flex justify-center text-white text-4xl pb-6 md:pb-10 pt-6 md:pt-4 cursor-pointer"
-				@click="$refs.caret.scrollIntoView()"
+				@click="scrollToRef('appDescription')"
 			>
 				<fa-icon :icon="['fas', 'angle-down']" />
 			</div>
 		</div>
 		<div class="bg-white">
 			<div
+				ref="appDescription"
 				class="container flex flex-col items-center px-10 md:px-0 md:flex-row mx-auto py-8 md:py-32"
 			>
 				<div
@@ -68,48 +68,28 @@
 			<div
 				class="container flex flex-col items-center md:items-stretch md:flex-row justify-between px-10 md:px-0 mx-auto mb-8 md:mb-32 text-white"
 			>
-				<div
-					class="w-full md:w-1/3 mx-0 md:mr-4 my-4 md:my-0 text-center bg-primary-700 rounded-xl shadow-xl p-3 md:p-6 lg:p-10"
-				>
-					<div class="mx-auto">
-						<h3
-							class="font-bold text-4xl md:text-6xl mb-2 md:mb-4 leading-none"
-						>
-							5 {{ $t('minutePlural') }}
-						</h3>
-						<p class="text-lg md:text-xl">
-							{{ $t('homePageTimeStats') }}
-						</p>
-					</div>
-				</div>
-				<div
-					class="w-full md:w-1/3 mx-0 md:mx-4 my-4 md:my-0 text-center bg-primary-500 rounded-xl shadow-xl p-3 md:p-6 lg:p-10"
-				>
-					<div class="mx-auto">
-						<h3
-							class="font-bold text-4xl md:text-6xl mb-2 md:mb-4 leading-none"
-						>
-							3857
-						</h3>
-						<p class="text-lg md:text-xl">
-							{{ $t('homePageAmountStats') }}
-						</p>
-					</div>
-				</div>
-				<div
-					class="w-full md:w-1/3 mx-0 md:ml-4 my-4 md:my-0 text-center bg-primary-700 rounded-xl shadow-xl p-3 md:p-6 lg:p-10"
-				>
-					<div class="mx-auto">
-						<h3
-							class="font-bold text-4xl md:text-6xl mb-2 md:mb-4 leading-none"
-						>
-							16217
-						</h3>
-						<p class="text-lg md:text-xl">
-							{{ $t('homePageOtherStats') }}
-						</p>
-					</div>
-				</div>
+				<AnimatedCounter
+					refName="corpusSizeCounter"
+					:from="0"
+					:to="stats['corpusSize']"
+					:description="$t('homePageCorpusSizeStats')"
+					class="bg-primary-700"
+				/>
+				<AnimatedCounter
+					refName="submissionTimeCounter"
+					:from="0"
+					:to="stats['submissionTime']"
+					:contentText="$t('minutePlural')"
+					:description="$t('homePageTimeStats')"
+					class="bg-primary-500"
+				/>
+				<AnimatedCounter
+					refName="submissionCounter"
+					:from="0"
+					:to="stats['submissionCount']"
+					:description="$t('homePageSubmissionCountStats')"
+					class="bg-primary-700"
+				/>
 			</div>
 		</div>
 
@@ -147,17 +127,60 @@
 <script>
 import Navigation from '@/components/Global/Navigation/Navigation';
 import Footer from '@/components/Footer/Footer';
+import AnimatedCounter from '@/components/Global/AnimatedCounter/AnimatedCounter';
 
 export default {
 	components: {
 		Navigation,
-		Footer
+		Footer,
+		AnimatedCounter
+	},
+	data: function () {
+		return {
+			stats: {}
+		};
+	},
+	mounted: function () {
+		return this.$axios
+			.get('/api/stats')
+			.then(response => response.data)
+			.then(data => {
+				this.stats = {
+					corpusSize: data.corpus_size,
+					submissionTime: data.submission_avg_time,
+					submissionCount: data.submission_count
+				};
+			});
+	},
+	methods: {
+		scrollToRef(ref) {
+			this.$smoothScroll({
+				scrollTo: this.$refs[ref],
+				updateHistory: false,
+				duration: 1000,
+				offset: 120
+			});
+		}
 	}
 };
 </script>
 
-<style>
+<style scoped lang="scss">
 .clipped-arrow-down {
 	clip-path: polygon(48% 0, 50% 5%, 52% 0, 100% 0, 100% 100%, 0 100%, 0 0);
+
+	@media (max-width: 768px) {
+		& {
+			clip-path: polygon(
+				45% 0,
+				50% 5%,
+				55% 0,
+				100% 0,
+				100% 100%,
+				0 100%,
+				0 0
+			);
+		}
+	}
 }
 </style>

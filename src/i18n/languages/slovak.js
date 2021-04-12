@@ -5,8 +5,8 @@ const homePage = {
 	homePageGuideHeading: 'Vložte celé súbory alebo skopírujte text',
 	homePageGuideDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla semper odio quis pulvinar mattis. Sed vulputate arcu.',
 	homePageTimeStats: 'priemerný čas doručenia výsledku',
-	homePageAmountStats: 'analyzovaných prác v korpuse',
-	homePageOtherStats: 'iná štatistika',
+	homePageCorpusSizeStats: 'prác k porovnaniu v korpuse',
+	homePageSubmissionCountStats: 'analyzovaných prác',
 	homePageProductOverviewHeading: 'Detailná štatistika zdrojov',
 	homePageProductOverviewDescription: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla semper odio quis pulvinar mattis. Sed vulputate arcu.'
 };

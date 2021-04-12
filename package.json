@@ -32,9 +32,12 @@
 		"tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.0.3",
 		"v-tooltip": "^2.1.2",
 		"vue": "^2.6.12",
+		"vue-animate-number": "^0.4.2",
+		"vue-check-view": "^0.3.0",
 		"vue-flag-icon": "^1.0.6",
 		"vue-i18n": "^8.24.2",
 		"vue-router": "^3.5.1",
+		"vue2-smooth-scroll": "^1.5.0",
 		"vuex": "^3.6.2"
 	},
 	"devDependencies": {
