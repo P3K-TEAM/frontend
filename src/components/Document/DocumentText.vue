@@ -1,6 +1,6 @@
 <template>
 	<div class="py-6 px-10 rounded-xl bg-white shadow text-justify">
-		<div v-if="document && matches && intervals" class="py-1 px-4 md:px-0">
+		<div v-if="document && matches && ranges" class="py-1 px-4 md:px-0">
 			<span
 				v-for="(substring, index) in documentSubstrings"
 				:key="index"
@@ -17,84 +17,49 @@
 </template>
 
 <script>
-import { colorForIndex } from '@/utilities/color.utility';
 import { mapGetters } from 'vuex';
+import {
+	documentColorMap,
+	getSubstringsFromDocumentRanges
+} from '@/functions/get-substrings-from-document-ranges.function';
 
 export default {
 	computed: {
-		documentSubstrings() {
-			// get flat array of unique documentIds
-			const uniqueDocumentIds = this.intervals
-				.flatMap(({ matches }) => matches.map(m => m.id))
-				.filter((x, i, a) => a.indexOf(x) == i);
-
-			// create a map of unique colors for each documentId with documentIds as keys
-			const colors = uniqueDocumentIds.reduce((colors, documentId) => {
-				colors[documentId] = colorForIndex(documentId);
-				return colors;
-			}, {});
-
-			// assign color for each interval
-			this.intervals.forEach(interval => {
-				const maxPercentageDocId = [...interval.matches].sort((a, b) =>
-					a.percentage > b.percentage ? -1 : 1
-				)[0].id;
-				interval.color = colors[maxPercentageDocId];
-			});
-
-			const textSubstrings = this.intervals.reduce(
-				(substrings, currentInterval, index) => {
-					// previous interval
-					const previous = substrings[substrings.length - 1];
-					previous.to = currentInterval.ranges.from;
-					previous.text = this.document.text.substring(
-						previous.from,
-						previous.to
-					);
-
-					// current interval
-					currentInterval.text = this.document.text.substring(
-						currentInterval.ranges.from,
-						currentInterval.ranges.to
-					);
-					substrings.push(currentInterval);
-
-					// set starting index of the following interval
-					const following = { from: currentInterval.ranges.to + 1 };
-
-					// in case of last element, copy the rest of the text till the end
-					if (index === this.intervals.length - 1) {
-						following.to = this.document.text.length;
-						following.text = this.document.text.substring(
-							following.from,
-							following.to
-						);
-					}
-					substrings.push(following);
-
-					return substrings;
-				},
-				[{ from: 0 }] // initial value - its `to` will be filled in first iteration
+		documentSubstrings: function () {
+			// get flat array of document id's
+			const documentIds = this.ranges.flatMap(({ matches }) =>
+				matches.map(m => m.id)
 			);
 
-			return textSubstrings;
+			// assign color for each interval
+			const colors = documentColorMap(documentIds);
+
+			this.ranges.forEach(range => {
+				const maxPercentageDocumentId = [
+					...range.matches
+				].sort((a, b) => (a.percentage > b.percentage ? -1 : 1))[0].id;
+				range.color = colors[maxPercentageDocumentId];
+			});
+
+			return getSubstringsFromDocumentRanges(
+				this.document.text,
+				this.ranges
+			);
 		},
-		...mapGetters('DocumentStore', ['document', 'matches', 'intervals'])
+		...mapGetters('DocumentStore', ['document', 'matches', 'ranges'])
 	},
 	methods: {
 		getTooltipContent: function (docs) {
-			const tooltipText = [...docs]
+			return [...docs]
 				.sort((a, b) => a.percentage - b.percentage)
 				.reverse()
 				.map(doc =>
 					this.$i18n.t('documentMatchWithOtherFile', {
 						document: doc.name,
-						percentage: doc.percentage
+						percentage: `${doc.percentage}%`
 					})
 				)
 				.join('<br>');
-
-			return tooltipText;
 		}
 	}
 };

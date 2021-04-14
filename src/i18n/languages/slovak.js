@@ -30,13 +30,13 @@ const upload = {
 	uploadTextPlaceholder: 'Sem skopírujte text Vašej práce...'
 };
 
-const result = {
+const submission = {
 	results: 'výsledkov',
 	matches: 'zhôd',
-	resultHeaderHeading: 'Výsledky kontroly',
-	resultHeaderDescription: 'Gratulujeme. Nižšie nájdete podrobné štatistiky kontroly originality vašich prác.',
-	resultPageLoadingMessage: 'Vaše texty sme zobrali na spracovanie. Výsledky budú automaticky zobrazené na tejto stránke',
-	resultPercentageDescription: 'Vaša zhoda je'
+	submissionHeaderHeading: 'Výsledky kontroly',
+	submissionHeaderDescription: 'Gratulujeme. Nižšie nájdete podrobné štatistiky kontroly originality vašich prác.',
+	submissionPageLoadingMessage: 'Vaše texty sme zobrali na spracovanie. Výsledky budú automaticky zobrazené na tejto stránke',
+	submissionPercentageDescription: 'Vaša zhoda je'
 };
 
 const document = {
@@ -67,7 +67,7 @@ const messages = {
 	numOfMatches: 'Počet zhôd',
 	...homePage,
 	...upload,
-	...result,
+	...submission,
 	...document
 };
 

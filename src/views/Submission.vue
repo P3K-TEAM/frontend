@@ -1,8 +1,8 @@
 <template>
 	<div class="bg-gray-300 min-h-screen">
-		<ResultHeader
-			:title="$t('resultHeaderHeading')"
-			:description="$t('resultHeaderDescription')"
+		<SubmissionHeader
+			:title="$t('submissionHeaderHeading')"
+			:description="$t('submissionHeaderDescription')"
 		/>
 		<div
 			v-if="!isLoading"
@@ -20,12 +20,12 @@
 import { mapGetters } from 'vuex';
 import retry from '@/functions/retry.function';
 import SubmissionStatus from '@/constants/submission';
-import ResultHeader from '../components/Result/ResultHeader';
+import SubmissionHeader from '../components/Submission/SubmissionHeader';
 import Toggle from '@/components/Global/Toggle/Toggle';
 
 export default {
 	components: {
-		ResultHeader,
+		SubmissionHeader,
 		Toggle
 	},
 	data: function () {
@@ -38,32 +38,32 @@ export default {
 			return [
 				{
 					tooltip: this.$i18n.t('listViewIconTooltip'),
-					url: this.getCurrentResultURL,
+					url: this.getCurrentSubmissionURL,
 					icon: ['fas', 'bars']
 				},
 				{
 					tooltip: this.$i18n.t('graphViewIconTooltip'),
-					url: `${this.getCurrentResultURL}/graph`,
+					url: `${this.getCurrentSubmissionURL}/graph`,
 					icon: ['fas', 'project-diagram']
 				}
 			];
 		},
-		getCurrentResultURL: function () {
-			return `/result/${this.id}`;
+		getCurrentSubmissionURL: function () {
+			return `/submission/${this.id}`;
 		},
 		...mapGetters(['isLoading', 'loadingMessage']),
-		...mapGetters('ResultStore', ['status'])
+		...mapGetters('SubmissionStore', ['status'])
 	},
 	mounted: function () {
 		// initial loader
 		this.$store.dispatch('setLoading', true);
 
 		// get id from route
-		this.id = this.$route.params.result;
+		this.id = this.$route.params.submission;
 
-		// retry fetching until the result is processed
+		// retry fetching until the submission is processed
 		return retry(
-			() => this.$store.dispatch('ResultStore/fetchResult', this.id),
+			() => this.$store.dispatch('SubmissionStore/fetchSubmission', this.id),
 			() => {
 				// if submission is not processed, add message to the loading spinner
 				const isProcessed = this.status === SubmissionStatus.PROCESSED;
@@ -71,7 +71,7 @@ export default {
 				if (!isProcessed && !this.loadingMessage) {
 					this.$store.commit(
 						'SET_LOADING_MESSAGE',
-						this.$i18n.t('resultPageLoadingMessage')
+						this.$i18n.t('submissionPageLoadingMessage')
 					);
 				}
 

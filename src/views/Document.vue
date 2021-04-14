@@ -1,11 +1,11 @@
 <template>
 	<div class="bg-gray-300">
-		<ResultHeader
+		<SubmissionHeader
 			:percentage="document ? document.percentage : undefined"
 			:title="
 				document && document.name
 					? document.name
-					: $t('resultHeaderHeading')
+					: $t('submissionHeaderHeading')
 			"
 			:description="$t('documentResultHeaderDescription')"
 		/>
@@ -36,27 +36,30 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import ResultHeader from '../components/Result/ResultHeader';
+import SubmissionHeader from '../components/Submission/SubmissionHeader';
 import Toggle from '@/components/Global/Toggle/Toggle';
-import { prevRoute } from '../router/index.js';
+import { prevRoute } from '@/router/index.js';
 
 export default {
 	components: {
-		ResultHeader,
+		SubmissionHeader,
 		Toggle
 	},
 	computed: {
 		getGoBackURL: function () {
 			if (prevRoute === undefined) {
-				return { name: 'result', params: { result: this.resultId } };
+				return {
+					name: 'submission',
+					params: { submission: this.document.submissionId }
+				};
 			}
 			return { path: prevRoute.fullPath };
 		},
 		id: function () {
 			return this.$route.params.document;
 		},
-		resultId: function () {
-			return this.$route.params.result;
+		submissionId: function () {
+			return this.$route.params.submission;
 		},
 		buttons: function () {
 			return [
@@ -73,7 +76,9 @@ export default {
 			];
 		},
 		getCurrentDocumentURL: function () {
-			return `/result/${this.resultId}/document/${this.id}`;
+			return this.$router
+				.resolve({ name: 'document', document: this.id })
+				.href.replace(/\/$/, '');
 		},
 		...mapGetters('DocumentStore', ['document'])
 	},

@@ -30,13 +30,13 @@ const upload = {
 	uploadTextPlaceholder: 'Paste text here..'
 };
 
-const result = {
+const submission = {
 	results: 'results',
 	matches: 'matches',
-	resultHeaderHeading: 'Your result',
-	resultHeaderDescription: 'Congratulations. Please, find detailed information about your submission below.',
-	resultPageLoadingMessage: "Your documents are now processing. We'll show you the results on this page as soon as possible.",
-	resultPercentageDescription: 'Your match is'
+	submissionHeaderHeading: 'Your result',
+	submissionHeaderDescription: 'Congratulations. Please, find detailed information about your submission below.',
+	submissionPageLoadingMessage: "Your documents are now processing. We'll show you the results on this page as soon as possible.",
+	submissionPercentageDescription: 'Your match is'
 };
 
 const document = {
@@ -67,7 +67,7 @@ const messages = {
 	numOfMatches: 'Matches',
 	...homePage,
 	...upload,
-	...result,
+	...submission,
 	...document
 };
 

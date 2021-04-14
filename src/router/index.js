@@ -4,13 +4,13 @@ import VueRouter from 'vue-router';
 // Views
 import Home from '../views/Home.vue';
 import Upload from '../views/Upload.vue';
-import Result from '../views/Result.vue';
+import Submission from '../views/Submission.vue';
 import Document from '../views/Document';
 import DocumentCompare from '../views/DocumentCompare';
 
 // Components
-import ResultTable from '@/components/Result/ResultTable/ResultTable';
-import ResultGraph from '@/components/Result/ResultGraph/ResultGraph';
+import SubmissionTable from '@/components/Submission/SubmissionTable/SubmissionTable';
+import SubmissionGraph from '@/components/Submission/SubmissionGraph/SubmissionGraph';
 import DocumentMatchesTable from '@/components/Document/DocumentMatchesTable';
 import DocumentText from '@/components/Document/DocumentText';
 
@@ -29,7 +29,7 @@ const routes = [
 		meta: { title: 'Nahrať dokument' }
 	},
 	{
-		path: '/result/:result',
+		path: '/submission/:submission',
 		component: {
 			render(h) {
 				return h('router-view');
@@ -38,55 +38,55 @@ const routes = [
 		children: [
 			{
 				path: '/',
-				component: Result,
+				component: Submission,
 				children: [
 					{
 						path: '/',
-						component: ResultTable,
-						name: 'result',
+						component: SubmissionTable,
+						name: 'submission',
 						meta: { title: 'Zoznam výsledkov' }
 					},
 					{
 						path: 'graph',
-						component: ResultGraph,
+						component: SubmissionGraph,
 						name: 'graph',
 						meta: { title: 'Graf výsledkov' }
 					}
 				]
-			},
+			}
+		]
+	},
+	{
+		path: '/document/:document',
+		component: {
+			render(h) {
+				return h('router-view');
+			}
+		},
+		children: [
 			{
-				path: 'document/:document',
-				component: {
-					render(h) {
-						return h('router-view');
-					}
-				},
+				path: '/',
+				component: Document,
 				children: [
 					{
 						path: '/',
-						component: Document,
-						children: [
-							{
-								path: '/',
-								component: DocumentText,
-								name: 'document',
-								meta: { title: 'Obsah súboru' }
-							},
-							{
-								path: 'files',
-								component: DocumentMatchesTable,
-								name: 'matches',
-								meta: { title: 'Zoznam zhodných súborov' }
-							}
-						]
+						component: DocumentText,
+						name: 'document',
+						meta: { title: 'Obsah súboru' }
 					},
 					{
-						path: 'compare/:compare',
-						name: 'compare',
-						component: DocumentCompare,
-						meta: { title: 'Podobnosť dokumentov' }
+						path: 'files',
+						component: DocumentMatchesTable,
+						name: 'matches',
+						meta: { title: 'Zoznam zhodných súborov' }
 					}
 				]
+			},
+			{
+				path: 'compare/:compare',
+				name: 'compare',
+				component: DocumentCompare,
+				meta: { title: 'Podobnosť dokumentov' }
 			}
 		]
 	}

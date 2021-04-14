@@ -4,7 +4,7 @@ import Vuex from 'vuex';
 // stores
 import AlertStore from './alert/alert.store';
 import ModalStore from './modal/modal.store';
-import ResultStore from './result/result.store';
+import SubmissionStore from './submission/submission.store';
 import DocumentStore from './document/document.store';
 
 // functions
@@ -16,7 +16,7 @@ export default new Vuex.Store({
 	modules: {
 		AlertStore,
 		ModalStore,
-		ResultStore,
+		SubmissionStore,
 		DocumentStore
 	},
 	state() {
