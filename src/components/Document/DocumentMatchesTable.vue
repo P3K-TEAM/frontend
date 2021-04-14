@@ -54,9 +54,8 @@ export default {
 					this.$router.push({
 						name: `compare`,
 						params: {
-							result: this.$route.params.result,
 							document: this.$route.params.document,
-							compare: item.elastic_id
+							compare: item.id
 						}
 					})
 			};

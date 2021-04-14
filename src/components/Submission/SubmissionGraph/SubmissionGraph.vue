@@ -16,7 +16,7 @@ import ColorScale from 'color-scales';
 
 export default {
 	components: {
-		Spinner,
+		Spinner
 	},
 	data: function () {
 		return {
@@ -24,23 +24,23 @@ export default {
 			colorScale: new ColorScale(0, 1, ['#00FF00', '#FF0000']),
 			options: {
 				uploadedNodeColor: '#EBC12C',
-				defaultNodeColor: '#1699F1',
-			},
+				defaultNodeColor: '#1699F1'
+			}
 		};
 	},
 	computed: {
-		...mapGetters('ResultStore', ['graph']),
+		...mapGetters('SubmissionStore', ['graph'])
 	},
 	mounted: function () {
 		return new Promise(resolve => {
-			// Graph has been previously fetched and is present in ResultStore
+			// Graph has been previously fetched and is present in SubmissionStore
 			if (this.graph) {
 				return resolve();
 			}
 
 			// Fetch graph
 			this.$store
-				.dispatch('ResultStore/fetchGraph', this.$route.params.result)
+				.dispatch('SubmissionStore/fetchGraph', this.$route.params.submission)
 				.then(resolve);
 		})
 			.then(() => {
@@ -48,7 +48,7 @@ export default {
 				if (this.graph) {
 					const graphData = {
 						nodes: this.graph.nodes.map(this.nodeColor),
-						links: this.graph.links.map(this.linkColor),
+						links: this.graph.links.map(this.linkColor)
 					};
 					this.initGraph(graphData);
 				}
@@ -72,7 +72,11 @@ export default {
 					.onNodeClick(this.onNodeClick)
 					.linkDirectionalArrowLength(4) // size of arrow in directional graph
 					.linkLabel(this.linkLabel) // data shown on link hover
-					.linkWidth(link => Number(link.value) * 5)
+					.linkWidth(link =>
+						Number(link.value) > 1
+							? Number(link.value) / 10
+							: Number(link.value)
+					)
 					.onLinkHover(this.onLinkHover)
 					.onLinkClick(this.onLinkClick)
 					.height(this.$refs.graphElement.clientHeight)
@@ -93,7 +97,7 @@ export default {
 			if (node && this.isUploadedDocumentNode(node)) {
 				this.$router.push({
 					name: 'document',
-					params: { document: node.id },
+					params: { document: node.id }
 				});
 			}
 		},
@@ -115,15 +119,15 @@ export default {
 			this.$router.push({
 				name: 'compare',
 				params: {
-					result: this.$route.params.result,
+					submission: this.$route.params.submission,
 					document: link.source.id,
-					compare: link.target.id,
-				},
+					compare: link.target.id
+				}
 			});
 		},
 		onLinkHover(link) {
 			this.$refs.graphElement.style.cursor = link ? 'pointer' : null;
-		},
-	},
+		}
+	}
 };
 </script>

@@ -17,7 +17,7 @@
 			</td>
 
 			<td class="truncate text-center" :class="options.layout[1]">
-				{{ tableItem.percentage | toNumber | roundToTwoDecimals }} %
+				{{ tableItem.total_percentage | toNumber | roundToTwoDecimals }} %
 			</td>
 
 			<td class="truncate text-center" :class="options.layout[2]">
@@ -84,7 +84,7 @@ export default {
 		},
 		data() {
 			return {
-				items: this.$store.getters['ResultStore/documents']
+				items: this.$store.getters['SubmissionStore/documents']
 			};
 		}
 	},

@@ -43,7 +43,7 @@ export default {
 		}
 	},
 	actions: {
-		fetchResult(context, id) {
+		fetchSubmission(context, id) {
 			return this.$axios
 				.get(`/api/submissions/${id}`)
 				.then(response => response.data)

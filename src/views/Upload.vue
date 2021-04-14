@@ -212,8 +212,8 @@ export default {
 				)
 				.then(response => {
 					return this.$router.push({
-						name: 'result',
-						params: { result: response.data.id }
+						name: 'submission',
+						params: { submission: response.data.id }
 					});
 				})
 				.catch(e => {

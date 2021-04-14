@@ -4,16 +4,15 @@ module.exports = {
 	filenameHashing: process.env.NODE_ENV !== 'production',
 	productionSourceMap: false,
 	lintOnSave: true,
-	runtimeCompiler: true,
 	devServer: {
-		port: 8080,
+		port: 8080
 	},
-	chainWebpack: (config) => {
-		config.plugin('html').tap((args) => {
+	chainWebpack: config => {
+		config.plugin('html').tap(args => {
 			args[0].title = 'AntiPlag';
 			args[0].template = 'src/index.html';
 			args[0].favicon = 'src/assets/img/favicon.ico';
 			return args;
 		});
-	},
+	}
 };

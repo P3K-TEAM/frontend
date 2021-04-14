@@ -28,7 +28,7 @@
 					class="w-full md:w-11/12 lg:w-5/6 py-1 md:py-4 md:ml-auto text-center text-xl rounded-lg bg-primary-500"
 				>
 					<span class="px-4">
-						{{ $t('resultPercentageDescription') }}
+						{{ $t('submissionPercentageDescription') }}
 					</span>
 					<div
 						class="px-1 font-semibold md:font-bold text-3xl md:text-5xl leading-none"
