@@ -7,23 +7,26 @@
 		<meta name="viewport" content="width=device-width,initial-scale=1.0" />
 
 		<meta name="author" content="P3K Team" />
-		<!--- TODO : <meta name="description" content="" />-->
+		<meta name="description" lang="sk" content="<%= htmlWebpackPlugin.options.description.sk %>">
+		<meta name="description" lang="en" content="<%= htmlWebpackPlugin.options.description.en %>">
 
 		<!-- Facebook Meta Tags -->
-		<!-- TODO: <meta property="og:url" content="" />-->
 		<meta property="og:type" content="website" />
-		<!-- TODO: <meta property="og:title" content="" />-->
-		<!-- TODO: <meta property="og:description" content=""/>-->
+		<meta property="og:title" content="<%= htmlWebpackPlugin.options.title %>">
+		<meta property="og:description" lang="sk" content="<%= htmlWebpackPlugin.options.description.sk %>">
+		<meta property="og:description" lang="en" content="<%= htmlWebpackPlugin.options.description.en %>">
+		<meta property="og:url" content="<%= htmlWebpackPlugin.options.url %>">
 		<meta
 			property="og:image"
 			content="<%= htmlWebpackPlugin.files.favicon %>"
 		/>
 
 		<!-- Twitter Meta Tags -->
-		<!-- TODO: <meta property="twitter:url" content="" />-->
-		<meta name="twitter:card" content="summary_large_image" />
-		<!-- TODO: <meta name="twitter:title" content="" />-->
-		<!-- TODO: <meta content="" name="twitter:description" />-->
+		<meta name="twitter:card" content="antiplag_large_image" />
+		<meta name="twitter:title" content="<%= htmlWebpackPlugin.options.title %>">
+		<meta name="twitter:description" lang="sk" content="<%= htmlWebpackPlugin.options.description.sk %>">
+		<meta name="twitter:description" lang="en" content="<%= htmlWebpackPlugin.options.description.en %>">
+		<meta property="twitter:url" content="<%= htmlWebpackPlugin.options.url %>" />
 		<meta
 			name="twitter:image"
 			content="<%= htmlWebpackPlugin.files.favicon %>"

@@ -49,7 +49,7 @@
 						<h2 class="font-bold text-3xl md:text-4xl">
 							{{ $t('homePageGuideHeading') }}
 						</h2>
-						<p class="mt-5 text-base md:text-xl">
+						<p class="mt-5 text-base md:text-xl text-justify">
 							{{ $t('homePageGuideDescription') }}
 						</p>
 					</div>
@@ -113,7 +113,7 @@
 						<h2 class="font-bold text-3xl md:text-4xl">
 							{{ $t('homePageProductOverviewHeading') }}
 						</h2>
-						<p class="mt-5 text-base md:text-xl">
+						<p class="mt-5 text-base md:text-xl text-justify">
 							{{ $t('homePageProductOverviewDescription') }}
 						</p>
 					</div>
