@@ -11,13 +11,14 @@ export default {
 			htmlTemplate: {
 				header: '',
 				body: '',
-				footer: '',
+				footer: ''
 			},
+			additionalClasses: '',
 			confirmation: {
 				enabled: false,
 				callback: () => undefined,
-				text: undefined,
-			},
+				text: undefined
+			}
 		};
 	},
 	getters: {
@@ -36,17 +37,18 @@ export default {
 		htmlTemplate(state) {
 			return state.htmlTemplate;
 		},
+		additionalClasses(state) {
+			return state.additionalClasses;
+		}
 	},
 	mutations: {
 		SET_ACTIVE(state, active) {
 			validateType(active, 'boolean', 'active');
 			state.isActive = active;
 		},
-
 		SET_TYPE(state, type) {
 			if (!type) {
 				type = state.defaultType;
-				return;
 			}
 
 			if (!['text', 'html'].includes(type)) {
@@ -57,28 +59,23 @@ export default {
 
 			state.type = type;
 		},
-
 		SET_CONFIRMATION(state, enabled) {
 			state.confirmation.enabled = enabled;
 		},
-
 		SET_CONFIRMATION_CALLBACK(state, callback) {
 			validateType(callback, 'function', 'confirmation.callback');
 			state.confirmation.callback = callback;
 		},
-
 		SET_CONFIRMATION_TEXT(state, text) {
 			if (text !== undefined) {
 				validateType(text, 'string', 'confirmation.text');
 				state.confirmation.text = text;
 			}
 		},
-
 		SET_TEXT(state, text) {
 			validateType(text, 'string', 'text');
 			state.text = text;
 		},
-
 		SET_HTML(state, htmlTemplate) {
 			validateType(htmlTemplate, 'object', 'htmlTemplate');
 
@@ -105,6 +102,10 @@ export default {
 				state.htmlTemplate.footer = htmlTemplate.footer;
 			}
 		},
+		SET_ADDITIONAL_CLASSES(state, classes) {
+			validateType(classes, 'array', 'additionalClasses');
+			state.additionalClasses = classes;
+		}
 	},
 	actions: {
 		setModal(context, payload) {
@@ -132,6 +133,13 @@ export default {
 				);
 			}
 
+			if (payload.additionalClasses) {
+				context.commit(
+					'SET_ADDITIONAL_CLASSES',
+					payload.additionalClasses
+				);
+			}
+
 			// enable backdrop from root store
 			context.commit('SET_BACKDROP', true, { root: true });
 			// enable modal
@@ -140,6 +148,6 @@ export default {
 		dismissModal(context) {
 			context.commit('SET_ACTIVE', false);
 			context.commit('SET_BACKDROP', false, { root: true });
-		},
-	},
+		}
+	}
 };
