@@ -1,5 +1,5 @@
 <template>
-	<div class="py-6 px-10 rounded-xl bg-white shadow text-justify">
+	<div class="py-6 px-10 rounded-xl bg-white shadow text-justify break-words">
 		<div v-if="document && matches && ranges" class="py-1 px-4 md:px-0">
 			<span
 				v-for="(substring, index) in documentSubstrings"
