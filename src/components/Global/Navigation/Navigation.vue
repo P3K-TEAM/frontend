@@ -1,6 +1,6 @@
 <template>
 	<nav
-		class="container flex flex-row justify-between mx-auto px-6 md:px-0 py-6"
+		class="container flex flex-row justify-between mx-auto px-6 md:px-8 py-6"
 	>
 		<router-link to="/" class="text-white text-2xl flex items-center">
 			<img

@@ -4,7 +4,7 @@
 			<Navigation />
 			<div class="flex flex-1 items-center container mx-auto w-full">
 				<div
-					class="mt-2 md:mt-0 px-8 md:px-0 flex flex-col items-center md:items-start w-full md:w-2/3 text-white text-center md:text-left"
+					class="mt-2 md:mt-0 px-8 md:px-8 flex flex-col items-center md:items-start w-full md:w-2/3 text-white text-center md:text-left"
 				>
 					<h1
 						class="text-4xl md:text-8xl leading-snug md:leading-tight font-bold w-full text-left tracking-widest"
