@@ -117,6 +117,9 @@ export default {
 			];
 		}
 	},
+	mounted: function () {
+		this.$store.dispatch('setLoading', false);
+	},
 	methods: {
 		updateFileList(fileList) {
 			const filteredFileArray = Array.from(fileList).filter(
