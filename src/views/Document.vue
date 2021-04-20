@@ -47,7 +47,7 @@ export default {
 	},
 	computed: {
 		getGoBackURL: function () {
-			if (prevRoute === undefined) {
+			if (prevRoute === undefined || prevRoute.name === 'compare') {
 				return {
 					name: 'submission',
 					params: { submission: this.document.submissionId }

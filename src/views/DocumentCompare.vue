@@ -35,13 +35,17 @@
 						</p>
 					</div>
 
-					<div class="p-6 text-justify border-r border-gray-100">
+					<div
+						class="p-6 text-justify border-r border-gray-100 break-words"
+					>
 						<span
 							v-for="(substring, index) in substrings.A"
 							:id="`A${index}`"
 							:key="index"
 							:class="[
-								substring.color ? 'font-bold' : 'font-normal'
+								substring.color
+									? 'font-bold cursor-pointer'
+									: 'font-normal'
 							]"
 							:style="{ color: substring.color }"
 							@click="scrollToRef(`B${index}`)"
@@ -59,13 +63,17 @@
 							{{ diff.textB.name }}
 						</p>
 					</div>
-					<div class="p-6 text-justify border-l border-gray-100">
+					<div
+						class="p-6 text-justify border-l border-gray-100 break-words"
+					>
 						<span
 							v-for="(substring, index) in substrings.B"
 							:id="`B${index}`"
 							:key="index"
 							:class="[
-								substring.color ? 'font-bold' : 'font-normal'
+								substring.color
+									? 'font-bold cursor-pointer'
+									: 'font-normal'
 							]"
 							:style="{ color: substring.color }"
 							@click="scrollToRef(`A${index}`)"
