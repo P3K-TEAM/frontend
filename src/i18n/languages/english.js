@@ -31,7 +31,12 @@ const upload = {
 	dragFilesHere: 'Drag files here',
 	chooseFiles: 'Choose files',
 	uploadTextDisabledMessage: 'Some files were uploaded. You might either upload file or paste text.',
-	uploadTextPlaceholder: 'Paste text here..'
+	uploadTextPlaceholder: 'Paste text here..',
+	'emailPolicy.title': 'Conditions for the processing of personal data',
+	'emailPolicy.consent_to_the_processing_of_personal_data':
+		'Consent to the processing of personal data is permitted by the person concerned to this website, which was created as a team project by students of the Faculty of Informatics and Information Technologies, with its registered office at Ilkovičova 2 in Bratislava, in accordance with Act No. 18/2018 Coll. on Personal Data Protection and on Amendments to Certain Acts (hereinafter referred to as the “Personal Data Protection Act”) processed the email address of the data subject. The purpose of processing the email address is solely to inform concerned person about the result of the plagiarism check. The email address will not be used for any other purpose.',
+	'emailPolicy.processing_of_personal_data': 'Processing of personal data',
+	'emailPolicy.by_consenting_to_the_processing': 'By consenting to the processing of personal data, the concerned person gives the explicit consent to the above-mentioned processing. The consent can be withdrawn at any time by writing an email with the subject of the message "Revocation of consent to the processing of personal data" to the email address '
 };
 
 const submission = {
@@ -62,6 +67,7 @@ const messages = {
 	file: 'File',
 	of: 'of',
 	or: 'or',
+	iAgree: 'I agree',
 	fileMatch: 'Matches',
 	antiplagCheck: 'Antiplag check',
 	minutePlural: 'minutes',

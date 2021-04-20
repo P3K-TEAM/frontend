@@ -202,33 +202,60 @@ export default {
 				}
 			}
 
-			this.$store.dispatch('setLoading', true);
-			this.$store.dispatch('AlertStore/dismissAlert');
+			this.$store.dispatch('ModalStore/setModal', {
+				type: 'html',
+				htmlTemplate: {
+					header: `<h1 class="text-2xl font-bold">${this.$i18n.t(
+						'emailPolicy.title'
+					)}</h1>`,
+					body: `
+						<p class="my-3">
+							${this.$i18n.t('emailPolicy.consent_to_the_processing_of_personal_data')}
+						</p>
+						<h2 class="text-xl font-bold">
+							${this.$i18n.t('emailPolicy.processing_of_personal_data')}
+						</h2>
+						<p class="mt-3">
+							${this.$i18n.t('emailPolicy.by_consenting_to_the_processing')}
+							<a href="mailto:tim10fiit@googlegroups.com" class="hover:underline text-primary-500">tim10fiit@googlegroups.com</a>.
+						</p>
+					`
+				},
+				additionalClasses: ['w-4/5', 'overflow-none'],
+				confirmation: {
+					enabled: true,
+					text: this.$i18n.t('iAgree'),
+					callback: () => {
+						this.$store.dispatch('setLoading', true);
+						this.$store.dispatch('AlertStore/dismissAlert');
 
-			this.$axios
-				.post(
-					'/api/submissions/',
-					isFileUpload ? formData : requestBody,
-					{
-						headers
+						this.$axios
+							.post(
+								'/api/submissions/',
+								isFileUpload ? formData : requestBody,
+								{
+									headers
+								}
+							)
+							.then(response => {
+								return this.$router.push({
+									name: 'submission',
+									params: { submission: response.data.id }
+								});
+							})
+							.catch(e => {
+								this.$store.dispatch('AlertStore/setAlert', {
+									message:
+										e.response.data && e.response.data.error
+											? e.response.data.error
+											: e.message,
+									type: 'error'
+								});
+								this.$store.dispatch('setLoading', false);
+							});
 					}
-				)
-				.then(response => {
-					return this.$router.push({
-						name: 'submission',
-						params: { submission: response.data.id }
-					});
-				})
-				.catch(e => {
-					this.$store.dispatch('AlertStore/setAlert', {
-						message:
-							e.response.data && e.response.data.error
-								? e.response.data.error
-								: e.message,
-						type: 'error'
-					});
-					this.$store.dispatch('setLoading', false);
-				});
+				}
+			});
 		}
 	}
 };

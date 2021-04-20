@@ -29,7 +29,12 @@ const upload = {
 	dragFilesHere: 'Pretiahnite súbory sem',
 	chooseFiles: 'Vybrať súbory',
 	uploadTextDisabledMessage: 'Text môžete zadať len ak nemáte vložený súbor',
-	uploadTextPlaceholder: 'Sem skopírujte text Vašej práce...'
+	uploadTextPlaceholder: 'Sem skopírujte text Vašej práce...',
+	'emailPolicy.title': 'Podmienky spracovania osobných údajov',
+	'emailPolicy.consent_to_the_processing_of_personal_data':
+		'Súhlas so spracovaním osobných údajov povoľuje dotknutá osoba tejto stránke, ktorá vznikla ako tímový projekt študentov Fakulty informatiky a informačných technológií, so sídlom Ilkovičova 2 v Bratislave, aby v zmysle zákona č.18/2018 Z. z. o ochrane osobných údajov a o zmene a doplnení niektorých zákonov (ďalej len „zákon o ochrane osobných údajov“) spracovávala emailovú adresu dotknutej osoby. Účel spracovávania emailovej adresy je výlučne len na informovanie dotknutej osoby o výsledku kontroly plagiátorstva. Na žiadne iné účely nebude emailová adresa využitá.',
+	'emailPolicy.processing_of_personal_data': 'Spracovanie osobných údajov',
+	'emailPolicy.by_consenting_to_the_processing': 'Súhlasom so spracovaním osobných údajov udeľuje dotknutá osoba svoj výslovný súhlas s vyššie uvedeným spracovaním. Súhlas možno vziať kedykoľvek späť, napísaním emailu s predmetom správy „Odvolanie súhlasu so spracovaním osobného údaju“ na emailovú adresu '
 };
 
 const submission = {
@@ -60,6 +65,7 @@ const messages = {
 	file: 'Súbor',
 	of: 'z',
 	or: 'alebo',
+	iAgree: 'Súhlasím',
 	fileMatch: 'Zhoda so súborom',
 	antiplagCheck: 'Kontrola plagiátorstva',
 	minutePlural: 'minút',

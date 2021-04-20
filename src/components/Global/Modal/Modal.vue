@@ -1,6 +1,10 @@
 <!-- eslint-disable vue/no-v-html -->
 <template>
-	<div v-if="isActive" class="bg-white p-6 rounded relative">
+	<div
+		v-if="isActive"
+		class="bg-white p-6 rounded relative"
+		:class="additionalClasses"
+	>
 		<a
 			href="#"
 			class="text-gray-600 text-base absolute right-0 top-0 flex justify-center items-center h-8 w-8"
@@ -53,7 +57,8 @@ export default {
 			'type',
 			'text',
 			'confirmation',
-			'htmlTemplate'
+			'htmlTemplate',
+			'additionalClasses'
 		])
 	},
 	mounted() {
