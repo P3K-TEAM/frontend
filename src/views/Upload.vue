@@ -202,36 +202,26 @@ export default {
 			this.$store.dispatch('ModalStore/setModal', {
 				type: 'html',
 				htmlTemplate: {
-					header:
-						'<h1 class="text-2xl font-bold">Podmienky spracovania osobných údajov</h1>',
+					header: `<h1 class="text-2xl font-bold">${this.$i18n.t(
+						'emailPolicy.title'
+					)}</h1>`,
 					body: `
 						<p class="my-3">
-							Súhlas so spracovaním osobných údajov povoľuje dotknutá
-							osoba tejto stránke, ktorá vznikla ako tímový projekt
-							študentov Fakulty informatiky a informačných technológií, so
-							sídlom Ilkovičova 2 v Bratislave, aby v zmysle zákona
-							č.18/2018 Z. z. o ochrane osobných údajov a o zmene a
-							doplnení niektorých zákonov (ďalej len „zákon o ochrane
-							osobných údajov“) spracovávala emailovú adresu dotknutej
-							osoby. Účel spracovávania emailovej adresy je výlučne len na
-							informovanie dotknutej osoby o výsledku kontroly
-							plagiátorstva. Na žiadne iné účely nebude emailová adresa
-							využitá.
+							${this.$i18n.t('emailPolicy.consent_to_the_processing_of_personal_data')}
 						</p>
-						<h2 class="text-xl font-bold">Spracovanie osobných údajov</h2>
+						<h2 class="text-xl font-bold">
+							${this.$i18n.t('emailPolicy.processing_of_personal_data')}
+						</h2>
 						<p class="mt-3">
-							Súhlasom so spracovaním osobných údajov udeľuje dotknutá
-							osoba svoj výslovný súhlas s vyššie uvedeným spracovaním.
-							Súhlas možno vziať kedykoľvek späť, napísaním emailu s
-							predmetom správy „Odvolanie súhlasu so spracovaním osobného
-							údaju“ na emailovú adresu <a href="mailto:tim10fiit@googlegroups.com" class="hover:underline text-primary-500">tim10fiit@googlegroups.com</a>.
+							${this.$i18n.t('emailPolicy.by_consenting_to_the_processing')}
+							<a href="mailto:tim10fiit@googlegroups.com" class="hover:underline text-primary-500">tim10fiit@googlegroups.com</a>.
 						</p>
 					`
 				},
 				additionalClasses: ['w-4/5', 'overflow-none'],
 				confirmation: {
 					enabled: true,
-					text: 'Súhlasím',
+					text: this.$i18n.t('iAgree'),
 					callback: () => {
 						this.$store.dispatch('setLoading', true);
 						this.$store.dispatch('AlertStore/dismissAlert');
