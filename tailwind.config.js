@@ -36,6 +36,12 @@ module.exports = {
 				144: '36rem',
 				160: '40rem'
 			},
+			minHeight: {
+				'10': '2.5rem'
+			},
+			maxHeight: {
+				'5/6': '83%'
+			},
 			fontSize: {
 				'7xl': '5rem',
 				'8xl': '6rem',

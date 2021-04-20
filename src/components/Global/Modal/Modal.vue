@@ -2,7 +2,7 @@
 <template>
 	<div
 		v-if="isActive"
-		class="bg-white p-6 rounded relative"
+		class="bg-white p-6 rounded relative flex flex-col"
 		:class="additionalClasses"
 	>
 		<a
@@ -15,7 +15,10 @@
 
 		<template v-if="type === 'html'">
 			<header v-html="htmlTemplate.header" />
-			<section v-html="htmlTemplate.body" />
+			<section
+				v-html="htmlTemplate.body"
+				class="overflow-y-auto"
+			/>
 			<footer v-html="htmlTemplate.footer" />
 		</template>
 
@@ -27,7 +30,7 @@
 
 		<footer
 			v-if="confirmation.enabled"
-			class="flex w-full justify-end pt-4"
+			class="flex justify-end flex-shrink-0 w-full pt-4 min-h-10"
 		>
 			<button
 				type="button"

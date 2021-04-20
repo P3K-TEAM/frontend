@@ -221,7 +221,7 @@ export default {
 						</p>
 					`
 				},
-				additionalClasses: ['w-4/5', 'overflow-none'],
+				additionalClasses: ['w-4/5', 'max-h-5/6', 'text-justify'],
 				confirmation: {
 					enabled: true,
 					text: this.$i18n.t('iAgree'),
