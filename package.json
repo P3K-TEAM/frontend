@@ -7,7 +7,8 @@
 		"serve": "vue-cli-service serve",
 		"build": "vue-cli-service build --mode production",
 		"lint": "vue-cli-service lint --no-fix",
-		"test:unit": "vue-cli-service test:unit -c jest.config.js --watchAll tests/unit/"
+		"test:unit": "vue-cli-service test:unit -c jest.config.js tests/unit/",
+		"test:unit:watch": "npm run test:unit -- --watchAll"
 	},
 	"author": "P3K Team",
 	"license": "ISC",
