@@ -24,9 +24,6 @@ export default {
 			type: Array,
 			required: true
 		}
-	},
-	data: function () {
-		return {};
 	}
 };
 </script>

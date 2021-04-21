@@ -4,6 +4,7 @@
 		v-if="isActive"
 		class="bg-white p-6 rounded relative flex flex-col"
 		:class="additionalClasses"
+		data-test-id="modalWindow"
 	>
 		<a
 			href="#"
@@ -15,10 +16,7 @@
 
 		<template v-if="type === 'html'">
 			<header v-html="htmlTemplate.header" />
-			<section
-				v-html="htmlTemplate.body"
-				class="overflow-y-auto"
-			/>
+			<section v-html="htmlTemplate.body" class="overflow-y-auto" />
 			<footer v-html="htmlTemplate.footer" />
 		</template>
 
